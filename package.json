@@ -1,0 +1,23 @@
+{
+  "name": "cs-490-3dprinting",
+  "version": "1.0.0",
+  "description": "Developing a web application that will remove the engineer from the process of quoting a client",
+  "main": "server.js",
+  "dependencies": {
+    "ejs": "^1.0.0",
+    "express": "^4.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobTStaggs/CS-490-3DPrinting.git"
+  },
+  "author": "Jacob Staggs, Zach Skorupka, Damian Adams",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JacobTStaggs/CS-490-3DPrinting/issues"
+  },
+  "homepage": "https://github.com/JacobTStaggs/CS-490-3DPrinting#readme"
+}
