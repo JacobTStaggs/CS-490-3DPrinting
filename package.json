@@ -4,7 +4,7 @@
   "description": "Developing a web application that will remove the engineer from the process of quoting a client",
   "main": "server.js",
   "dependencies": {
-    "ejs": "^1.0.0",
+    "ejs": "^2.5.5",
     "express": "^4.6.1"
   },
   "scripts": {
