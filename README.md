@@ -1,7 +1,7 @@
 Getting started: 
-git clone URL
-npm I
-node server
+1. git clone URL
+2. npm I
+3. node server
 
 
 Description: 
