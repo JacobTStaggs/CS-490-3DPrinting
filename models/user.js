@@ -1,20 +1,13 @@
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt-nodejs');
+var passportLocalMongoose = require('passport-local-mongoose');
 
-var userSchema = mongoose.Schema({
-  local: {
-    email: String,
-    password: String,
-    isAdmin: false,
-    isEngineer: false,
-    isNormal: false,
-  },
+var UserSchema = new mongoose.Schema({
+  email: String,
+  userName: String,
+  password:String,
+  fName: String,
+  lName: String
 });
 
-userSchema.methods.generateHash = function(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
-userSchema.methods.validPassword = function(password) {
-  return bcrypt.compareSync(password, this.local.password);
-};
-module.exports = mongoose.model('User', userSchema);
+UserSchema.plugin(passportLocalMongoose);
+module.exports = mongoose.model("User", UserSchema);
