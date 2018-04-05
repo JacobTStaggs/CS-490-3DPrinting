@@ -1,12 +1,12 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 
 var projectSchema = mongoose.Schema({
   local: {
-    id: Schema.Types.ObjectId,
-    materialID: ID,
-    clientID: {type: Schema.Types.ObjectId, ref: 'User'},
-    engineerID: {type: Schema.Types.ObjectId, ref: 'User'},
-    totalCost: Number,
+    projectName: String,
+    engineer: String,
+    material: String,
+    email: String,
+    finalCost: Number,
     colors: String,
     Density: String,
     datePosted: Date,
@@ -18,4 +18,4 @@ var projectSchema = mongoose.Schema({
     invoiced: Boolean
   },
 });
-module.exports = mongoose.model('Project', project);
+module.exports = mongoose.model('projects', projectSchema, 'projects');

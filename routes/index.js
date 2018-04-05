@@ -1,6 +1,14 @@
 var express = require('express');
 var passport = require('passport');
 var NodeStl = require('node-stl');
+var ProjectModel = require('../models/projects');
+const MongoClient = require('mongodb').MongoClient
+var mongoDB = 'mongodb://127.0.0.1/my_database';
+MongoClient.connect(mongoDB, (err, client) => {
+  if (err) return console.log(err)
+  db = client.db('rcbi') // whatever your database name is
+  console.log('connected');
+})
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -25,11 +33,16 @@ router.get('/info', function(req, res, next){
 });
 
 router.get('/signup', function(req, res) {
+
   res.render('signup.ejs', { message: req.flash('signupMessage') });
 });
 
 router.get('/profile', isLoggedIn, function(req, res) {
-  res.render('profile.ejs', { user: req.user });
+db.collection('projects').find().toArray(function(err,results){
+  console.log(results);
+  res.render('profile.ejs', {user: req.user, projects: results});
+})
+
 });
 router.get('/quote', function(req,res){
   res.render('quote.ejs');
@@ -44,15 +57,14 @@ router.post('/quote', function(req, res){
 let sampleFile = req.files.sampleFile;
 let material = req.body.materials;
 let projectName = req.body.projectName;
+let email = req.user.local.email;
+console.log(email);
 var cost = 0;
 var str1 = sampleFile.name;
-var path = 'C:/files/';
+var path = './files/';
 var finalPath = path.concat(str1);
-sampleFile.mv(path, function(err){
-  if(err)
-    return res.statis(500).send(err);
-});
-var file = NodeStl('C:/FILES/' + str1);
+
+var file = NodeStl(finalPath);
 console.log(file.volume);
 var volume = file.volume;
 if (material == 'mat1'){
@@ -66,8 +78,14 @@ finalCost = finalCost.toFixed(2);
 sampleFile.mv(finalPath, function(err) {
   if (err)
     return res.status(500).send(err);
-  res.render('info.ejs', {volume: volume, 'name': str1, 'material': material, 'cost': finalCost, 'user': req.user, 'project': projectName});
 });
+
+db.collection('projects').save({email: email, projectName: projectName, material: material, finalCost: finalCost, file: finalPath, status: 'Submitted', engineer: 'Unassigned'},(err, result) => {
+  if (err) return console.log(err)
+
+  console.log('saved to database')
+  res.redirect('/profile')
+})
 });
 router.get('')
 router.get('/logout', function(req, res) {
