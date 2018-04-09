@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 
 <head>
@@ -34,24 +34,49 @@
 <%- include partials/head.ejs %>
     </div>
     <div class="header-blue">
-        <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
+        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
             <div>
-                <h1 style="color:#ffffff;">Upload a file to start your project</h1>
-                <p style="color:#ffffff;">The file must be in .stl format</p>    <form ref='uploadForm'
-      id='uploadForm'
-      action='/quote'
-      method='post'
-      encType="multipart/form-data">
-        <input type="file" name="filename" />
-        <input type="submit" value="upload">
-        <select class="selectpicker" name="materials">
-        <option value="mat1">material1</option>
-        <option value="mat2">mat2</option>
-        <div class="form-group"><label style="color:#ffffff;">Project Name:</label><input placeholder="Project Name" name="projectName" class="form-control" type="text" style="width:400px;"></div>
+                <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
+            </div>
+            <div><%- include partials/breadcrumb.ejs%>
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Project ID</th>
+                                            <th>Project Name</th>
+                                            <th>Engineer</th>
+                                            <th>Cost</th>
+                                            <th>Status</th>
+                                            <th>Options</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-</select>
-
-    </form></div>
+                                      <% for(var i=0; i<projects.length; i++) {%>
+                                                    <tr>
+                                                      <td name="projectID">  <%= projects[i]._id %> </td>
+                                                      <td>  <%= projects[i].projectName %> </td>
+                                                      <td>  <%= projects[i].engineer %> </td>
+                                                      <td>  <%= projects[i].finalCost %> </td>
+                                                      <td>  <%= projects[i].status %>  </td>
+                                                      <td> <a href='/edit/<%= user._id %>'>Edit</a></td>
+                                                    </tr>
+                                                       <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="footer-clean">
         <footer>

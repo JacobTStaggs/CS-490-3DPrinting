@@ -19,7 +19,6 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
 var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
 
