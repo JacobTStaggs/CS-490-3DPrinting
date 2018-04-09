@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('passport');
-var User = require('../models/user');
+var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId
 
 var upload = require('express-fileupload');
@@ -8,7 +8,6 @@ var NodeStl = require('node-stl');
 const MongoClient = require('mongodb').MongoClient
 var mongoDB = 'mongodb://127.0.0.1/my_database';
 
-var UserModel = require('../models/usersModel.js');
 var MaterialModel = require('../models/materials.js');
 var ProjectModel = require('../models/projects.js');
 
@@ -141,6 +140,7 @@ if (material == 'mat1'){
 }
 let finalCost = volume * cost;
 finalCost = finalCost.toFixed(2);
+datePosted = Date();
 // Use the mv() method to place the file somewhere on your server
 
 

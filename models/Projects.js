@@ -25,7 +25,10 @@ var projectSchema = new Schema({
     Density: String,
     datePosted: Date,
     stlFileLocation: String,
-    status: String,
+    status: {
+          type: String,
+          enum: ['Unassigned', 'Processing', 'Completed']
+        },
     paid: Boolean,
     print: Boolean,
     ship: Boolean,
