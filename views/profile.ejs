@@ -38,7 +38,7 @@
             <div>
                 <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
             </div>
-            <div>
+            <div><%- include partials/breadcrumb.ejs%>
                 <div class="card-group">
                     <div class="card">
                         <div class="card-header">
@@ -49,22 +49,31 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Project Name</th>
-                                            <th>Engineer</th>
-                                            <th>Cost</th>
-                                            <th>Status</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Zip</th>
+                                            <th>Contract</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                       <% for(var i=0; i<projects.length; i++) {%>
-                      <tr>
+                                        <form method="post" formaction="/delete">
+                                      <% for(var i=0; i<users.length; i++) {%>
+                                                    <tr>
+                                                      <td>  <%= users[i].local.email %> </td>
+                                                      <td>  <%= users[i].email %> </td>
+                                                      <td>   </td>
+                                                      <td>   </td>
+                                                      <td>   </td>
+                                                      <td>
+                                                        <button type="button" class="btn btn-outline-warning">Edit</button>
 
-                        <td>  <%= projects[i].projectName %> </td>
-                        <td>  <%= projects[i].engineer %> </td>
-                        <td>  <%= projects[i].finalCost %> </td>
-                        <td>  <%= projects[i].status %>  </td>
-                      </tr>
-                         <%}%>
+                                                        <button type="submit" name="delete" class="btn btn-outline-danger">Delete</button>
+                                                        <input type="hidden" name="_method" value="DELETE" />
+                                                      </form></td>
+                                                    </tr>
+                                                       <%}%>
                                     </tbody>
                                 </table>
                             </div>
