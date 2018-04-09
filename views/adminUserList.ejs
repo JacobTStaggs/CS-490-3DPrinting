@@ -1,0 +1,133 @@
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rcbi3d</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+    <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/Team-Boxed.css">
+    <link rel="stylesheet" href="assets/css/Team-Clean.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body>
+    <div>
+<%- include partials/head.ejs %>
+    </div>
+    <div class="header-blue">
+        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+            <div>
+                <h1 style="color:#ffffff;margin-bottom:20px;">User List</h1>
+            </div>
+            <div>
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>User First Name</th>
+                                            <th>User Last Name</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Street Name</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Zip</th>
+                                            <th>Phone Number</th>
+                                            <th>Contract Signed</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                       <% for(var i=0; i<users.length; i++) {%>
+                      <tr>
+
+                        <td>  <%= users[i].firstName %> </td>
+                        <td>  <%= users[i].lastName %> </td>
+                        <td>  <%= users[i].email %> </td>
+                        <td>  <%= users[i].role %>  </td>
+                        <td>  <%= users[i].street %> </td>
+                        <td>  <%= users[i].city %> </td>
+                        <td>  <%= users[i].state %> </td>
+                        <td>  <%= users[i].zip %>  </td>
+                        <td>  <%= users[i].phone %> </td>
+                        <td>  <%= users[i].contract %> </td>
+
+                        street:String,
+                        city: String,
+                        state: String,
+                        zip: Number,
+                        phone: Number,
+                        contract: Boolean,
+                        emailValidated: Boolean
+                      </tr>
+                         <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-clean">
+        <footer>
+            <div class="container" style="width:960px;">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">About Us</h3>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                    </div>
+                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                </div>
+            </div>
+            <div class="container">
+                <div>
+                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
+    <i class="icon ion-social-facebook"></i></a><a href="#">
+    <i class="icon ion-social-twitter"></i></a><a href="#">
+    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
+    <i class="icon ion-social-youtube-outline"></i></a>
+        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+</div></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+</body>
+
+</html>

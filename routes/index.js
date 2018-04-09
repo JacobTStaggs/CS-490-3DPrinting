@@ -1,9 +1,25 @@
 var express = require('express');
 var passport = require('passport');
 var NodeStl = require('node-stl');
-var ProjectModel = require('../models/projects');
 const MongoClient = require('mongodb').MongoClient
 var mongoDB = 'mongodb://127.0.0.1/my_database';
+
+var UserModel = require('../models/usersModel.js');
+var MaterialModel = require('../models/materials.js');
+var ProjectModel = require('../models/projects.js');
+
+
+console.log('got to here');
+
+// JUNK CODE
+// var fs = require('fs');
+//
+// //load all files in models dir
+// fs.readdirSync( '../CS-490-3DPrinting/models').forEach(function(filename) {
+//   if (~filename.indexOf('.js')) require('../CS-490-3DPrinting/models/' + filename)
+// });
+
+
 MongoClient.connect(mongoDB, (err, client) => {
   if (err) return console.log(err)
   db = client.db('rcbi') // whatever your database name is
@@ -20,7 +36,7 @@ router.get('/login', function(req, res, next) {
 });
 
 router.get('/quote', function (req, res, next){
-  res.render('quote.ejs', {user: req.user});
+  res.render('quote.ejs', {users: req.users});
 });
 
 router.get('/info', function(req, res, next){
@@ -43,7 +59,17 @@ db.collection('projects').find().toArray(function(err,results){
   res.render('profile.ejs', {user: req.user, projects: results});
 })
 
+
+
 });
+
+router.get('/adminUserList', isLoggedIn, function(req, res) {
+db.collection('users').find().toArray(function(err,results){
+  console.log(results);
+  res.render('adminUserList.ejs', {user: req.user, usersList: results});
+})
+});
+
 router.get('/quote', function(req,res){
   res.render('quote.ejs');
 });
