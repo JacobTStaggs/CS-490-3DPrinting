@@ -40,6 +40,13 @@ db.collection('projects').find().toArray(function(err,results){
 });
 });
 
+router.get('/materials', isLoggedIn, isRole, function(req, res){
+  db.collection('materials').find().toArray(function(err, results){
+    console.log(results);
+    res.render('materials.ejs', {user: req.user, materials: results});
+  });
+});
+
 router.get('/projects', isLoggedIn, function(req, res) {
 db.collection('projects').find().toArray(function(err,results){
   console.log(results);
@@ -61,27 +68,44 @@ router.get('/edit/(:id)', function(req, res, next){
         }
         else { // if user found
           console.log(result);
+          for(var i = 0; i < result.length; i++){
+            if(result[i]._id == o_id){
+              console.log(result[i]);
+              res.render('edit.ejs', {
+                              user: req.user,
+                              title: 'Edit User',
+                              //data: rows[0],
+                              id: result[i]._id,
+                              projName: result[i].projectName,
+                              projStat: result[i].status,
+                              projEngineer: result[i].engineer,
+                              projCost: result[i].finalCost,
+                              engineers: getEngineers()
+                          });
+            }
+          }
             // render to views/user/edit.ejs template file
-            res.render('edit.ejs', {
-                            user: req.user,
-                            title: 'Edit User',
-                            //data: rows[0],
-                            projName: result[0].projectName,
-                            projStat: result[0].status,
-                            projEngineer: result[0].engineer,
-                            projCost: result[0].finalCost
-                        });
+
         }
     });
 });
 
+function getEngineers(){
+  db.collection('users').find({"role": "engineer"}).toArray(function(err, result){
+    console.log(result);
+    return result;
+  });
+}
+
 router.post('/edit/(:id)', function(req,res){
   var o_id = new ObjectId(req.params.id).toString();
-  db.collection('projects').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer});
+  console.log(o_id);
+  db.collection('projects').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
   res.render('edit.ejs', {
                   user: req.user,
                   title: 'Edit User',
                   //data: rows[0],
+                  id: req.body.id,
                   projName: req.body.projName,
                   projStat: req.body.projStat,
                   projEngineer: req.body.projStat,
@@ -98,7 +122,8 @@ router.get('/profile', isLoggedIn, function (req, res) {
       console.log(results);
     });
 });
-router.post('/quote', function(req, res){
+
+router.post('/quote',isLoggedIn, function(req, res){
 
 
 let material = req.body.materials;
@@ -146,10 +171,17 @@ router.post('/login', passport.authenticate('local-login', {
 }));
 
 
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
       return next();
+  res.redirect('/');
+}
+
+function isRole(req, res, next){
+  if(req.user.local.role == "admin" || "engineer")
+    return next();
   res.redirect('/');
 }

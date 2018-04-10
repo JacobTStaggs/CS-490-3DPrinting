@@ -5,6 +5,7 @@
     <div>
 <%- include partials/head.ejs %>
     </div>
+
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
             <div>
@@ -21,19 +22,37 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                          <th>
+                                            Project ID
+                                          </th>
                                             <th>Project Name</th>
+                                            <th>User Email</th>
                                             <th>Status</th>
                                             <th>Engineer</th>
                                             <th>Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      <form action="/edit/<%= user._id %>" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
+                                      <form action="/edit/<%=id%>" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
                                                     <tr>
-                                                      <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
-                                                      <td> <input type="text" class="form-control" name="projStat" value="<%=projStat %>"></td>
-                                                      <td> <input type="text" class="form-control" name="projEngineer" value="<%=projEngineer %>"></td>
-                                                      <td> <input type="text" class="form-control" name="projCost" value="<%=projCost %>"></td>
+                                                      <% if (user.local.role == 'admin') { %>
+                                                        <td name="id"><%=id%>  </td>
+                                                        <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
+                                                        <td> <input type="text" class="form-control" name="projStat" value="<%=projStat %>"></td>
+                                                        <td> <input type="text" class="form-control" name="projEngineer" value="<%=projEngineer %>"></td>
+                                                        <td> <input type="text" class="form-control" name="projCost" value="<%=projCost %>"></td>
+                                                      <% } else if (user.local.role == 'user') { %>
+                                                        <td name="id"><%=id%>  </td>
+                                                        <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
+                                                        <td name="projStat"><%=projStat %></td>
+                                                        <td name='projEngineer'><%=projEngineer %></td>
+                                                          <td name="projCost">
+                                                            <%=projCost%>
+                                                          </td>
+                                                      <% } else { %>
+                                                          <p>Hey terra!</p>
+                                                      <% } %>
+
                                                     </tr>
                                                     <button class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button>
                                                   </form>
