@@ -1,13 +1,17 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
-var userSchema = mongoose.Schema({
+var Schema = mongoose.Schema;
+
+var userSchema = new Schema({
   local: {
+    firstName: String,
+    lastName:String,
     email: String,
     password: String,
     role:{
       type: String,
-      enum: ['user', 'engineer', 'admin']
+      enum: ['user', 'engineer', 'admin', 'finance']
     },
     street:String,
     city: String,
@@ -15,7 +19,8 @@ var userSchema = mongoose.Schema({
     zip: Number,
     phone: Number,
     contract: Boolean,
-    emailValidated: Boolean
+    emailValidated: Boolean,
+    archive: Boolean
   },
 });
 
@@ -27,4 +32,4 @@ userSchema.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.local.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('user', userSchema);

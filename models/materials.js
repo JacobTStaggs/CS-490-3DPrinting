@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
-var materialSchema = mongoose.Schema({
+
+var Schema = mongoose.Schema;
+
+var materialSchema =new Schema({
   local: {
     name: String,
     actualCost: Number,
@@ -9,4 +12,4 @@ var materialSchema = mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('Material', materialSchema);
+module.exports = mongoose.model('material', materialSchema);

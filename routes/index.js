@@ -1,13 +1,22 @@
 var express = require('express');
 var passport = require('passport');
-var User = require('../models/user');
+var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId
 
 var upload = require('express-fileupload');
 var NodeStl = require('node-stl');
-var ProjectModel = require('../models/projects');
 const MongoClient = require('mongodb').MongoClient
 var mongoDB = 'mongodb://127.0.0.1/my_database';
+
+var MaterialModel = require('../models/materials.js');
+var ProjectModel = require('../models/projects.js');
+
+
+console.log('got to here');
+
+
+
+
 MongoClient.connect(mongoDB, (err, client) => {
   if (err) return console.log(err)
   db = client.db('rcbi') // whatever your database name is
@@ -24,7 +33,7 @@ router.get('/login', function(req, res, next) {
 });
 
 router.get('/quote', function (req, res, next){
-  res.render('quote.ejs', {user: req.user});
+  res.render('quote.ejs', {users: req.users});
 });
 
 
@@ -32,6 +41,12 @@ router.get('/signup', function(req, res) {
 
   res.render('signup.ejs', { message: req.flash('signupMessage') });
 });
+
+router.get('/signup', function(req, res) {
+
+  res.render('signup.ejs', { message: req.flash('signupMessage') });
+});
+
 
 router.get('/projects', isLoggedIn, function(req, res) {
 db.collection('projects').find().toArray(function(err,results){
@@ -112,6 +127,19 @@ router.post('/edit/(:id)', function(req,res){
                   projCost: req.body.projCost
               });
 });
+
+router.get('/adminUserList', isLoggedIn, function(req, res) {
+db.collection('users').find().toArray(function(err,results){
+  console.log(results);
+
+  if(req.user.role = 'admin')
+
+{
+  res.render('adminUserList.ejs', {user: req.user, usersList: results});}
+
+})
+});
+
 router.get('/quote', function(req,res){
   res.render('quote.ejs');
 });
@@ -123,7 +151,9 @@ router.get('/profile', isLoggedIn, function (req, res) {
     });
 });
 
+
 router.post('/quote',isLoggedIn, function(req, res){
+
 
 
 let material = req.body.materials;
@@ -142,16 +172,19 @@ if (material == 'mat1'){
 }
 let finalCost = volume * cost;
 finalCost = finalCost.toFixed(2);
+datePosted = Date.now();
 // Use the mv() method to place the file somewhere on your server
 
 
-db.collection('projects').save({email: email, projectName: projectName, material: material, finalCost: finalCost, file: './files/tooth.stl', status: 'Submitted', engineer: 'Unassigned'},(err, result) => {
+db.collection('projects').save({email: email, projectName: projectName, material: material, finalCost: finalCost, file: './files/tooth.stl', status: 'Submitted', engineer: 'Unassigned', datePosted: datePosted},(err, result) => {
   if (err) return console.log(err)
 
   console.log('saved to database')
   res.redirect('/profile')
 });
 });
+
+
 router.get('')
 router.get('/logout', function(req, res) {
   req.logout();

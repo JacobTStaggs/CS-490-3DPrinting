@@ -1,3 +1,4 @@
+
 <html>
 
 <head>
@@ -35,9 +36,9 @@
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
             <div>
-                <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
+                <h1 style="color:#ffffff;margin-bottom:20px;">User List</h1>
             </div>
-            <div><%- include partials/breadcrumb.ejs%>
+            <div>
                 <div class="card-group">
                     <div class="card">
                         <div class="card-header">
@@ -48,28 +49,42 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Project ID</th>
-                                            <th>Project Name</th>
-                                            <th>User Email</th>
-                                            <th>Engineer</th>
-                                            <th>Status</th>
-                                            <th>Cost</th>
-                                            <th>Options</th>
-                                        </tr>
+                                            <th>User First Name</th>
+                                            <th>User Last Name</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Street Name</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Zip</th>
+                                            <th>Phone Number</th>
+                                            <th>Contract Signed</th>
+                                          </tr>
                                     </thead>
                                     <tbody>
+                       <% for(var i=0; i<users.length; i++) {%>
+                      <tr>
 
-                                      <% for(var i=0; i<projects.length; i++) {%>
-                                                    <tr>
-                                                      <td name="projectID">  <%= projects[i]._id %> </td>
-                                                      <td>  <%= projects[i].projectName %> </td>
-                                                      <td>   <%=projects[i].email%></td>
-                                                      <td>  <%= projects[i].engineer %> </td>
-                                                      <td>  <%= projects[i].status %>  </td>
-                                                      <td>$<%= projects[i].finalCost %> </td>
-                                                      <td> <a href='/edit/<%= projects[i]._id %>'>Edit</a></td>
-                                                    </tr>
-                                                       <%}%>
+                        <td>  <%= users[i].firstName %> </td>
+                        <td>  <%= users[i].lastName %> </td>
+                        <td>  <%= users[i].email %> </td>
+                        <td>  <%= users[i].role %>  </td>
+                        <td>  <%= users[i].street %> </td>
+                        <td>  <%= users[i].city %> </td>
+                        <td>  <%= users[i].state %> </td>
+                        <td>  <%= users[i].zip %>  </td>
+                        <td>  <%= users[i].phone %> </td>
+                        <td>  <%= users[i].contract %> </td>
+
+                        street:String,
+                        city: String,
+                        state: String,
+                        zip: Number,
+                        phone: Number,
+                        contract: Boolean,
+                        emailValidated: Boolean
+                      </tr>
+                         <%}%>
                                     </tbody>
                                 </table>
                             </div>

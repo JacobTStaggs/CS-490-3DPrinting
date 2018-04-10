@@ -1,21 +1,37 @@
 var mongoose = require('mongoose')
+var Schema = mongoose.Schema;
 
-var projectSchema = mongoose.Schema({
+var projectSchema = new Schema({
   local: {
     projectName: String,
-    engineer: String,
-    material: String,
+    engineerID: {
+      type: Schema.ObjectId,
+      ref: 'users'
+    },
+    clientsID: {
+      type: Schema.ObjectId,
+      ref: 'users'
+    },
+    materialID: {
+      type: Schema.ObjectId,
+      ref: 'users'
+    },
+    clientName: String,
+    engineerName: String,
+    materialName: String,
     email: String,
     finalCost: Number,
     colors: String,
     Density: String,
     datePosted: Date,
-    stlFile: String,
-    status: String,
+    stlFileLocation: String,
+
     paid: Boolean,
     print: Boolean,
     ship: Boolean,
-    invoiced: Boolean
+    invoiced: Boolean,
+    assigned: Boolean,
+    completed: Boolean
   },
 });
-module.exports = mongoose.model('projects', projectSchema, 'projects');
+module.exports = mongoose.model('project', projectSchema);
