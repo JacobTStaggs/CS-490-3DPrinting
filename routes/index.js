@@ -14,13 +14,7 @@ var ProjectModel = require('../models/projects.js');
 
 console.log('got to here');
 
-// JUNK CODE
-// var fs = require('fs');
-//
-// //load all files in models dir
-// fs.readdirSync( '../CS-490-3DPrinting/models').forEach(function(filename) {
-//   if (~filename.indexOf('.js')) require('../CS-490-3DPrinting/models/' + filename)
-// });
+
 
 
 MongoClient.connect(mongoDB, (err, client) => {
@@ -47,6 +41,12 @@ router.get('/signup', function(req, res) {
 
   res.render('signup.ejs', { message: req.flash('signupMessage') });
 });
+
+router.get('/signup', function(req, res) {
+
+  res.render('signup.ejs', { message: req.flash('signupMessage') });
+});
+
 
 router.get('/projects', isLoggedIn, function(req, res) {
 db.collection('projects').find().toArray(function(err,results){
@@ -107,7 +107,12 @@ router.post('/edit/(:id)', function(req,res){
 router.get('/adminUserList', isLoggedIn, function(req, res) {
 db.collection('users').find().toArray(function(err,results){
   console.log(results);
-  res.render('adminUserList.ejs', {user: req.user, usersList: results});
+
+  if(req.user.role = 'admin')
+
+{
+  res.render('adminUserList.ejs', {user: req.user, usersList: results});}
+
 })
 });
 
@@ -121,6 +126,10 @@ router.get('/profile', isLoggedIn, function (req, res) {
       console.log(results);
     });
 });
+
+
+
+
 router.post('/quote', function(req, res){
 
 
@@ -140,17 +149,19 @@ if (material == 'mat1'){
 }
 let finalCost = volume * cost;
 finalCost = finalCost.toFixed(2);
-datePosted = Date();
+datePosted = Date.now();
 // Use the mv() method to place the file somewhere on your server
 
 
-db.collection('projects').save({email: email, projectName: projectName, material: material, finalCost: finalCost, file: './files/tooth.stl', status: 'Submitted', engineer: 'Unassigned'},(err, result) => {
+db.collection('projects').save({email: email, projectName: projectName, material: material, finalCost: finalCost, file: './files/tooth.stl', status: 'Submitted', engineer: 'Unassigned', datePosted: datePosted},(err, result) => {
   if (err) return console.log(err)
 
   console.log('saved to database')
   res.redirect('/profile')
 });
 });
+
+
 router.get('')
 router.get('/logout', function(req, res) {
   req.logout();

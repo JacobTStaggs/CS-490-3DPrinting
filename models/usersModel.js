@@ -19,7 +19,8 @@ var userSchema = new Schema({
     zip: Number,
     phone: Number,
     contract: Boolean,
-    emailValidated: Boolean
+    emailValidated: Boolean,
+    archive: Boolean
   },
 });
 

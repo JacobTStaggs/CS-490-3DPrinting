@@ -25,14 +25,13 @@ var projectSchema = new Schema({
     Density: String,
     datePosted: Date,
     stlFileLocation: String,
-    status: {
-          type: String,
-          enum: ['Unassigned', 'Processing', 'Completed']
-        },
+
     paid: Boolean,
     print: Boolean,
     ship: Boolean,
-    invoiced: Boolean
+    invoiced: Boolean,
+    assigned: Boolean,
+    completed: Boolean
   },
 });
 module.exports = mongoose.model('project', projectSchema);
