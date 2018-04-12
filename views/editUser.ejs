@@ -1,0 +1,164 @@
+
+<html>
+
+<body>
+    <div>
+<%- include partials/head.ejs %>
+    </div>
+
+    <div class="header-blue">
+        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+            <div>
+                <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
+            </div>
+            <div><%- include partials/breadcrumb.ejs%>
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th>
+                                            Project ID
+                                          </th>
+                                            <th>Project Name</th>
+                                            <th>Status</th>
+                                            <th>Engineer</th>
+                                            <th>Cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      <form action="/edit/<%=id%>" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
+                                                    <tr>
+                                                      <% if (user.local.role == 'admin') { %>
+                                                        <td name="id"><%=id%>  </td>
+                                                        <td> <input type="text" class="form-control" name="userStr" value="<%=userStr %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userEmail" value="<%=userEmail %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userStr" value="<%=userStr %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userPhone" value="<%=userPhone %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userZip" value="<%=userZip %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>"></td>
+                                                        <td>
+                                                        <select class="form-control form-group" name="userState" value="<%userState">
+                                                        	<option value="AL">Alabama</option>
+                                                        	<option value="AK">Alaska</option>
+                                                        	<option value="AZ">Arizona</option>
+                                                        	<option value="AR">Arkansas</option>
+                                                        	<option value="CA">California</option>
+                                                        	<option value="CO">Colorado</option>
+                                                        	<option value="CT">Connecticut</option>
+                                                        	<option value="DE">Delaware</option>
+                                                        	<option value="DC">District Of Columbia</option>
+                                                        	<option value="FL">Florida</option>
+                                                        	<option value="GA">Georgia</option>
+                                                        	<option value="HI">Hawaii</option>
+                                                        	<option value="ID">Idaho</option>
+                                                        	<option value="IL">Illinois</option>
+                                                        	<option value="IN">Indiana</option>
+                                                        	<option value="IA">Iowa</option>
+                                                        	<option value="KS">Kansas</option>
+                                                        	<option value="KY">Kentucky</option>
+                                                        	<option value="LA">Louisiana</option>
+                                                        	<option value="ME">Maine</option>
+                                                        	<option value="MD">Maryland</option>
+                                                        	<option value="MA">Massachusetts</option>
+                                                        	<option value="MI">Michigan</option>
+                                                        	<option value="MN">Minnesota</option>
+                                                        	<option value="MS">Mississippi</option>
+                                                        	<option value="MO">Missouri</option>
+                                                        	<option value="MT">Montana</option>
+                                                        	<option value="NE">Nebraska</option>
+                                                        	<option value="NV">Nevada</option>
+                                                        	<option value="NH">New Hampshire</option>
+                                                        	<option value="NJ">New Jersey</option>
+                                                        	<option value="NM">New Mexico</option>
+                                                        	<option value="NY">New York</option>
+                                                        	<option value="NC">North Carolina</option>
+                                                        	<option value="ND">North Dakota</option>
+                                                        	<option value="OH">Ohio</option>
+                                                        	<option value="OK">Oklahoma</option>
+                                                        	<option value="OR">Oregon</option>
+                                                        	<option value="PA">Pennsylvania</option>
+                                                        	<option value="RI">Rhode Island</option>
+                                                        	<option value="SC">South Carolina</option>
+                                                        	<option value="SD">South Dakota</option>
+                                                        	<option value="TN">Tennessee</option>
+                                                        	<option value="TX">Texas</option>
+                                                        	<option value="UT">Utah</option>
+                                                        	<option value="VT">Vermont</option>
+                                                        	<option value="VA">Virginia</option>
+                                                        	<option value="WA">Washington</option>
+                                                        	<option value="WV">West Virginia</option>
+                                                        	<option value="WI">Wisconsin</option>
+                                                        	<option value="WY">Wyoming</option>
+                                                        </select>
+                                                      </td>
+                                                        <td> <input type="text" class="form-control" name="userRole" value="<%=userRole %>"></td>
+                                                        <td> <input type="text" class="form-control" name="userContract" value="<%=userContract %>"></td>
+                                                      <% } else if (user.local.role == 'user') { %>
+                                                        <td name="id"><%=id%>  </td>
+                                                        <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
+                                                        <td name="projStat"><%=projStat %></td>
+                                                        <td name='projEngineer'><%=projEngineer %></td>
+                                                          <td name="projCost">
+                                                            <%=projCost%>
+                                                          </td>
+                                                      <% } else { %>
+                                                          <p>Hey terra!</p>
+                                                      <% } %>
+
+                                                    </tr>
+                                                    <button class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button>
+                                                  </form>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-clean">
+        <footer>
+            <div class="container" style="width:960px;">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">About Us</h3>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                    </div>
+                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                </div>
+            </div>
+            <div class="container">
+                <div>
+                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
+    <i class="icon ion-social-facebook"></i></a><a href="#">
+    <i class="icon ion-social-twitter"></i></a><a href="#">
+    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
+    <i class="icon ion-social-youtube-outline"></i></a>
+        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+</div></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+</body>
+
+</html>
