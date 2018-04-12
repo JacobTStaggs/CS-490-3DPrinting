@@ -112,37 +112,16 @@
                     <% for(var i=0; i<users.length; i++) {%>
                       <tr>
 
-                        <td>
-                          <%= users[i].firstName %>
-                        </td>
-                        <td>
-                          <%= users[i].lastName %>
-                        </td>
-                        <td>
-                          <%= users[i].email %>
-                        </td>
-                        <td>
-                          <%= users[i].role %>
-                        </td>
-                        <td>
-                          <%= users[i].street %>
-                        </td>
-                        <td>
-                          <%= users[i].city %>
-                        </td>
-                        <td>
-                          <%= users[i].state %>
-                        </td>
-                        <td>
-                          <%= users[i].zip %>
-                        </td>
-                        <td>
-                          <%= users[i].phone %>
-                        </td>
-                        <td>
-                          <%= users[i].contract %>
-                        </td>
-
+                        <td>  <%= users[i].local.firstName %> </td>
+                        <td>  <%= users[i].local.lastName %> </td>
+                        <td>  <%= users[i].local.email %> </td>
+                        <td>  <%= users[i].local.role %>  </td>
+                        <td>  <%= users[i].local.street %> </td>
+                        <td>  <%= users[i].local.city %> </td>
+                        <td>  <%= users[i].local.state %> </td>
+                        <td>  <%= users[i].local.zip %>  </td>
+                        <td>  <%= users[i].local.phone %> </td>
+                        <td>  <%= users[i].local.contract %> </td>
                       </tr>
                       <%}%>
 
