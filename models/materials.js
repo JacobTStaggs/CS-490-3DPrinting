@@ -7,7 +7,8 @@ var materialSchema =new Schema({
     name: String,
     actualCost: Number,
     salePrice: Number,
-    colors: [String]
+    colors: [String],
+    description: String
   },
 });
 

@@ -128,17 +128,17 @@ router.post('/edit/(:id)', function(req,res){
               });
 });
 
-router.get('/adminUserList', isLoggedIn, function(req, res) {
+router.get('/adminUserList', isLoggedIn, isRole, function(req, res) {
 db.collection('users').find().toArray(function(err,results){
   console.log(results);
-
-  if(req.user.role = 'admin')
-
-{
-  res.render('adminUserList.ejs', {user: req.user, usersList: results});}
-
-})
+  res.render('adminUserList.ejs', {user: req.user, users: results});
 });
+});
+
+
+
+
+
 
 router.get('/quote', function(req,res){
   res.render('quote.ejs');
@@ -159,6 +159,7 @@ router.post('/quote',isLoggedIn, function(req, res){
 let material = req.body.materials;
 let projectName = req.body.projectName;
 let email = req.user.local.email;
+let clientID = req.user.
 console.log(email);
 var cost = 0;
 
@@ -214,7 +215,7 @@ function isLoggedIn(req, res, next) {
 }
 
 function isRole(req, res, next){
-  if(req.user.local.role == "admin" || "engineer")
+  if(req.isAuthenticated() && req.user.local.role == 'admin')
     return next();
-  res.redirect('/');
+  res.redirect('/profile');
 }
