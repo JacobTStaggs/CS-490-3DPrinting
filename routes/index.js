@@ -128,10 +128,14 @@ router.get('/editUser/(:id)', function(req, res, next){
                               title: 'Edit User',
                               //data: rows[0],
                               id: result[i]._id,
-                              projName: result[i].projectName,
-                              projStat: result[i].status,
-                              projEngineer: result[i].engineer,
-                              projCost: result[i].finalCost,
+                              userFName: result[i].firstName,
+                              projStat: result[i].lastName,
+                              projEngineer: result[i].street,
+                              projCost: result[i].city,
+                              projCost: result[i].state,
+                              projCost: result[i].zip,
+                              projCost: result[i].phone,
+                              projCost: result[i].contract,
                               engineers: getEngineers()
                           });
             }
