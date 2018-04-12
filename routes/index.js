@@ -69,6 +69,7 @@ db.collection('projects').find().toArray(function(err,results){
 });
 });
 
+
 // SHOW EDIT USER FORM
 router.get('/edit/(:id)', function(req, res, next){
     var o_id = new ObjectId(req.params.id).toString();
@@ -95,6 +96,46 @@ router.get('/edit/(:id)', function(req, res, next){
                               projStat: result[i].status,
                               projEngineer: result[i].engineer,
                               projCost: result[i].finalCost,
+                              engineers: getEngineers()
+                          });
+            }
+          }
+            // render to views/user/edit.ejs template file
+
+        }
+    });
+});
+
+// SHOW EDIT USER FORM
+router.get('/editUser/(:id)', function(req, res, next){
+    var o_id = new ObjectId(req.params.id).toString();
+
+    db.collection('users').find({"_id": ObjectId(o_id).toString}).toArray(function(err, result) {
+        if(err) return console.log(err)
+
+        // if user not found
+        if (!result) {
+            req.flash('error', 'User not found with id = ' + req.params.id)
+            res.redirect('/projects')
+        }
+        else { // if user found
+          console.log(result);
+          for(var i = 0; i < result.length; i++){
+            if(result[i]._id == o_id){
+              console.log(result[i]);
+              res.render('editUser.ejs', {
+                              user: req.user,
+                              title: 'Edit User',
+                              //data: rows[0],
+                              id: result[i]._id,
+                              userFName: result[i].firstName,
+                              projStat: result[i].lastName,
+                              projEngineer: result[i].street,
+                              projCost: result[i].city,
+                              projCost: result[i].state,
+                              projCost: result[i].zip,
+                              projCost: result[i].phone,
+                              projCost: result[i].contract,
                               engineers: getEngineers()
                           });
             }
