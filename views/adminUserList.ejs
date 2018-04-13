@@ -1,5 +1,8 @@
 <html>
 
+
+
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +29,8 @@
   <link rel="stylesheet" href="assets/css/Team-Boxed.css">
   <link rel="stylesheet" href="assets/css/Team-Clean.css">
   <link rel="stylesheet" href="assets/css/untitled.css">
+
+
 </head>
 
 <body>
@@ -44,60 +49,14 @@
               <h5 class="mb-0"></h5>
             </div>
 
-            <script type="text/javascript">
-              function sorter(c) {
 
-
-
-                users.sort(function(a, b) {
-                    switch (c) {
-
-                      // Case sort by Name
-                      case 1:
-                        var nameA = a.firstName.toLowerCase(),
-                          var nameB = b.firstName.toLowerCase()
-                        if (nameA < nameB) //sort string ascending
-                          return -1
-                        if (nameA > nameB)
-                          return 1
-                        return 0 //default return value (no sorting)
-                        break;
-
-                        // Case sort by Role
-                      case 2:
-                        var nameA = a.role.toLowerCase(),
-                          var nameB = b.role.toLowerCase()
-                        if (nameA < nameB) //sort string ascending
-                          return -1
-                        if (nameA > nameB)
-                          return 1
-                        return 0 //default return value (no sorting)
-                        break;
-
-                        // Case sort by Contract
-                      case 3:
-                        if (a.contract && !b.contract) //sort string ascending
-                          return -1
-                        if (!a.contract && b.contract)
-                          return 1
-                        return 0 //default return value (no sorting)
-                        break;
-                      default:
-                        console.log("improper case")
-
-
-                    })
-
-                }
-              }
-            </script>
 
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Fi Name</th>
+                      <th>Name</th>
                       <th>Email</th>
                       <th>Role</th>
                       <th>Street</th>
@@ -112,17 +71,34 @@
                     <% for(var i=0; i<users.length; i++) {%>
                       <tr>
 
-                        <td>  <%= users[i].local.firstName %> </td>
-                        <td>  <%= users[i].local.lastName %> </td>
-                        <td>  <%= users[i].local.email %> </td>
-                        <td>  <%= users[i].local.role %>  </td>
-                        <td>  <%= users[i].local.street %> </td>
-                        <td>  <%= users[i].local.city %> </td>
-                        <td>  <%= users[i].local.state %> </td>
-                        <td>  <%= users[i].local.zip %>  </td>
-                        <td>  <%= users[i].local.phone %> </td>
-                        <td>  <%= users[i].local.contract %> </td>
-                        <td> <a href='/editUser/<%= users[i]._id %>'>Edit</a></td>
+                        <td>
+                          <%= users[i].local.firstName + " " +  users[i].local.lastName %>
+                        </td>
+                        <td>
+                          <%= users[i].local.email %>
+                        </td>
+                        <td>
+                          <%= users[i].local.role %>
+                        </td>
+                        <td>
+                          <%= users[i].local.street %>
+                        </td>
+                        <td>
+                          <%= users[i].local.city %>
+                        </td>
+                        <td>
+                          <%= users[i].local.state %>
+                        </td>
+                        <td>
+                          <%= users[i].local.zip %>
+                        </td>
+                        <td>
+                          <%= users[i].local.phone %>
+                        </td>
+                        <td>
+                          <%= users[i].local.contract %>
+                        </td>
+
                       </tr>
                       <%}%>
 
@@ -130,9 +106,83 @@
                   </tbody>
                 </table>
                 <div>
-                  <button type="button" onclick="sorter(1)">Sort by Name</button>
-                  <button type="button" onclick="sorter(2)">Sort by Role</button>
-                  <button type="button" onclick="sorter(3)">Sort by Contract Status</button>
+                  <script type="text/javascript">
+
+                    var myUsers = new Array();
+
+                    <% for (var user of users) { %>
+
+                      myUsers[i] = <%= user %>;
+
+                  <%  } %>
+
+
+
+                    console.log('made it here');
+
+                    function mySorter(choice) {
+
+                      switch (choice) {
+
+                        case 1:
+                          console.log("got here");
+
+                          users.sort(function(a, b) {
+
+                            var nameA = a.firstName.toLowerCase();
+                            var nameB = b.firstName.toLowerCase();
+                            if (nameA < nameB) //sort string ascending
+                              return -1;
+                            if (nameA > nameB)
+                              return 1;
+                            return 0; //default return value (no sorting)
+                          });
+
+                          break;
+
+                        case 2:
+                          users.sort(function(a, b) {
+
+                            var nameA = a.role.toLowerCase();
+                            var nameB = b.role.toLowerCase();
+                            if (nameA < nameB) //sort string ascending
+                              return -1;
+                            if (nameA > nameB)
+                              return 1;
+                            return 0; //default return value (no sorting)
+
+                          });
+
+                          break;
+
+                        case 3:
+                          users.sort(function(a, b) {
+
+                            if (a.contract && !b.contract) //sort string ascending
+                              return -1;
+                            if (!a.contract && b.contract)
+                              return 1;
+                            return 0; //default return value (no sorting)
+
+                          });
+
+                          break;
+
+                        default:
+                          console.log("improper case");
+                          break;
+
+                          return 0;
+
+
+                      }
+
+                    }
+                  </script>
+
+                  <button id="nameSort" type="button" onclick=mySorter(1)>Sort by Name</button>
+                  <button id="roleSort" type="button" onclick=mySorter(1)>Sort by Role</button>
+                  <button id="contractSort" type="button" onclick=mySorter(1)>Sort by Contract Status</button>
                 </div>
               </div>
             </div>

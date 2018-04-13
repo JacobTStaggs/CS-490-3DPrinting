@@ -238,7 +238,7 @@ router.post('/signup', passport.authenticate('local-signup', {
 }));
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/profile',
+  successRedirect: '/projects',
   failureRedirect: '/login',
   failureFlash: true,
 }));
