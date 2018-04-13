@@ -62,7 +62,7 @@
                                       <% for(var i=0; i<users.length; i++) {%>
                                                     <tr>
                                                       <td>  <%= users[i].local.email %> </td>
-                                                      <td>  <%= users[i].email %> </td>
+                                                      <td>  <%= users[i].firstName %> </td>
                                                       <td>   </td>
                                                       <td>   </td>
                                                       <td>   </td>
@@ -73,7 +73,7 @@
                                                         <input type="hidden" name="_method" value="DELETE" />
                                                       </form></td>
                                                     </tr>
-                                              
+
                                                        <%}%>
                                     </tbody>
                                 </table>
