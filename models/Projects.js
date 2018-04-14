@@ -14,14 +14,15 @@ var projectSchema = new Schema({
     },
     materialID: {
       type: Schema.ObjectId,
-      ref: 'users'
+      ref: 'materials'
     },
+    fileName: String,
     clientName: String,
     engineerName: String,
     materialName: String,
+    materialColorPicked: String,
     email: String,
     finalCost: Number,
-    colors: String,
     Density: String,
     datePosted: Date,
     stlFileLocation: String,
@@ -31,7 +32,8 @@ var projectSchema = new Schema({
     ship: Boolean,
     invoiced: Boolean,
     assigned: Boolean,
-    completed: Boolean
+    completed: Boolean,
+    archive: Boolean
   },
 });
 module.exports = mongoose.model('project', projectSchema);

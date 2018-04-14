@@ -20,7 +20,7 @@ var userSchema = new Schema({
     phone: Number,
     contract: Boolean,
     emailValidated: Boolean,
-    archive: Boolean
+
   },
 });
 

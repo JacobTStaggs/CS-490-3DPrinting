@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId
+const multer = require('multer');
 
 var upload = require('express-fileupload');
 var NodeStl = require('node-stl');
@@ -24,6 +25,11 @@ MongoClient.connect(mongoDB, (err, client) => {
 })
 var router = express.Router();
 router.use(upload());
+
+const uploaderDamianTest = multer({
+  dest: 'uploads/' // this saves your file into a directory called "uploads"
+});
+
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
@@ -146,12 +152,7 @@ router.get('/editUser/(:id)', function(req, res, next){
     });
 });
 
-function getEngineers(){
-  db.collection('users').find({"role": "engineer"}).toArray(function(err, result){
-    console.log(result);
-    return result;
-  });
-}
+
 
 router.post('/edit/(:id)', function(req,res){
   var o_id = new ObjectId(req.params.id).toString();
@@ -257,4 +258,18 @@ function isRole(req, res, next){
   if(req.isAuthenticated() && req.user.local.role == 'admin')
     return next();
   res.redirect('/profile');
+}
+
+function getEngineers(){
+  db.collection('users').find({"role": "engineer"}).toArray(function(err, result){
+    console.log(result);
+    return result;
+  });
+}
+
+function getMaterials(){
+  db.collection('materials').find().toArray(function(err, result){
+    console.log(result);
+    return result;
+  });
 }
