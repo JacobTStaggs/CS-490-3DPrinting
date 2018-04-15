@@ -152,7 +152,21 @@ function getEngineers(){
     return result;
   });
 }
-
+router.post('/editUser/(:id)', function(req, res){
+  var o_id = new ObjectId(req.params.id).toString();
+  console.log(o_id);
+  db.collection('users').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
+  res.render('edit.ejs', {
+                  user: req.user,
+                  title: 'Edit User',
+                  //data: rows[0],
+                  id: req.body.id,
+                  projName: req.body.projName,
+                  projStat: req.body.projStat,
+                  projEngineer: req.body.projStat,
+                  projCost: req.body.projCost
+              });
+})
 router.post('/edit/(:id)', function(req,res){
   var o_id = new ObjectId(req.params.id).toString();
   console.log(o_id);
