@@ -55,6 +55,9 @@ db.collection('projects').find().toArray(function(err,results){
 });
 });
 
+router.get('/addMaterial', isLoggedIn, function(req,res){
+  res.render('addMaterial.ejs', {user: req.user});
+});
 router.post('/addMaterial', isLoggedIn, function(req,res){
   db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
   res.redirect('/materials', {user: req.user});
