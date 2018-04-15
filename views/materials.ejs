@@ -36,7 +36,7 @@
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
             <div>
-                <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
+                <h1 style="color:#ffffff;margin-bottom:20px;">Materials</h1>
             </div>
             <div><%- include partials/breadcrumb.ejs%>
                 <div class="card-group">
@@ -53,21 +53,32 @@
                                             <th>Our cost</th>
                                             <th>Sale Price</th>
                                             <th>Colors</th>
+                                            <th>
+                                              Description
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                       <% for(var i=0; i<materials.length; i++) {%>
                                                     <tr>
-                                                      <td name="projectID">  <%= materials[i]._id %> </td>
                                                       <td>  <%= materials[i].name %> </td>
-                                                      <td>   <%=materials[i].actualCost%></td>
-                                                      <td>  <%= projects[i].salePrice %> </td>
-                                                      <td> <a href='/edit/<%= projects[i]._id %>'>Edit</a></td>
+                                                      <td>   $<%=materials[i].actualCost%></td>
+                                                      <td>  $<%= materials[i].salePrice %> </td>
+                                                      <td> <%=materials[i].colors%></td>
+                                                        <td> <%=materials[i].description%></td>
+                                                      <td> <a href='/edit/<%= materials[i]._id %>'>Edit</a></td>
                                                     </tr>
                                                        <%}%>
                                     </tbody>
                                 </table>
+                                <% if (user.local.role == 'admin') { %>
+                                  <a href="/addMaterial">  <button type="button" class="btn btn-success" >Add a material</button></a>
+                                <% } %>
+                                <% if (user.local.role == 'engineer') { %>
+                                  <a href="/addMaterial">  <button type="button" class="btn btn-success" >Add a material</button></a>
+                                <% } %>
+
                             </div>
                         </div>
                     </div>

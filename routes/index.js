@@ -54,6 +54,9 @@ db.collection('projects').find().toArray(function(err,results){
   res.render('projects.ejs', {user: req.user, projects: results});
 });
 });
+router.get('/addMaterial',isEngineer, isLoggedIn, function(req, res) {
+  res.render('addMaterial.ejs', {user: req.user});
+});
 
 router.get('/materials', isLoggedIn, function(req, res){
   db.collection('materials').find().toArray(function(err, results){
@@ -61,6 +64,8 @@ router.get('/materials', isLoggedIn, function(req, res){
     res.render('materials.ejs', {user: req.user, materials: results});
   });
 });
+
+
 
 router.get('/projects', isLoggedIn, function(req, res) {
 db.collection('projects').find().toArray(function(err,results){
@@ -119,24 +124,31 @@ router.get('/editUser/(:id)', function(req, res, next){
             res.redirect('/projects')
         }
         else { // if user found
-          console.log(result);
+
           for(var i = 0; i < result.length; i++){
             if(result[i]._id == o_id){
+              let updatedCon = "";
+              let contract = req.user.local.contract;
+              if(contract == 0){
+                 updatedCon = "True"
+              }else
+                 updatedCon = "False"
               console.log(result[i]);
               res.render('editUser.ejs', {
                               user: req.user,
                               title: 'Edit User',
                               //data: rows[0],
                               id: result[i]._id,
-                              userFName: result[i].firstName,
-                              projStat: result[i].lastName,
-                              projEngineer: result[i].street,
-                              projCost: result[i].city,
-                              projCost: result[i].state,
-                              projCost: result[i].zip,
-                              projCost: result[i].phone,
-                              projCost: result[i].contract,
-                              engineers: getEngineers()
+                              userFName: result[i].local.firstName,
+                              userLName: result[i].local.lastName,
+                              userStr: result[i].local.street,
+                              userEmail: result[i].local.email,
+                              userCity: result[i].local.city,
+                              userState: result[i].local.state,
+                              userZip: result[i].local.zip,
+                              userPhone: result[i].local.phone,
+                              userRole: result[i].local.role,
+                              userContract: updatedCon
                           });
             }
           }
@@ -178,7 +190,7 @@ db.collection('users').find().toArray(function(err, results){
 });
 
 router.get('/quote', function(req,res){
-  res.render('quote.ejs');
+  res.render('quote.ejs', {user: req.user});
 });
 router.get('/profile', isLoggedIn, function (req, res) {
     db.collection('users').find().toArray(function(err, results){
@@ -186,6 +198,11 @@ router.get('/profile', isLoggedIn, function (req, res) {
       res.render('profile.ejs', { users: results, user: req.user });
       console.log(results);
     });
+});
+
+router.post('/addMaterial', isLoggedIn, function(req,res){
+  db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
+  res.redirect('/materials', {user: req.user});
 });
 
 
@@ -252,6 +269,11 @@ function isLoggedIn(req, res, next) {
 
 function isRole(req, res, next){
   if(req.isAuthenticated() && req.user.local.role == 'admin')
+    return next();
+  res.redirect('/profile');
+}
+function isEngineer(req, res, next){
+  if(req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role =='engineer')
     return next();
   res.redirect('/profile');
 }
