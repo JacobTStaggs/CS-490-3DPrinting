@@ -55,6 +55,11 @@ db.collection('projects').find().toArray(function(err,results){
 });
 });
 
+router.post('/addMaterial', isLoggedIn, function(req,res){
+  db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
+  res.redirect('/materials', {user: req.user});
+});
+
 router.get('/materials', isLoggedIn, function(req, res){
   db.collection('materials').find().toArray(function(err, results){
     console.log(results);
@@ -155,7 +160,7 @@ function getEngineers(){
 router.post('/editUser/(:id)', function(req, res){
   var o_id = new ObjectId(req.params.id).toString();
   console.log(o_id);
-  db.collection('users').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
+  db.collection('users').update({"_id": ObjectId(o_id).toString}, {"firstName": userFName, "last": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
   res.render('edit.ejs', {
                   user: req.user,
                   title: 'Edit User',
