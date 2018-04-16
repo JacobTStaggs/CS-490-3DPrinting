@@ -58,9 +58,7 @@ router.get('/addMaterial',isEngineer, isLoggedIn, function(req, res) {
   res.render('addMaterial.ejs', {user: req.user});
 });
 
-router.get('/addMaterial', isLoggedIn, function(req,res){
-  res.render('addMaterial.ejs', {user: req.user});
-});
+
 router.post('/addMaterial', isLoggedIn, function(req,res){
   db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
   res.redirect('/materials', {user: req.user});
@@ -72,6 +70,8 @@ router.get('/materials', isLoggedIn, function(req, res){
     res.render('materials.ejs', {user: req.user, materials: results});
   });
 });
+
+
 
 
 
@@ -129,7 +129,7 @@ router.get('/editUser/(:id)', function(req, res, next){
         // if user not found
         if (!result) {
             req.flash('error', 'User not found with id = ' + req.params.id)
-            res.redirect('/projects')
+            res.redirect('/projects');
         }
         else { // if user found
 
@@ -180,14 +180,14 @@ router.post('/editUser/(:id)', function(req, res){
                   user: req.user,
                   title: 'Edit User',
                   //data: rows[0],
-                  id: req.body.id,
+                  id: o_id,
                   projName: req.body.projName,
                   projStat: req.body.projStat,
                   projEngineer: req.body.projStat,
                   projCost: req.body.projCost
               });
 })
-router.post('/edit/(:id)', function(req,res){
+router.post('/edit/(:id)', isLoggedIn, function(req,res){
   var o_id = new ObjectId(req.params.id).toString();
   console.log(o_id);
   db.collection('projects').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
@@ -195,13 +195,77 @@ router.post('/edit/(:id)', function(req,res){
                   user: req.user,
                   title: 'Edit User',
                   //data: rows[0],
-                  id: req.body.id,
+                  id: o_id,
                   projName: req.body.projName,
                   projStat: req.body.projStat,
                   projEngineer: req.body.projStat,
                   projCost: req.body.projCost
               });
 });
+router.post('/projects', isLoggedIn, function(req, res){
+  let choice = req.body.filter;
+  let parameter = req.body.parameter;
+  if (choice == 'email'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'email': parameter}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'engineer'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'engineer': parameter}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'shipped'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'shipped': true}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'unpaid'){
+          console.log(req.body.parameter);
+          db.collection('projects').find({'paid': false}).toArray(function(err, results){
+            res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'invoiced'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'invoiced': true}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+    else if (choice == 'paid'){
+      console.log(req.body.parameter);
+      db.collection('projects').find({'paid': true}).toArray(function(err, results){
+        res.render('projects.ejs', {projects: results, user: req.user})
+      });
+    }
+      else if (choice == 'unpaid'){
+        console.log(req.body.parameter);
+        db.collection('projects').find({'unpaid': true}).toArray(function(err, results){
+          res.render('projects.ejs', {projects: results, user: req.user})
+        });
+      }
+        else if (choice == 'completed'){
+          console.log(req.body.parameter);
+          db.collection('projects').find({'completed': true}).toArray(function(err, results){
+            res.render('projects.ejs', {projects: results, user: req.user})
+          });
+        }
+          else if (choice == 'archived'){
+                console.log(req.body.parameter);
+                db.collection('projects').find({'archived': true}).toArray(function(err, results){
+                  res.render('projects.ejs', {projects: results, user: req.user})
+                });
+              }
+              else if(choice == 'notinvoiced'){
+                    console.log(req.body.parameter);
+                    db.collection('projects').find({'invoiced': false}).toArray(function(err, results){
+                      res.render('projects.ejs', {projects: results, user: req.user})
+                    });
+                  }
+})
 
 router.get('/adminUserList',isLoggedIn, isRole, function(req, res) {
 db.collection('users').find().toArray(function(err, results){

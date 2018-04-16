@@ -38,6 +38,37 @@
                 <h1 style="color:#ffffff;margin-bottom:20px;">Projects</h1>
             </div>
             <div><%- include partials/breadcrumb.ejs%>
+              <% if (user.local.role == 'admin' || 'engineer' || 'finance') { %>
+              <div class="card-group">
+
+    <div class="container">
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+		    <div class="input-group">
+          <form action="/projects" method="post"  class="d-flex align-self-center mx-auto">
+            <div class="input-group-btn search-panel">
+                <select class="form-control form-group" name="filter">
+                  <option value="email">Email</option>
+                  <option value="paid">Paid</option>
+                  <option value="unpaid">Unpaid</option>
+                  <option value="invoiced">Invoiced</option>
+                  <option value="notinvoiced">Not Invoiced</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="engineer">Engineer</option>
+                </select>
+                <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
+                <button type="submit" class="btn btn-success">Filter</button>
+            </div>
+
+          </form>
+
+
+            </div>
+        </div>
+	</div>
+</div>
+              </div>
+                <% } %>
                 <div class="card-group">
                     <div class="card">
                         <div class="card-header">
@@ -60,6 +91,7 @@
                                     <tbody>
 
                                       <% for(var i=0; i<projects.length; i++) {%>
+                                        <% if (user.local.role == 'finance') { %>
                                                     <tr>
                                                       <td name="projectID">  <%= projects[i]._id %> </td>
                                                       <td>  <%= projects[i].projectName %> </td>
@@ -69,6 +101,7 @@
                                                       <td>$<%= projects[i].finalCost %> </td>
                                                       <td> <a href='/edit/<%= projects[i]._id %>'>Edit</a></td>
                                                     </tr>
+                                                    <% } %>
                                                        <%}%>
                                     </tbody>
                                 </table>

@@ -60,6 +60,7 @@
                                     <tbody>
                                         <form method="post" formaction="/delete">
                                       <% for(var i=0; i<users.length; i++) {%>
+                                        <% if (users[i].local.email == user.local.email) { %>
                                                     <tr>
                                                       <td>  <%= users[i].local.email %> </td>
                                                       <td>  <%= users[i].email %> </td>
@@ -73,7 +74,7 @@
                                                         <input type="hidden" name="_method" value="DELETE" />
                                                       </form></td>
                                                     </tr>
-                                              
+                                                    <% } %>
                                                        <%}%>
                                     </tbody>
                                 </table>
