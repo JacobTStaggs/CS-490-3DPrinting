@@ -58,6 +58,14 @@ router.get('/addMaterial',isEngineer, isLoggedIn, function(req, res) {
   res.render('addMaterial.ejs', {user: req.user});
 });
 
+router.get('/addMaterial', isLoggedIn, function(req,res){
+  res.render('addMaterial.ejs', {user: req.user});
+});
+router.post('/addMaterial', isLoggedIn, function(req,res){
+  db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
+  res.redirect('/materials', {user: req.user});
+});
+
 router.get('/materials', isLoggedIn, function(req, res){
   db.collection('materials').find().toArray(function(err, results){
     console.log(results);
@@ -164,7 +172,21 @@ function getEngineers(){
     return result;
   });
 }
-
+router.post('/editUser/(:id)', function(req, res){
+  var o_id = new ObjectId(req.params.id).toString();
+  console.log(o_id);
+  db.collection('users').update({"_id": ObjectId(o_id).toString}, {"firstName": userFName, "last": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
+  res.render('edit.ejs', {
+                  user: req.user,
+                  title: 'Edit User',
+                  //data: rows[0],
+                  id: req.body.id,
+                  projName: req.body.projName,
+                  projStat: req.body.projStat,
+                  projEngineer: req.body.projStat,
+                  projCost: req.body.projCost
+              });
+})
 router.post('/edit/(:id)', function(req,res){
   var o_id = new ObjectId(req.params.id).toString();
   console.log(o_id);
