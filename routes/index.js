@@ -1,12 +1,12 @@
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/usersModel.js');
-var ObjectId = require('mongodb').ObjectId
+var ObjectId = require('mongodb').ObjectId;
 const multer = require('multer');
 
 var upload = require('express-fileupload');
 var NodeStl = require('node-stl');
-const MongoClient = require('mongodb').MongoClient
+const MongoClient = require('mongodb').MongoClient;
 var mongoDB = 'mongodb://127.0.0.1/my_database';
 
 var MaterialModel = require('../models/materials.js');
@@ -19,10 +19,10 @@ console.log('got to here');
 
 
 MongoClient.connect(mongoDB, (err, client) => {
-  if (err) return console.log(err)
-  db = client.db('rcbi') // whatever your database name is
+  if (err) return console.log(err);
+  db = client.db('rcbi'); // whatever your database name is
   console.log('connected');
-})
+});
 var router = express.Router();
 router.use(upload());
 
@@ -115,12 +115,12 @@ router.get('/edit/(:id)', function(req, res, next) {
   db.collection('projects').find({
     "_id": ObjectId(o_id).toString
   }).toArray(function(err, result) {
-    if (err) return console.log(err)
+    if (err) return console.log(err);
 
     // if user not found
     if (!result) {
-      req.flash('error', 'Project not found with id = ' + req.params.id)
-      res.redirect('/projects')
+      req.flash('error', 'Project not found with id = ' + req.params.id);
+      res.redirect('/projects');
     } else { // if user found
       console.log(result);
       for (var i = 0; i < result.length; i++) {
@@ -175,12 +175,12 @@ router.get('/editUser/(:id)', function(req, res, next) {
   db.collection('users').find({
     "_id": ObjectId(o_id).toString
   }).toArray(function(err, result) {
-    if (err) return console.log(err)
+    if (err) return console.log(err);
 
     // if user not found
     if (!result) {
-      req.flash('error', 'User not found with id = ' + req.params.id)
-      res.redirect('/projects')
+      req.flash('error', 'User not found with id = ' + req.params.id);
+      res.redirect('/projects');
     } else { // if user found
       for (var i = 0; i < result.length; i++) {
         if (result[i]._id == o_id) {
@@ -208,6 +208,72 @@ router.get('/editUser/(:id)', function(req, res, next) {
   });
 });
 
+
+router.post('/projects', isLoggedIn, function(req, res){
+  let choice = req.body.filter;
+  let parameter = req.body.parameter;
+  if (choice == 'email'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'email': parameter}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user});
+    });
+  }
+  else if (choice == 'engineer'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'engineer': parameter}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user});
+    });
+  }
+  else if (choice == 'shipped'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'shipped': true}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user});
+    });
+  }
+  else if (choice == 'unpaid'){
+          console.log(req.body.parameter);
+          db.collection('projects').find({'paid': false}).toArray(function(err, results){
+            res.render('projects.ejs', {projects: results, user: req.user});
+    });
+  }
+  else if (choice == 'invoiced'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'invoiced': true}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user});
+    });
+  }
+    else if (choice == 'paid'){
+      console.log(req.body.parameter);
+      db.collection('projects').find({'paid': true}).toArray(function(err, results){
+        res.render('projects.ejs', {projects: results, user: req.user});
+      });
+    }
+      else if (choice == 'unpaid'){
+        console.log(req.body.parameter);
+        db.collection('projects').find({'unpaid': true}).toArray(function(err, results){
+          res.render('projects.ejs', {projects: results, user: req.user});
+        });
+      }
+        else if (choice == 'completed'){
+          console.log(req.body.parameter);
+          db.collection('projects').find({'completed': true}).toArray(function(err, results){
+            res.render('projects.ejs', {projects: results, user: req.user});
+          });
+        }
+          else if (choice == 'archived'){
+                console.log(req.body.parameter);
+                db.collection('projects').find({'archived': true}).toArray(function(err, results){
+                  res.render('projects.ejs', {projects: results, user: req.user});
+                });
+              }
+              else if(choice == 'notinvoiced'){
+                    console.log(req.body.parameter);
+                    db.collection('projects').find({'invoiced': false}).toArray(function(err, results){
+                      res.render('projects.ejs', {projects: results, user: req.user});
+                    });
+                  }
+});
+
 router.post('/editUser/(:id)', function(req, res) {
   console.log(req.params.id);
   console.log("param");
@@ -217,8 +283,8 @@ router.post('/editUser/(:id)', function(req, res) {
 
   console.log(o_id);
 
-  console.log(req.body.userLName)
-  console.log(req.body.userState)
+  console.log(req.body.userLName);
+  console.log(req.body.userState);
 
   db.collection('projects').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
   res.render('edit.ejs', {
@@ -231,71 +297,7 @@ router.post('/editUser/(:id)', function(req, res) {
                   projEngineer: req.body.projStat,
                   projCost: req.body.projCost
               });
-});
-router.post('/projects', isLoggedIn, function(req, res){
-  let choice = req.body.filter;
-  let parameter = req.body.parameter;
-  if (choice == 'email'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'email': parameter}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user})
-    });
-  }
-  else if (choice == 'engineer'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'engineer': parameter}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user})
-    });
-  }
-  else if (choice == 'shipped'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'shipped': true}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user})
-    });
-  }
-  else if (choice == 'unpaid'){
-          console.log(req.body.parameter);
-          db.collection('projects').find({'paid': false}).toArray(function(err, results){
-            res.render('projects.ejs', {projects: results, user: req.user})
-    });
-  }
-  else if (choice == 'invoiced'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'invoiced': true}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user})
-    });
-  }
-    else if (choice == 'paid'){
-      console.log(req.body.parameter);
-      db.collection('projects').find({'paid': true}).toArray(function(err, results){
-        res.render('projects.ejs', {projects: results, user: req.user})
-      });
-    }
-      else if (choice == 'unpaid'){
-        console.log(req.body.parameter);
-        db.collection('projects').find({'unpaid': true}).toArray(function(err, results){
-          res.render('projects.ejs', {projects: results, user: req.user})
-        });
-      }
-        else if (choice == 'completed'){
-          console.log(req.body.parameter);
-          db.collection('projects').find({'completed': true}).toArray(function(err, results){
-            res.render('projects.ejs', {projects: results, user: req.user})
-          });
-        }
-          else if (choice == 'archived'){
-                console.log(req.body.parameter);
-                db.collection('projects').find({'archived': true}).toArray(function(err, results){
-                  res.render('projects.ejs', {projects: results, user: req.user})
-                });
-              }
-              else if(choice == 'notinvoiced'){
-                    console.log(req.body.parameter);
-                    db.collection('projects').find({'invoiced': false}).toArray(function(err, results){
-                      res.render('projects.ejs', {projects: results, user: req.user})
-                    });
-                  }
-})
+
 
 
   db.collection('users').find({
@@ -313,7 +315,7 @@ router.post('/projects', isLoggedIn, function(req, res){
         if (req.body.userState == "NOT") {
           state = result[i].state;
         } else {
-          state = req.body.userState
+          state = req.body.userState;
         }
         db.collection('users').updateOne({
           "_id": results[i]._id
@@ -339,6 +341,8 @@ router.post('/projects', isLoggedIn, function(req, res){
 
     }
   });
+
+
 
 
 
@@ -434,10 +438,10 @@ router.post('/quote', isLoggedIn, function(req, res) {
     engineer: 'Unassigned',
     datePosted: datePosted
   }, (err, result) => {
-    if (err) return console.log(err)
+    if (err) return console.log(err);
 
-    console.log('saved to database')
-    res.redirect('/profile')
+    console.log('saved to database');
+    res.redirect('/profile');
   });
 });
 
@@ -452,7 +456,7 @@ router.get('/profile', isLoggedIn, function(req, res) {
 });
 
 
-router.get('')
+router.get('');
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
@@ -501,6 +505,7 @@ function getMaterials() {
     console.log(result);
     return result;
   });
+}
 
 function isEngineer(req, res, next){
   if(req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role =='engineer')
