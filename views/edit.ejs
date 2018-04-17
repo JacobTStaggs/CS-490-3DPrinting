@@ -26,6 +26,7 @@
                                             Project ID
                                           </th>
                                             <th>Project Name</th>
+                                            <th>Email</th>
                                             <th>Status</th>
                                             <th>Engineer</th>
                                             <th>Cost</th>
@@ -37,13 +38,15 @@
                                                       <% if (user.local.role == 'admin') { %>
                                                         <td name="id"><%=id%>  </td>
                                                         <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
+                                                        <td name="projEmail"><%=projEmail%></td>
                                                         <td> <input type="text" class="form-control" name="projStat" value="<%=projStat %>"></td>
                                                         <td> <input type="text" class="form-control" name="projEngineer" value="<%=projEngineer %>"></td>
                                                         <td> <input type="text" class="form-control" name="projCost" value="<%=projCost %>"></td>
                                                       <% } else if (user.local.role == 'user') { %>
                                                         <td name="id"><%=id%>  </td>
                                                         <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
-                                                        <td name="projStat"><%=projStat %></td>
+                                                        <td name="projEmail"><%=projEmail%></td>
+                                                          <td name="projStat"><%=projStat %></td>
                                                         <td name='projEngineer'><%=projEngineer %></td>
                                                           <td name="projCost">
                                                             <%=projCost%>

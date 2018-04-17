@@ -132,6 +132,7 @@ router.get('/edit/(:id)', function(req, res, next) {
             //data: rows[0],
             id: result[i]._id,
             projName: result[i].projectName,
+            projEmail: result[i].email,
             projStat: result[i].status,
             projEngineer: result[i].engineer,
             projCost: result[i].finalCost,
@@ -152,6 +153,7 @@ router.post('/edit/(:id)', function(req, res) {
     "_id": ObjectId(o_id).toString
   }, {
     "projectName": req.body.projName,
+    "email":req.body.projEmail,
     "status": req.body.projStat,
     "engineer": req.body.projEngineer,
     "finalCost": req.body.projCost
@@ -160,8 +162,9 @@ router.post('/edit/(:id)', function(req, res) {
     user: req.user,
     title: 'Edit User',
     //data: rows[0],
-    id: req.body.id,
+    id: o_id,
     projName: req.body.projName,
+    projEmail: req.body.projEmail,
     projStat: req.body.projStat,
     projEngineer: req.body.projStat,
     projCost: req.body.projCost
@@ -285,20 +288,6 @@ router.post('/editUser/(:id)', function(req, res) {
 
   console.log(req.body.userLName);
   console.log(req.body.userState);
-
-  db.collection('projects').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
-  res.render('edit.ejs', {
-                  user: req.user,
-                  title: 'Edit User',
-                  //data: rows[0],
-                  id: o_id,
-                  projName: req.body.projName,
-                  projStat: req.body.projStat,
-                  projEngineer: req.body.projStat,
-                  projCost: req.body.projCost
-              });
-
-
 
   db.collection('users').find({
     "_id": ObjectId(o_id).toString
