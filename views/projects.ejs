@@ -89,25 +89,33 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                      </tr>
+                    </thead>
+                    <tbody>
 
-                                      <% for(var i=0; i<projects.length; i++) {%>
-                                        <% if (user.local.role == 'finance') { %>
-                                                    <tr>
-                                                      <td name="projectID">  <%= projects[i]._id %> </td>
-                                                      <td>  <%= projects[i].projectName %> </td>
-                                                      <td>   <%=projects[i].email%></td>
-                                                      <td>  <%= projects[i].engineer %> </td>
-                                                      <td>  <%= projects[i].status %>  </td>
-                                                      <td>$<%= projects[i].finalCost %> </td>
-                                                      <td> <a href='/edit/<%= projects[i]._id %>'>Edit</a></td>
-                                                    </tr>
-                                                    <% } %>
-                                                       <%}%>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                      <% for(var i=0; i<projects.length; i++) {%>
+                        <tr>
+                          <td>
+                            <%= projects[i].projectName %>
+                          </td>
+                          <td>
+                            <%= projects[i].engineer %>
+                          </td>
+                          <td>
+                            <%= projects[i].finalCost %>
+                          </td>
+                          <td>
+                            <%= projects[i].status %>
+                          </td>
+                          <td>
+                            <%= projects[i].datePosted %>
+                          </td>
+                          <td> <a href='/edit/<%= user._id %>'>Edit</a></td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                  </table>
+
                 </div>
             </div>
         </div>
