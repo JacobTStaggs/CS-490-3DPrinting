@@ -3,7 +3,7 @@ var passport = require('passport');
 var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId;
 const multer = require('multer');
-
+var nodemailer = require('nodemailer');
 var upload = require('express-fileupload');
 var NodeStl = require('node-stl');
 const MongoClient = require('mongodb').MongoClient;
@@ -11,12 +11,6 @@ var mongoDB = 'mongodb://127.0.0.1/my_database';
 
 var MaterialModel = require('../models/materials.js');
 var ProjectModel = require('../models/projects.js');
-
-
-console.log('got to here');
-
-
-
 
 MongoClient.connect(mongoDB, (err, client) => {
   if (err) return console.log(err);
@@ -109,6 +103,67 @@ router.get('/projects', isLoggedIn, function(req, res) {
 
 
 // SHOW EDIT USER FORM
+router.get('/verifyEmail/(:id)', isLoggedIn,isVerified, function(req,res,next){
+  res.render('verifyEmail.ejs', {user: req.user});
+});
+
+router.post('/verifyEmail/(:id)',  isLoggedIn,isVerified, function(req, res) {
+  console.log(req.params.id);
+  console.log("param");
+
+
+  var o_id = new ObjectId(req.params.id).toString();
+
+  console.log(o_id);
+
+  console.log(req.body.userLName);
+  console.log(req.body.userState);
+
+  db.collection('users').find({
+    "_id": ObjectId(o_id).toString
+  }).toArray(function(err, results) {
+
+    for (var i = 0; i < results.length; i++) {
+
+      if (results[i]._id == o_id) {
+
+        console.log(results[i]);
+
+
+        var state;
+        if (req.body.userState == "NOT") {
+          state = result[i].state;
+        } else {
+          state = req.body.userState;
+        }
+        db.collection('users').updateOne({
+          "_id": results[i]._id
+        }, {
+
+          $set: {
+            "local.emailValidated": true
+          }
+
+        });
+        console.log("success");
+        break;
+      }
+
+    }
+  });
+
+
+
+
+
+
+  res.render('profile.ejs', {
+    user: req.user,
+
+  });
+});
+
+
 router.get('/edit/(:id)', function(req, res, next) {
   var o_id = new ObjectId(req.params.id).toString();
 
@@ -198,7 +253,7 @@ router.get('/editUser/(:id)', function(req, res, next) {
             userEmail: result[i].local.email,
             userStreet: result[i].local.street,
             userCity: result[i].local.city,
-            userState: result[i].local.state,
+            userSt: result[i].local.state,
             userZip: result[i].local.zip,
             userPhone: result[i].local.phone,
             userContract: result[i].local.contract,
@@ -356,14 +411,15 @@ router.post('/editUser/(:id)', function(req, res) {
 
 
 
-
-
+router.get('/landing', isLoggedIn, function(req,res){
+  res.render('landing.ejs', {user: req.user});
+})
 router.get('/adminUserList', isLoggedIn, isRole, function(req, res) {
   db.collection('users').find().toArray(function(err, results) {
     if (err) console.log(err);
     res.render('adminUserList.ejs', {
-      users: results,
-      user: req.user
+      user: req.user,
+        users: results,
     });
     console.log(results);
   });
@@ -451,11 +507,15 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/profile',
+router.post('/signup',passport.authenticate('local-signup', {
+  successRedirect: '/verify',
   failureRedirect: '/signup',
   failureFlash: true,
 }));
+router.get('/verify', isLoggedIn, function(req, res){
+  res.render('verify.ejs', {user: req.user});
+  sendEmail(req.user._id, req.user.local.email);
+})
 
 router.post('/login', passport.authenticate('local-login', {
   successRedirect: '/projects',
@@ -479,6 +539,13 @@ function isRole(req, res, next) {
   res.redirect('/profile');
 }
 
+function isVerified(req,res,next){
+  if(req.isAuthenticated() && req.user.local.emailValidated == false){
+    return next();
+  res.redirect('/profile');
+  }
+}
+
 
 function getEngineers() {
   db.collection('users').find({
@@ -500,5 +567,29 @@ function isEngineer(req, res, next){
   if(req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role =='engineer')
     return next();
   res.redirect('/profile');
+}
 
+function sendEmail(userID, userEmail){
+  var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'rcbi3dprinting@gmail.com',
+    pass: 'RCBI2018'
+  }
+});
+
+var mailOptions = {
+  from: 'RCBI3DPRINTING@noresponse.COM',
+  to: userEmail,
+  subject: 'Sending Email using Node.js',
+  html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID+ '">here</a> to verify your account</p>'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 }
