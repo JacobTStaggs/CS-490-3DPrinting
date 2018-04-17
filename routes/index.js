@@ -73,6 +73,15 @@ router.get('/projects', isLoggedIn, function(req, res) {
     });
   });
 });
+router.get('/addMaterial',isEngineer, isLoggedIn, function(req, res) {
+  res.render('addMaterial.ejs', {user: req.user});
+});
+
+
+router.post('/addMaterial', isLoggedIn, function(req,res){
+  db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
+  res.redirect('/materials', {user: req.user});
+});
 
 router.get('/materials', isLoggedIn, function(req, res) {
   db.collection('materials').find().toArray(function(err, results) {
@@ -83,6 +92,10 @@ router.get('/materials', isLoggedIn, function(req, res) {
     });
   });
 });
+
+
+
+
 
 router.get('/projects', isLoggedIn, function(req, res) {
   db.collection('projects').find().toArray(function(err, results) {
@@ -199,11 +212,91 @@ router.post('/editUser/(:id)', function(req, res) {
   console.log(req.params.id);
   console.log("param");
 
+
   var o_id = new ObjectId(req.params.id).toString();
 
   console.log(o_id);
+
   console.log(req.body.userLName)
   console.log(req.body.userState)
+
+  db.collection('projects').update({"_id": ObjectId(o_id).toString}, {"projectName": req.body.projName, "status": req.body.projStat, "engineer": req.body.projEngineer, "finalCost": req.body.projCost});
+  res.render('edit.ejs', {
+                  user: req.user,
+                  title: 'Edit User',
+                  //data: rows[0],
+                  id: o_id,
+                  projName: req.body.projName,
+                  projStat: req.body.projStat,
+                  projEngineer: req.body.projStat,
+                  projCost: req.body.projCost
+              });
+});
+router.post('/projects', isLoggedIn, function(req, res){
+  let choice = req.body.filter;
+  let parameter = req.body.parameter;
+  if (choice == 'email'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'email': parameter}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'engineer'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'engineer': parameter}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'shipped'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'shipped': true}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'unpaid'){
+          console.log(req.body.parameter);
+          db.collection('projects').find({'paid': false}).toArray(function(err, results){
+            res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+  else if (choice == 'invoiced'){
+    console.log(req.body.parameter);
+    db.collection('projects').find({'invoiced': true}).toArray(function(err, results){
+      res.render('projects.ejs', {projects: results, user: req.user})
+    });
+  }
+    else if (choice == 'paid'){
+      console.log(req.body.parameter);
+      db.collection('projects').find({'paid': true}).toArray(function(err, results){
+        res.render('projects.ejs', {projects: results, user: req.user})
+      });
+    }
+      else if (choice == 'unpaid'){
+        console.log(req.body.parameter);
+        db.collection('projects').find({'unpaid': true}).toArray(function(err, results){
+          res.render('projects.ejs', {projects: results, user: req.user})
+        });
+      }
+        else if (choice == 'completed'){
+          console.log(req.body.parameter);
+          db.collection('projects').find({'completed': true}).toArray(function(err, results){
+            res.render('projects.ejs', {projects: results, user: req.user})
+          });
+        }
+          else if (choice == 'archived'){
+                console.log(req.body.parameter);
+                db.collection('projects').find({'archived': true}).toArray(function(err, results){
+                  res.render('projects.ejs', {projects: results, user: req.user})
+                });
+              }
+              else if(choice == 'notinvoiced'){
+                    console.log(req.body.parameter);
+                    db.collection('projects').find({'invoiced': false}).toArray(function(err, results){
+                      res.render('projects.ejs', {projects: results, user: req.user})
+                    });
+                  }
+})
+
 
   db.collection('users').find({
     "_id": ObjectId(o_id).toString
@@ -281,6 +374,11 @@ router.get('/adminUserList', isLoggedIn, isRole, function(req, res) {
     });
     console.log(results);
   });
+});
+
+router.post('/addMaterial', isLoggedIn, function(req,res){
+  db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
+  res.redirect('/materials', {user: req.user});
 });
 
 
@@ -388,6 +486,7 @@ function isRole(req, res, next) {
   res.redirect('/profile');
 }
 
+
 function getEngineers() {
   db.collection('users').find({
     "role": "engineer"
@@ -402,4 +501,10 @@ function getMaterials() {
     console.log(result);
     return result;
   });
+
+function isEngineer(req, res, next){
+  if(req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role =='engineer')
+    return next();
+  res.redirect('/profile');
+
 }

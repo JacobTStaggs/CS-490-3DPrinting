@@ -27,6 +27,7 @@ var projectSchema = new Schema({
     datePosted: Date,
     stlFileLocation: String,
 
+    archived: Boolean,
     paid: Boolean,
     print: Boolean,
     ship: Boolean,
