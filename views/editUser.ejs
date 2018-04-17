@@ -1,4 +1,3 @@
-
 <html>
 
 <body>
@@ -23,25 +22,26 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Street</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Zip</th>
-                        <th>Contract Signed</th>
-                        <th>Role</th>
+                        <% if (user.local.role == 'admin') { %>
+                          <th>ID</th>
+                          <% } %>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Street</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Zip</th>
+                            <th>Contract Signed</th>
+                            <th>Role</th>
                       </tr>
                     </thead>
                     <tbody>
                       <form action="/editUser/<%=id%>" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
                         <tr>
                           <% if (user.local.role == 'admin') { %>
-                            <td name="id">
-                              <%=id%>
-                            </td>
+                            <td> <input type="text" class="form-control" name="id" value="<%= id %>" readonly> </td>
                             <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>"></td>
                             <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>"></td>
                             <td> <input type="text" class="form-control" name="userEmail" value="<%=userEmail %>"></td>
@@ -50,7 +50,6 @@
                             <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>"></td>
                             <td>
                               <select class="form-control form-group" name="userState">
-                                                          <option value="<%userState%>"> <%userState%> </option>
                                                         	<option value="AL">Alabama</option>
                                                         	<option value="AK">Alaska</option>
                                                         	<option value="AZ">Arizona</option>
@@ -107,27 +106,31 @@
                             <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>"></td>
 
                             <td> <input type="text" class="form-control" name="userContract" value="<%=userContract %>"></td>
-                            <td> <select class="form-control form-group" name="userRole" value="<%userRole%>">
-                              <option value="user">Client</option>
-                              <option value="engineer">Engineer</option>
-                              <option value="finance">Finance</option>
-                              <option value="admin">Admin</option>
-                            </select></td>
+                            <% if (user.id == id) { %>
+                              <td> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </td>
+                              <% } else { %>
+                                <td> <select class="form-control form-group" name="userRole" value="<%userRole%>">
+                                <option value="user">Client</option>
+                                <option value="engineer">Engineer</option>
+                                <option value="finance">Finance</option>
+                                <option value="admin">Admin</option>
+                              </select></td>
+                                <% } %>
 
-                            <% } else if (user.local.role == 'user') { %>
-                              <td name="id" hidden>
-                                <%=id%>
-                              </td>
+                                  <% } else if (user.local.role == 'user') { %>
+                                    <td name="id" hidden>
+                                      <%=id%>
+                                    </td>
 
-                              <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>"></td>
-                              <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>"></td>
-                              <td> <input type="text" class="form-control" name="userEmail" value="<%=userEmail %>"></td>
-                              <td> <input type="number" class="form-control" name="userPhone" value="<%=userPhone %>"></td>
-                              <td> <input type="text" class="form-control" name="userStreet" value="<%=userStreet %>"></td>
-                              <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>"></td>
+                                    <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>"></td>
+                                    <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>"></td>
+                                    <td> <input type="text" class="form-control" name="userEmail" value="<%=userEmail %>"></td>
+                                    <td> <input type="number" class="form-control" name="userPhone" value="<%=userPhone %>"></td>
+                                    <td> <input type="text" class="form-control" name="userStreet" value="<%=userStreet %>"></td>
+                                    <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>"></td>
 
-                              <td>
-                                <select type="text" class="form-control form-group" name="userState">
+                                    <td>
+                                      <select type="text" class="form-control form-group" name="userState">
                                                           <option value="AL">Alabama</option>
                                                         	<option value="AK">Alaska</option>
                                                         	<option value="AZ">Arizona</option>
@@ -180,14 +183,14 @@
                                                         	<option value="WI">Wisconsin</option>
                                                         	<option value="WY">Wyoming</option>
                                                         </select>
-                              </td>
-                              <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>"></td>
-                              <td> <input type="text" class="form-control"  name="userContract" value="<%= userContract %>" readonly></td>
-                              <td> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </td>
+                                    </td>
+                                    <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>"></td>
+                                    <td> <input type="text" class="form-control" name="userContract" value="<%= userContract %>" readonly></td>
+                                    <td> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </td>
 
-                              <% } else { %>
-                                <p>Hey terra!</p>
-                                <% } %>
+                                    <% } else { %>
+                                      <p>Hey terra!</p>
+                                      <% } %>
 
                         </tr>
                         <button class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button>
@@ -240,4 +243,3 @@
 </body>
 
 </html>
-
