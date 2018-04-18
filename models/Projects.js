@@ -32,9 +32,7 @@ var projectSchema = new Schema({
     print: Boolean,
     ship: Boolean,
     invoiced: Boolean,
-    assigned: Boolean,
     completed: Boolean,
-    archive: Boolean
   },
 });
 module.exports = mongoose.model('project', projectSchema);
