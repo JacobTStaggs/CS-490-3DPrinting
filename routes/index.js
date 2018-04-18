@@ -2,13 +2,13 @@ var express = require('express');
 var passport = require('passport');
 var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId;
-const multer = require('multer');
+// const multer = require('multer');
 var nodemailer = require('nodemailer');
-var upload = require('express-fileupload');
+const fileUpload = require('express-fileupload');
 var NodeStl = require('node-stl');
 const MongoClient = require('mongodb').MongoClient;
 var mongoDB = 'mongodb://127.0.0.1/my_database';
-
+// var app = require('../app.js');
 var MaterialModel = require('../models/materials.js');
 var ProjectModel = require('../models/projects.js');
 
@@ -18,11 +18,8 @@ MongoClient.connect(mongoDB, (err, client) => {
   console.log('connected');
 });
 var router = express.Router();
-router.use(upload());
 
-const uploaderDamianTest = multer({
-  dest: 'uploads/' // this saves your file into a directory called "uploads"
-});
+router.use(fileUpload());
 
 router.get('/', function(req, res, next) {
   res.render('index', {
@@ -501,7 +498,34 @@ router.get('/profile', isLoggedIn, function(req, res) {
 });
 
 
-router.get('');
+router.get('/upload', function(req, res) {
+  res.render('upload.ejs');
+});
+
+router.post('/upload', function(req, res) {
+  console.log("got here");
+  console.log(req.files);
+  if (!req.files)
+    return res.status(400).send('No files were uploaded.');
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+  console.log(req.files.myFile);
+  res.render('upload.ejs');
+
+
+  //   let sampleFile = req.files.myFile;
+  // // Use the mv() method to place the file somewhere on your server
+  // sampleFile.mv('/somewhere/on/your/server/filename.jpg', function(err) {
+  //   if (err)
+  //     return res.status(500).send(err);
+  //
+  //   res.send('File uploaded!');
+  // });
+});
+
+
+
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
