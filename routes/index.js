@@ -518,7 +518,7 @@ router.get('/verify', isLoggedIn, function(req, res){
 })
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/projects',
+  successRedirect: '/landing',
   failureRedirect: '/login',
   failureFlash: true,
 }));
