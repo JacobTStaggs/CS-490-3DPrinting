@@ -3,6 +3,7 @@ var passport = require('passport');
 var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId;
 const multer = require('multer');
+var bcrypt   = require('bcrypt-nodejs');
 var nodemailer = require('nodemailer');
 var upload = require('express-fileupload');
 var NodeStl = require('node-stl');
@@ -100,7 +101,14 @@ router.get('/projects', isLoggedIn, function(req, res) {
     });
   });
 });
-
+// SHOW EDIT USER FORM
+router.get('/editPassword/(:id)', function(req,res,next){
+  var o_id = new ObjectId(req.params.id).toString();
+  res.render('editPassword.ejs', {
+    message: '',
+    id: o_id
+  });
+});
 
 // SHOW EDIT USER FORM
 router.get('/verifyEmail/(:id)', isLoggedIn,isVerified, function(req,res,next){
@@ -152,13 +160,48 @@ router.post('/verifyEmail/(:id)',  isLoggedIn,isVerified, function(req, res) {
     }
   });
 
+});
+  router.post('/editPassword/(:id)', function(req, res) {
+    console.log(req.params.id);
+    var o_id = new ObjectId(req.params.id).toString();
+
+      console.log(o_id);
+
+
+      db.collection('users').find({
+        "_id": ObjectId(o_id).toString
+      }).toArray(function(err, results) {
+
+        for (var i = 0; i < results.length; i++) {
+
+          if (results[i]._id == o_id) {
+
+            console.log(results[i]);
+            let password = req.body.password;
+
+            db.collection('users').updateOne({
+              "_id": results[i]._id
+            }, {
+
+              $set: {
+                "local.password":  bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+              }
+
+            });
+            console.log("success");
+            break;
+          }
+
+        }
+      });
 
 
 
 
 
-  res.render('profile.ejs', {
-    user: req.user,
+
+
+  res.render('success.ejs', {
 
   });
 });
@@ -418,8 +461,8 @@ router.get('/adminUserList', isLoggedIn, isRole, function(req, res) {
   db.collection('users').find().toArray(function(err, results) {
     if (err) console.log(err);
     res.render('adminUserList.ejs', {
-      user: req.user,
-        users: results,
+      users: results,
+      user: req.user
     });
     console.log(results);
   });
@@ -445,59 +488,89 @@ router.get('/quote', function(req, res) {
   });
 });
 
+router.get('/resetPassword', function(req, res){
+  res.render('resetPassword.ejs');
+});
+router.post('/resetPassword', function(req, res){
+  res.send('Email sent');
+  let email = req.body.email;
+  console.log(email);
+  db.collection('users').find({
+    "local.email": email
+  }).toArray(function(err, result) {
+    console.log(result[0]._id);
+    resetPassword(email, result[0]._id);
+    return result;
+  });
 
+
+})
 
 router.post('/quote', isLoggedIn, function(req, res) {
-
+  console.log(req.files);
   if (!req.files)
-    return res.status(400).send('No files were uploaded.');
+  return res.status(400).send('No files were uploaded.');
 
-  let material = req.body.materials;
-  let projectName = req.body.projectName;
-  let email = req.user.local.email;
-  let clientID = req.user.id;
-  console.log(email);
-  var cost = 0;
+// The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+let sampleFile = req.files.sampleFile;
 
-  var filee = NodeStl('./files/tooth.stl');
-  console.log(filee.volume);
-  var volume = filee.volume;
-  if (material == 'mat1') {
-    cost = .20;
-  } else if (material == 'mat2') {
-    cost = .25;
-  }
-  let finalCost = volume * cost;
-  finalCost = finalCost.toFixed(2);
-  datePosted = Date.now();
-  // Use the mv() method to place the file somewhere on your server
+// Use the mv() method to place the file somewhere on your server
+sampleFile.mv('/uploads/'+req.file.sampleFile.name, function(err) {
+  if (err)
+    return res.status(500).send(err);
 
-
-  db.collection('projects').save({
-    email: email,
-    projectName: projectName,
-    material: material,
-    finalCost: finalCost,
-    file: './files/tooth.stl',
-    status: 'Submitted',
-    engineer: 'Unassigned',
-    datePosted: datePosted
-  }, (err, result) => {
-    if (err) return console.log(err);
-
-    console.log('saved to database');
-    res.redirect('/profile');
-  });
+  res.send('File uploaded!');
 });
 
-router.get('/profile', isLoggedIn, function(req, res) {
-  db.collection('users').find().toArray(function(err, results) {
-    if (err) console.log(err);
-    res.render('profile.ejs', {
-      users: results,
-      user: req.user
-    });
-  });
+//   if (!req.files)
+//     return res.status(400).send('No files were uploaded.');
+//
+//   let material = req.body.materials;
+//   let projectName = req.body.projectName;
+//   let email = req.user.local.email;
+//   let clientID = req.user.id;
+//   console.log(email);
+//   var cost = 0;
+//
+//   var filee = NodeStl('./files/tooth.stl');
+//   console.log(filee.volume);
+//   var volume = filee.volume;
+//   if (material == 'mat1') {
+//     cost = .20;
+//   } else if (material == 'mat2') {
+//     cost = .25;
+//   }
+//   let finalCost = volume * cost;
+//   finalCost = finalCost.toFixed(2);
+//   datePosted = Date.now();
+//   // Use the mv() method to place the file somewhere on your server
+//
+//
+//   db.collection('projects').save({
+//     email: email,
+//     projectName: projectName,
+//     material: material,
+//     finalCost: finalCost,
+//     file: './files/tooth.stl',
+//     status: 'Submitted',
+//     engineer: 'Unassigned',
+//     datePosted: datePosted
+//   }, (err, result) => {
+//     if (err) return console.log(err);
+//
+//     console.log('saved to database');
+//     res.redirect('/profile');
+//   });
+// });
+//
+// router.get('/profile', isLoggedIn, function(req, res) {
+//   db.collection('users').find().toArray(function(err, results) {
+//     if (err) console.log(err);
+//     res.render('profile.ejs', {
+//       users: results,
+//       user: req.user
+//     });
+//   });
 });
 
 
@@ -518,7 +591,7 @@ router.get('/verify', isLoggedIn, function(req, res){
 })
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/projects',
+  successRedirect: '/landing',
   failureRedirect: '/login',
   failureFlash: true,
 }));
@@ -583,6 +656,34 @@ var mailOptions = {
   to: userEmail,
   subject: 'Sending Email using Node.js',
   html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID+ '">here</a> to verify your account</p>'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+}
+
+
+
+
+function resetPassword(userEmail, userID){
+  var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'rcbi3dprinting@gmail.com',
+    pass: 'RCBI2018'
+  }
+});
+
+var mailOptions = {
+  from: 'RCBI3DPRINTING@noresponse.COM',
+  to: userEmail,
+  subject: 'Sending Email using Node.js',
+  html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID+ '">here</a> to reset your password</p>'
 };
 
 transporter.sendMail(mailOptions, function(error, info){
