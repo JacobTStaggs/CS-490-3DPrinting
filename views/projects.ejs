@@ -1,53 +1,54 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rcbi3d</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Article-Clean.css">
-    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
-    <link rel="stylesheet" href="assets/css/Footer-Clean.css">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
-    <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
-    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/Team-Boxed.css">
-    <link rel="stylesheet" href="assets/css/Team-Clean.css">
-    <link rel="stylesheet" href="assets/css/untitled.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rcbi3d</title>
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+  <link rel="stylesheet" href="assets/css/Article-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+  <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+  <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
+  <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/Team-Boxed.css">
+  <link rel="stylesheet" href="assets/css/Team-Clean.css">
+  <link rel="stylesheet" href="assets/css/untitled.css">
 </head>
 
 <body>
-    <div>
-<%- include partials/head.ejs %>
-    </div>
-    <div class="header-blue">
-        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
-            <div>
-                <h1 style="color:#ffffff;margin-bottom:20px;">Projects</h1>
-            </div>
-            <div><%- include partials/breadcrumb.ejs%>
-              <% if (user.local.role == 'admin' || 'engineer' || 'finance') { %>
-              <div class="card-group">
+  <div>
+    <%- include partials/head.ejs %>
+  </div>
+  <div class="header-blue">
+    <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+      <div>
+        <h1 style="color:#ffffff;margin-bottom:20px;">Projects</h1>
+      </div>
+      <div>
+        <%- include partials/breadcrumb.ejs%>
+          <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
+            <div class="card-group">
 
-    <div class="container">
-    <div class="row">
-        <div class="col-xs-8 col-xs-offset-2">
-		    <div class="input-group">
-          <form action="/projects" method="post"  class="d-flex align-self-center mx-auto">
-            <div class="input-group-btn search-panel">
-                <select class="form-control form-group" name="filter">
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-8 col-xs-offset-2">
+                    <div class="input-group">
+                      <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
+                        <div class="input-group-btn search-panel">
+                          <select class="form-control form-group" name="filter">
                   <option value="email">Email</option>
                   <option value="paid">Paid</option>
                   <option value="unpaid">Unpaid</option>
@@ -56,169 +57,205 @@
                   <option value="shipped">Shipped</option>
                   <option value="engineer">Engineer</option>
                 </select>
-                <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
-                <button type="submit" class="btn btn-success">Filter</button>
-            </div>
-
-          </form>
-
-
-            </div>
-        </div>
-	</div>
-</div>
-              </div>
-                <% } %>
-                <div class="card-group">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0"></h5>
+                          <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
+                          <button type="submit" class="btn btn-success">Filter</button>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table" id="projects">
-                                    <thead>
-                                        <tr>
-                                            <th>Project ID</th>
-                                            <th>Project Name</th>
-                                            <th onClick="sortTable(0)">User Email</th>
-                                            <th onClick="sortTable(0)">Engineer</th>
-                                            <th onClick="sortTable(0)">Status</th>
-                                            <th onClick="sortTable(0)">Cost</th>
-                                            <th onClick="sortTable(0)">Date </th>
-                                            <th onClick="sortTable(0)">Options</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                      </tr>
-                    </thead>
-                    <tbody>
 
-                      <% for(var i=0; i<projects.length; i++) {%>
-                        <tr>
-                          <td>
-                            <%= projects[i]._id %>
-                          </td>
-                          <td>
-                            <%= projects[i].projectName %>
-                          </td>
-                          <td>
-                            <%= projects[i].email%>
-                          </td>
-                          <td>
-                            <%= projects[i].engineer %>
-                          </td>
-                          <td>
-                            <%= projects[i].status %>
-                          </td>
-                          <td>
-                            <%= projects[i].finalCost %>
-                          </td>
+                      </form>
 
-                          <td>
-                            <%= projects[i].datePosted %>
-                          </td>
-                          <td> <a href='/edit/<%=projects[i]._id %>'>Edit</a></td>
-                        </tr>
-                        <%}%>
-                    </tbody>
-                  </table>
 
-                </div>
-                       <a href="/quote" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create Project </button></a>
-            </div>
-        </div>
-    </div>
-    <div class="footer-clean">
-        <footer>
-            <div class="container" style="width:960px;">
-                <div class="row justify-content-center">
-                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
-                        <ul>
-                            <li></li>
-                        </ul>
                     </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">About Us</h3>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
-                    </div>
-                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                  </div>
                 </div>
+              </div>
             </div>
-            <div class="container">
-                <div>
-                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
-    <i class="icon ion-social-facebook"></i></a><a href="#">
-    <i class="icon ion-social-twitter"></i></a><a href="#">
-    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
-    <i class="icon ion-social-youtube-outline"></i></a>
-        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
-</div></div>
-                </div>
-            </div>
-        </footer>
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-animation.js"></script>
+            <% } %>
+
+                  <div class="card-group">
+                    <div class="card">
+                      <div class="card-header">
+                        <% if(user.local.role == "user") { %>
+                          <h4 style="color:red;"> Please Note </h4>
+                          <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
+                          <%}%>
+                        <h5 class="mb-0"></h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table" id="projects">
+                            <thead>
+                              <tr>
+                                <% if(user.local.role == "admin" || user.local.role == "engineer") { %>
+                                  <th>Project ID</th>
+                                  <% } %>
+                                  <th>Project Name</th>
+                                  <th onClick="sortTable(0)">User Email</th>
+                                  <th onClick="sortTable(0)">Engineer</th>
+                                  <th onClick="sortTable(0)">Completed</th>
+                                  <th onClick="sortTable(0)">Estimate</th>
+                                  <th onClick="sortTable(0)">Date </th>
+                                  <th> Invoiced </th>
+                                  <th> Paid </th>
+                                  <th> Printed </th>
+                                  <th> Shipped </th>
+
+                                  <% if(user.local.role == "admin" || user.local.role == "engineer") { %>
+                                    <th onClick="sortTable(0)">Options</th>
+                                    <th> Completed </th>
+                                    <% } %>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              </tr>
+                              </thead>
+                              <tbody>
+
+                                <% for(var i=0; i<projects.length; i++) {%>
+                                  <% if (user.local.role == "user" && user.id == projects[i].clientID) {%>
+                                    <tr>
+                                      <% if(user.local.role == "admin" || user.local.role == "engineer") { %>
+                                      <td>
+                                        <%= projects[i]._id %>
+                                      </td>
+                                      <%}%>
+
+                                      <td>
+                                        <%= projects[i].projectName %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].email%>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].engineerEmail %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].completed %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].finalCost %>
+                                      </td>
+
+                                      <td>
+                                        <%= projects[i].datePosted %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].invoiced %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].paid %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].print %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].ship %>
+                                      </td>
+                                      <% if(user.local.role == "admin" || user.local.role == "engineer") { %>}
+                                        <td> <a href='/edit/<%=projects[i]._id %>'>Edit</a></td>
+                                        <td> <a href='/download/<%=projects[i].filePath %>'>Download STL</a></td>
+                                        <%}%>
+                                    </tr>
+                                    <% } %>
+                                      <%}%>
+                              </tbody>
+                          </table>
+
+                        </div>
+                        <a href="  /quote" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create Project </button></a>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="footer-clean">
+                    <footer>
+                      <div class="container" style="width:960px;">
+                        <div class="row justify-content-center">
+                          <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                            <ul>
+                              <li></li>
+                            </ul>
+                          </div>
+                          <div class="col-sm-4 col-md-3 item">
+                            <h3 class="text-center" style="padding:12px;">About Us</h3>
+                          </div>
+                          <div class="col-sm-4 col-md-3 item">
+                            <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                          </div>
+                          <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                        </div>
+                      </div>
+                      <div class="container">
+                        <div>
+                          <div class="row justify-content-center">
+                            <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
+                              <a href="#" style="margin:0px;">
+                                <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </footer>
+                  </div>
+                  <script src="assets/js/jquery.min.js"></script>
+                  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+                  <script src="assets/js/bs-animation.js"></script>
 
 </body>
 <script>
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("projects");
-  switching = true;
-  //Set the sorting direction to ascending:
-  dir = "asc";
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.getElementsByTagName("TR");
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
-    for (i = 1; i < (rows.length - 1); i++) {
-      //start by saying there should be no switching:
-      shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      /*check if the two rows should switch place,
-      based on the direction, asc or desc:*/
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-        }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
+  function sortTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("projects");
+    switching = true;
+    //Set the sorting direction to ascending:
+    dir = "asc";
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      rows = table.getElementsByTagName("TR");
+      /*Loop through all table rows (except the
+      first, which contains table headers):*/
+      for (i = 1; i < (rows.length - 1); i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        /*Get the two elements you want to compare,
+        one from current row and one from the next:*/
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        /*check if the two rows should switch place,
+        based on the direction, asc or desc:*/
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
         }
       }
-    }
-    if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      //Each time a switch is done, increase this count by 1:
-      switchcount ++;
-    } else {
-      /*If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again.*/
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+        and mark that a switch has been done:*/
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
         switching = true;
+        //Each time a switch is done, increase this count by 1:
+        switchcount++;
+      } else {
+        /*If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again.*/
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
       }
     }
   }
-}
 </script>
+
 </html>

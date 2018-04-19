@@ -11,6 +11,7 @@ var mongoDB = 'mongodb://127.0.0.1/my_database';
 // var app = require('../app.js');
 var MaterialModel = require('../models/materials.js');
 var ProjectModel = require('../models/projects.js');
+var path = require('path');
 
 MongoClient.connect(mongoDB, (err, client) => {
   if (err) return console.log(err);
@@ -33,50 +34,37 @@ router.get('/login', function(req, res, next) {
   });
 });
 
-router.get('/quote', function(req, res, next) {
-  res.render('quote.ejs', {
+router.get('/signup', function(req, res) {
+
+  res.render('signup.ejs', {
+    message: req.flash('signupMessage')
+  });
+});
+
+
+
+
+router.get('/addMaterial', isEngineer, isLoggedIn, function(req, res) {
+  res.render('addMaterial.ejs', {
     user: req.user
   });
 });
 
 
-router.get('/signup', function(req, res) {
-
-  res.render('signup.ejs', {
-    message: req.flash('signupMessage')
+router.post('/addMaterial', isLoggedIn, function(req, res) {
+  db.collection('materials').save({
+    name: req.body.matName,
+    actualCost: req.body.matOurCost,
+    salePrice: req.body.matSellingPrice,
+    description: req.body.matDescription
   });
-});
-
-router.get('/signup', function(req, res) {
-
-  res.render('signup.ejs', {
-    message: req.flash('signupMessage')
+  res.redirect('/materials', {
+    user: req.user
   });
-});
-
-
-router.get('/projects', isLoggedIn, function(req, res) {
-  db.collection('projects').find().toArray(function(err, results) {
-    console.log(results);
-    res.render('projects.ejs', {
-      user: req.user,
-      projects: results
-    });
-  });
-});
-router.get('/addMaterial',isEngineer, isLoggedIn, function(req, res) {
-  res.render('addMaterial.ejs', {user: req.user});
-});
-
-
-router.post('/addMaterial', isLoggedIn, function(req,res){
-  db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
-  res.redirect('/materials', {user: req.user});
 });
 
 router.get('/materials', isLoggedIn, function(req, res) {
   db.collection('materials').find().toArray(function(err, results) {
-    console.log(results);
     res.render('materials.ejs', {
       user: req.user,
       materials: results
@@ -90,7 +78,6 @@ router.get('/materials', isLoggedIn, function(req, res) {
 
 router.get('/projects', isLoggedIn, function(req, res) {
   db.collection('projects').find().toArray(function(err, results) {
-    console.log(results);
     res.render('projects.ejs', {
       user: req.user,
       projects: results
@@ -98,23 +85,124 @@ router.get('/projects', isLoggedIn, function(req, res) {
   });
 });
 
-
-// SHOW EDIT USER FORM
-router.get('/verifyEmail/(:id)', isLoggedIn,isVerified, function(req,res,next){
-  res.render('verifyEmail.ejs', {user: req.user});
+router.post('/projects', isLoggedIn, function(req, res) {
+  let choice = req.body.filter;
+  let parameter = req.body.parameter;
+  if (choice == 'email') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'email': parameter
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'engineer') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'engineer': parameter
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'shipped') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'shipped': true
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'unpaid') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'paid': false
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'invoiced') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'invoiced': true
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'paid') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'paid': true
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'unpaid') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'unpaid': true
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'completed') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'completed': true
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'archived') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'archived': true
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'notinvoiced') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'invoiced': false
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  }
 });
 
-router.post('/verifyEmail/(:id)',  isLoggedIn,isVerified, function(req, res) {
-  console.log(req.params.id);
-  console.log("param");
 
+// SHOW EDIT USER FORM
+router.get('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res, next) {
+  res.render('verifyEmail.ejs', {
+    user: req.user
+  });
+});
+
+router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
 
   var o_id = new ObjectId(req.params.id).toString();
 
-  console.log(o_id);
-
-  console.log(req.body.userLName);
-  console.log(req.body.userState);
 
   db.collection('users').find({
     "_id": ObjectId(o_id).toString
@@ -149,14 +237,8 @@ router.post('/verifyEmail/(:id)',  isLoggedIn,isVerified, function(req, res) {
     }
   });
 
-
-
-
-
-
-  res.render('profile.ejs', {
-    user: req.user,
-
+  res.render('landing.ejs', {
+    user: req.user
   });
 });
 
@@ -174,7 +256,6 @@ router.get('/edit/(:id)', function(req, res, next) {
       req.flash('error', 'Project not found with id = ' + req.params.id);
       res.redirect('/projects');
     } else { // if user found
-      console.log(result);
       for (var i = 0; i < result.length; i++) {
         if (result[i]._id == o_id) {
           console.log(result[i]);
@@ -200,12 +281,11 @@ router.get('/edit/(:id)', function(req, res, next) {
 
 router.post('/edit/(:id)', function(req, res) {
   var o_id = new ObjectId(req.params.id).toString();
-  console.log(o_id);
   db.collection('projects').update({
     "_id": ObjectId(o_id).toString
   }, {
     "projectName": req.body.projName,
-    "email":req.body.projEmail,
+    "email": req.body.projEmail,
     "status": req.body.projStat,
     "engineer": req.body.projEngineer,
     "finalCost": req.body.projCost
@@ -250,7 +330,7 @@ router.get('/editUser/(:id)', function(req, res, next) {
             userEmail: result[i].local.email,
             userStreet: result[i].local.street,
             userCity: result[i].local.city,
-            userSt: result[i].local.state,
+            userState: result[i].local.state,
             userZip: result[i].local.zip,
             userPhone: result[i].local.phone,
             userContract: result[i].local.contract,
@@ -264,70 +344,7 @@ router.get('/editUser/(:id)', function(req, res, next) {
 });
 
 
-router.post('/projects', isLoggedIn, function(req, res){
-  let choice = req.body.filter;
-  let parameter = req.body.parameter;
-  if (choice == 'email'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'email': parameter}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user});
-    });
-  }
-  else if (choice == 'engineer'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'engineer': parameter}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user});
-    });
-  }
-  else if (choice == 'shipped'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'shipped': true}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user});
-    });
-  }
-  else if (choice == 'unpaid'){
-          console.log(req.body.parameter);
-          db.collection('projects').find({'paid': false}).toArray(function(err, results){
-            res.render('projects.ejs', {projects: results, user: req.user});
-    });
-  }
-  else if (choice == 'invoiced'){
-    console.log(req.body.parameter);
-    db.collection('projects').find({'invoiced': true}).toArray(function(err, results){
-      res.render('projects.ejs', {projects: results, user: req.user});
-    });
-  }
-    else if (choice == 'paid'){
-      console.log(req.body.parameter);
-      db.collection('projects').find({'paid': true}).toArray(function(err, results){
-        res.render('projects.ejs', {projects: results, user: req.user});
-      });
-    }
-      else if (choice == 'unpaid'){
-        console.log(req.body.parameter);
-        db.collection('projects').find({'unpaid': true}).toArray(function(err, results){
-          res.render('projects.ejs', {projects: results, user: req.user});
-        });
-      }
-        else if (choice == 'completed'){
-          console.log(req.body.parameter);
-          db.collection('projects').find({'completed': true}).toArray(function(err, results){
-            res.render('projects.ejs', {projects: results, user: req.user});
-          });
-        }
-          else if (choice == 'archived'){
-                console.log(req.body.parameter);
-                db.collection('projects').find({'archived': true}).toArray(function(err, results){
-                  res.render('projects.ejs', {projects: results, user: req.user});
-                });
-              }
-              else if(choice == 'notinvoiced'){
-                    console.log(req.body.parameter);
-                    db.collection('projects').find({'invoiced': false}).toArray(function(err, results){
-                      res.render('projects.ejs', {projects: results, user: req.user});
-                    });
-                  }
-});
+
 
 router.post('/editUser/(:id)', function(req, res) {
   console.log(req.params.id);
@@ -408,37 +425,44 @@ router.post('/editUser/(:id)', function(req, res) {
 
 
 
-router.get('/landing', isLoggedIn, function(req,res){
-  res.render('landing.ejs', {user: req.user});
+router.get('/landing', isLoggedIn, function(req, res) {
+  res.render('landing.ejs', {
+    user: req.user
+  });
 })
 router.get('/adminUserList', isLoggedIn, isRole, function(req, res) {
   db.collection('users').find().toArray(function(err, results) {
     if (err) console.log(err);
     res.render('adminUserList.ejs', {
       user: req.user,
-        users: results,
+      users: results,
     });
-    console.log(results);
   });
 });
 
-router.post('/addMaterial', isLoggedIn, function(req,res){
-  db.collection('materials').save({name: req.body.matName, actualCost: req.body.matOurCost, salePrice: req.body.matSellingPrice, description: req.body.matDescription});
-  res.redirect('/materials', {user: req.user});
+router.post('/addMaterial', isLoggedIn, function(req, res) {
+  db.collection('materials').save({
+    name: req.body.matName,
+    actualCost: req.body.matOurCost,
+    salePrice: req.body.matSellingPrice,
+    description: req.body.matDescription
+  });
+  res.redirect('/materials', {
+    user: req.user
+  });
 });
 
 
 
-router.get('/quote', function(req, res) {
+
+router.get('/quote', isLoggedIn, function(req, res) {
   db.collection('materials').find().toArray(function(err, results) {
     if (err) console.log(err);
-
     console.log(results);
     res.render('quote.ejs', {
       materials: results,
       user: req.user
     });
-
   });
 });
 
@@ -446,46 +470,102 @@ router.get('/quote', function(req, res) {
 
 router.post('/quote', isLoggedIn, function(req, res) {
 
-  if (!req.files)
+  if (!req.files) {
     return res.status(400).send('No files were uploaded.');
+  }
 
-  let material = req.body.materials;
+
+  var matArr = JSON.parse(req.body.material)
+  let materialID = matArr.id;
+  let materialName = matArr.name;
+  let materialCost = matArr.price;
+
   let projectName = req.body.projectName;
   let email = req.user.local.email;
   let clientID = req.user.id;
-  console.log(email);
-  var cost = 0;
+  let density = req.body.projectDensity;
+  var datePosted = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+  let projectComments = req.body.projectComments;
+  //Calculate Estimate Price
 
-  var filee = NodeStl('./files/tooth.stl');
-  console.log(filee.volume);
-  var volume = filee.volume;
-  if (material == 'mat1') {
-    cost = .20;
-  } else if (material == 'mat2') {
-    cost = .25;
-  }
-  let finalCost = volume * cost;
-  finalCost = finalCost.toFixed(2);
-  datePosted = Date.now();
-  // Use the mv() method to place the file somewhere on your server
+  var theFile = req.files.myFile;
+  var originalName = theFile.name;
+  var stripped = theFile.name.split(".");
+  if (path.extname(theFile.name).toLowerCase() != ".stl")
+    res.redirect('/quote')
+
+  var newName = stripped[0] + "-" + Date.now() + path.extname(theFile.name);
+
+  console.log(__dirname);
+  var fullPath = path.join(__dirname, "..", "uploads", newName);
+  console.log(fullPath);
+  //  Use the mv() method to place the file somewhere on your server
+
+  theFile.mv(fullPath, function(err) {
+
+    if (err)
+      console.log(err);
+
+    var fileInfo = NodeStl(fullPath);
+
+    console.log(fileInfo.volume);
+    var volume = fileInfo.volume;
+    finalCost = calcPrintCost(materialCost, volume, density);
+    console.log(finalCost);
+
+    db.collection('projects').save({
+
+      projectName: projectName,
+      clientName: req.user.local.firstName + " " + req.user.local.lastName,
+      email: email,
+      clientID: clientID,
+
+      materialName: materialName,
+      materialCost: materialCost,
+      materialID: materialID,
 
 
-  db.collection('projects').save({
-    email: email,
-    projectName: projectName,
-    material: material,
-    finalCost: finalCost,
-    file: './files/tooth.stl',
-    status: 'Submitted',
-    engineer: 'Unassigned',
-    datePosted: datePosted
-  }, (err, result) => {
-    if (err) return console.log(err);
 
-    console.log('saved to database');
-    res.redirect('/profile');
+      fileOldName: originalName,
+      fileNewName: newName,
+      filePath: fullPath,
+      fileSize: theFile.data.length,
+      fileMimeType: theFile.mimetype,
+      fileMd5: theFile.md5,
+      fileEncoding: theFile.encoding,
+
+
+      email: email,
+      engineerName: 'Unassigned',
+      engineerEmail: 'Unassigned',
+      datePosted: datePosted,
+      density: density,
+
+      archived: false,
+      paid: false,
+      print: false,
+      ship: false,
+      invoiced: false,
+      completed: false,
+      finalCost: finalCost
+    }, (err, result) => {
+      if (err) return console.log(err);
+
+
+    });
+
+  });
+
+  console.log('saved to database');
+  db.collection('projects').find().toArray(function(err, results) {
+    res.render('projects.ejs', {
+      user: req.user,
+      projects: results
+    });
   });
 });
+
+
 
 router.get('/profile', isLoggedIn, function(req, res) {
   db.collection('users').find().toArray(function(err, results) {
@@ -498,31 +578,22 @@ router.get('/profile', isLoggedIn, function(req, res) {
 });
 
 
-router.get('/upload', function(req, res) {
-  res.render('upload.ejs');
+
+
+
+router.get('/download', function(req, res) {
+
+  var file = __dirname + '/uploads/' + req.fileName;
+  res.download(file); // Set disposition and send it.
+  db.collection('projects').find().toArray(function(err, results) {
+    console.log(results);
+    res.render('projects.ejs', {
+      user: req.user,
+      projects: results
+    });
+  });
 });
 
-router.post('/upload', function(req, res) {
-  console.log("got here");
-  console.log(req.files);
-  if (!req.files)
-    return res.status(400).send('No files were uploaded.');
-
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-
-  console.log(req.files.myFile);
-  res.render('upload.ejs');
-
-
-  //   let sampleFile = req.files.myFile;
-  // // Use the mv() method to place the file somewhere on your server
-  // sampleFile.mv('/somewhere/on/your/server/filename.jpg', function(err) {
-  //   if (err)
-  //     return res.status(500).send(err);
-  //
-  //   res.send('File uploaded!');
-  // });
-});
 
 
 
@@ -531,18 +602,20 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.post('/signup',passport.authenticate('local-signup', {
+router.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/verify',
   failureRedirect: '/signup',
   failureFlash: true,
 }));
-router.get('/verify', isLoggedIn, function(req, res){
-  res.render('verify.ejs', {user: req.user});
+router.get('/verify', isLoggedIn, function(req, res) {
+  res.render('verify.ejs', {
+    user: req.user
+  });
   sendEmail(req.user._id, req.user.local.email);
 })
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/projects',
+  successRedirect: '/landing',
   failureRedirect: '/login',
   failureFlash: true,
 }));
@@ -563,10 +636,10 @@ function isRole(req, res, next) {
   res.redirect('/profile');
 }
 
-function isVerified(req,res,next){
-  if(req.isAuthenticated() && req.user.local.emailValidated == false){
+function isVerified(req, res, next) {
+  if (req.isAuthenticated() && req.user.local.emailValidated == false) {
     return next();
-  res.redirect('/profile');
+    res.redirect('/profile');
   }
 }
 
@@ -587,33 +660,57 @@ function getMaterials() {
   });
 }
 
-function isEngineer(req, res, next){
-  if(req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role =='engineer')
+function isEngineer(req, res, next) {
+  if (req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role == 'engineer')
     return next();
   res.redirect('/profile');
 }
 
-function sendEmail(userID, userEmail){
+function sendEmail(userID, userEmail) {
   var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'rcbi3dprinting@gmail.com',
-    pass: 'RCBI2018'
-  }
-});
+    service: 'gmail',
+    auth: {
+      user: 'rcbi3dprinting@gmail.com',
+      pass: 'RCBI2018'
+    }
+  });
 
-var mailOptions = {
-  from: 'RCBI3DPRINTING@noresponse.COM',
-  to: userEmail,
-  subject: 'Sending Email using Node.js',
-  html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID+ '">here</a> to verify your account</p>'
-};
+  var mailOptions = {
+    from: 'RCBI3DPRINTING@noresponse.COM',
+    to: userEmail,
+    subject: 'Sending Email using Node.js',
+    html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
+  };
 
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
+function calcPrintCost(materialCostPerVolume, volume, density) {
+  var densityCostModifier;
+
+  switch (density) {
+    case "Solid":
+      densityCostModifier = 1.0;
+      break;
+    case "Sparse":
+      densityCostModifier = 0.35;
+      break;
+    case "Sparse Double Dense":
+      densityCostModifier = 0.55;
+      break;
   }
-});
+
+  //This is a terrible and rough estimation to estiamte man hours. needs work.
+  var manHours = volume;
+  var costPerManHour = 25;
+
+  var preCost = (materialCostPerVolume * volume * densityCostModifier) + manHours * costPerManHour * densityCostModifier;
+  cost = preCost.toFixed(2);
+  return cost;
 }
