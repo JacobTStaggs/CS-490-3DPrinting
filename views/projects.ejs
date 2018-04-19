@@ -111,7 +111,7 @@
                               <tbody>
 
                                 <% for(var i=0; i<projects.length; i++) {%>
-                                  <% if (user.local.role == "user" && user.id == projects[i].clientID) {%>
+                                  <% if (user.local.role == "user" && user.id == projects[i].clientID || user.local.role == "admin" || user.local.role == "engineer") {%>
                                     <tr>
                                       <% if(user.local.role == "admin" || user.local.role == "engineer") { %>
                                       <td>

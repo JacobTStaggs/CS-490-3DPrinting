@@ -1,8 +1,11 @@
-var express = require('express');
+ var express = require('express');
+ var csvwriter = require('csvwriter');
+ var fs = require('fs');
 var passport = require('passport');
 var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId;
 // const multer = require('multer');
+var dateTime = require('node-datetime');
 var bcrypt   = require('bcrypt-nodejs');
 var nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
@@ -79,6 +82,7 @@ router.get('/materials', isLoggedIn, function(req, res) {
 
 router.get('/projects', isLoggedIn, function(req, res) {
   db.collection('projects').find().toArray(function(err, results) {
+    console.log(results);
     res.render('projects.ejs', {
       user: req.user,
       projects: results
@@ -93,6 +97,41 @@ router.get('/editPassword/(:id)', function(req,res,next){
     id: o_id
   });
 });
+
+router.get('/reports',isLoggedIn, function(req,res, next){
+  db.collection('users').find({
+    "local.role": "engineer"
+  }).toArray(function(err, results) {
+    console.log(results);
+    res.render('reports.ejs', {
+
+      engineers: results,
+      user: req.user
+    });
+  });
+
+});
+
+router.post('/reports', isLoggedIn, function(req, res){
+  let choice = req.body.parameters;
+  console.log(req.body.parameters);
+  var dt = dateTime.create();
+  var formatted = dt.format('Y-m-d H:M:S');
+  if (req.body.parameters == 'All Users') {
+    db.collection('users').find().toArray(function(err, results){
+      console.log(results);
+      csvwriter(results,function(err,csv){
+        var stream = fs.createWriteStream("stest.csv");
+        stream.once('open', function(fd){
+          stream.write(csv);
+          stream.end();
+        })
+        console.log(csv);
+      })
+    });
+    }
+  });
+
 
 router.post('/projects', isLoggedIn, function(req, res) {
   let choice = req.body.filter;
@@ -235,16 +274,18 @@ router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
         }, {
 
           $set: {
-            "local.emailValidated": true
+            "local.          cccccccccccccccccccccc document.classList.add('class');": true
           }
 
         });
         console.log("success");
+        res.render('landing.ejs');
         break;
       }
 
     }
   });
+});
 
   router.post('/editPassword/(:id)', function(req, res) {
     console.log(req.params.id);
@@ -280,18 +321,7 @@ router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
         }
       });
 
-
-
-
-
-
-
-  res.render('success.ejs', {
-
-  res.render('landing.ejs', {
-    user: req.user
-});
-  });
+  res.render('login.ejs');
 });
 
 
@@ -331,7 +361,7 @@ router.get('/edit/(:id)', function(req, res, next) {
   });
 });
 
-router.post('/edit/(:id)', function(req, res) {
+router.post('/edit/(:id)', function(req, res,next) {
   var o_id = new ObjectId(req.params.id).toString();
   db.collection('projects').update({
     "_id": ObjectId(o_id).toString
@@ -395,7 +425,70 @@ router.get('/editUser/(:id)', function(req, res, next) {
   });
 });
 
+router.get('/editMaterials/(:id)', function(req,res){
+  var o_id = new ObjectId(req.params.id).toString();
 
+  db.collection('materials').find({
+    "_id": ObjectId(o_id).toString
+  }).toArray(function(err, result) {
+    if (err) return console.log(err);
+
+    // if user not found
+    if (!result) {
+      req.flash('error', 'Material not found with id = ' + req.params.id);
+      res.redirect('/materials');
+    } else { // if user found
+      for (var i = 0; i < result.length; i++) {
+        if (result[i]._id == o_id) {
+          console.log(result[i]);
+          res.render('editMaterials.ejs', {
+            user: req.user,
+            material: result[i],
+            id: result[i]._id
+          });
+        }
+      }
+      // render to views/user/edit.ejs template file
+
+    }
+  });
+});
+
+router.post('/editMaterials/(:id)', function(req, res,next) {
+  var o_id = new ObjectId(req.params.id).toString();
+  db.collection('materials').update({
+    "_id": ObjectId(o_id).toString
+  }, {
+    "name": req.body.matName,
+    "actualCost": req.body.matOurCost,
+    "salePrice": req.body.matSellingPrice,
+    "description": req.body.matDescription
+  });
+  db.collection('materials').find({
+    "_id": ObjectId(o_id).toString
+  }).toArray(function(err, result) {
+    if (err) return console.log(err);
+
+    // if user not found
+    if (!result) {
+      req.flash('error', 'Material not found with id = ' + req.params.id);
+      res.redirect('/materials');
+    } else { // if user found
+      for (var i = 0; i < result.length; i++) {
+        if (result[i]._id == o_id) {
+          console.log(result[i]);
+          res.render('editMaterials.ejs', {
+            user: req.user,
+            material: result[i],
+            id: result[i]._id
+          });
+        }
+      }
+      // render to views/user/edit.ejs template file
+
+    }
+  });
+});
 
 
 router.post('/editUser/(:id)', function(req, res) {
@@ -481,7 +574,7 @@ router.get('/landing', isLoggedIn, function(req, res) {
   res.render('landing.ejs', {
     user: req.user
   });
-})
+});
 router.get('/adminUserList', isLoggedIn, isRole, function(req, res) {
   db.collection('users').find().toArray(function(err, results) {
     if (err) console.log(err);
@@ -521,6 +614,7 @@ router.get('/quote', isLoggedIn, function(req, res) {
 router.get('/resetPassword', function(req, res){
   res.render('resetPassword.ejs');
 });
+
 router.post('/resetPassword', function(req, res){
   res.send('Email sent');
   let email = req.body.email;
@@ -532,9 +626,7 @@ router.post('/resetPassword', function(req, res){
     resetPassword(email, result[0]._id);
     return result;
   });
-
-
-})
+});
 
 router.post('/quote', isLoggedIn, function(req, res) {
 
@@ -543,7 +635,7 @@ router.post('/quote', isLoggedIn, function(req, res) {
   }
 
 
-  var matArr = JSON.parse(req.body.material)
+  var matArr = JSON.parse(req.body.material);
   let materialID = matArr.id;
   let materialName = matArr.name;
   let materialCost = matArr.price;
@@ -560,7 +652,7 @@ router.post('/quote', isLoggedIn, function(req, res) {
   var originalName = theFile.name;
   var stripped = theFile.name.split(".");
   if (path.extname(theFile.name).toLowerCase() != ".stl")
-    res.redirect('/quote')
+    res.redirect('/quote');
 
   var newName = stripped[0] + "-" + Date.now() + path.extname(theFile.name);
 
@@ -635,7 +727,7 @@ router.post('/quote', isLoggedIn, function(req, res) {
 
 
 
-router.get('/profile', isLoggedIn, function(req, res) {
+router.get('/profile', isLoggedIn,isVerified, function(req, res) {
   db.collection('users').find().toArray(function(err, results) {
     if (err) console.log(err);
     res.render('profile.ejs', {
@@ -649,7 +741,7 @@ router.get('/profile', isLoggedIn, function(req, res) {
 
 
 
-router.get('/download', function(req, res) {
+router.get('/download', isLoggedIn, isVerified, function(req, res) {
 
   var file = __dirname + '/uploads/' + req.fileName;
   res.download(file); // Set disposition and send it.
@@ -680,7 +772,7 @@ router.get('/verify', isLoggedIn, function(req, res) {
     user: req.user
   });
   sendEmail(req.user._id, req.user.local.email);
-})
+});
 
 router.post('/login', passport.authenticate('local-login', {
   successRedirect: '/landing',
@@ -692,10 +784,10 @@ router.post('/login', passport.authenticate('local-login', {
 
 module.exports = router;
 
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.redirect('/');
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated())
+      return next();
+    res.redirect('/');
 }
 
 function isRole(req, res, next) {
@@ -705,10 +797,10 @@ function isRole(req, res, next) {
 }
 
 function isVerified(req, res, next) {
-  if (req.isAuthenticated() && req.user.local.emailValidated == false) {
+  if (req.isAuthenticated())
     return next();
-    res.redirect('/profile');
-  }
+  res.redirect('/verify');
+
 }
 
 
@@ -808,5 +900,30 @@ transporter.sendMail(mailOptions, function(error, info){
   } else {
     console.log('Email sent: ' + info.response);
   }
-});
+  });
+}
+
+function sendAdmin(email, projectID, projName, custEmail){
+      var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'rcbi3dprinting@gmail.com',
+        pass: 'RCBI2018'
+      }
+    });
+
+    var mailOptions = {
+      from: 'RCBI3DPRINTING@noresponse.COM',
+      to: email,
+      subject: 'Sending Email using Node.js',
+      html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The project ID is: '+projectID+'. The project name is: '+projectName+'. The email for the customer is '+custEmail+'</p>'
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+      });
 }

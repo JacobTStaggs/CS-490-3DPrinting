@@ -68,7 +68,7 @@
                                                       <td> <%=materials[i].colors%></td>
                                                         <td> <%=materials[i].description%></td>
                                                         <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
-                                                      <td> <a href='/edit/<%= materials[i]._id %>'>Edit</a></td>
+                                                      <td> <a href='/editMaterials/<%= materials[i]._id %>'>Edit</a></td>
                                                       <%}%>
                                                     </tr>
                                                        <%}%>
