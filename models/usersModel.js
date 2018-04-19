@@ -16,10 +16,11 @@ var userSchema = new Schema({
     street:String,
     city: String,
     state: String,
-    zip: Number,
-    phone: Number,
+    zip: String,
+    phone: String,
     contract: Boolean,
     emailValidated: Boolean,
+    banned: Boolean
 
   },
 });
