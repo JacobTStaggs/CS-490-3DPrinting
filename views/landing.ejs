@@ -43,30 +43,106 @@
                     </div>
                     <div class="card-body">
 
-                            <h3>Greetings, <%=user.local.email%></h3>
-                            <div class="card" style="width:50%; margin-top:25px; float:left; height: ">
-                              <div class="card-header" style="text-align: center;">Recent Project</div>
-                              <div class="card-body">This is your most recent project. Click the button below to be redirected to your project details.</div>
-                              <a href="#" class="btn btn-success">Go to this project</a>
-                            </div>
-                            <div class="card" style="width:50%; margin-top:25px; float:left;">
-                              <div class="card-header" style="text-align: center;">Account Information</div>
-                              <div class="card-body">You can go here to verify any information you have submitted. You can change some information from your account from here.</div>
-                              <a href="/profile" class="btn btn-success">Go to your profile</a>
+                            <h3>Hello, <%=user.local.email%></h3>
+                        <!---USER------>
+                        <% if (user.local.role == 'user') { %>
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Account Information</div>
+                            <div class="card-body" style="text-align:center">Manage your account information</div>
+                            <a href="/profile" class="btn btn-success">Go to your profile</a>
+                          </div>
 
-                            </div>
-                            <div class="card" style="width:50%; margin-top:25px; float:left;">
-                              <div class="card-header" style="text-align: center;">All Projects</div>
-                              <div class="card-body">This will take you directly to a list of all of your projects. You will be able to edit the projects from here.</div>
-                              <a href="/projects" class="btn btn-success">Go to your projects</a>
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Recent Project</div>
+                            <div class="card-body" style="text-align:center">View your most recent project</div>
+                            <a href="/projects" class="btn btn-success">Go to project</a>
+                          </div>
 
-                            </div>
-                            <div class="card" style="width:50%; margin-top: 25px; float:left;">
-                              <div class="card-header" style="text-align: center;">Dashboard</div>
-                              <div class="card-body">This will take you to your dashboard. You can easily navigate between your profile, projects, and other options here</div>
-                              <a href="/projects" class="btn btn-success">Go to your projects</a>
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Projects</div>
+                            <div class="card-body" style="text-align:center">View all of your projects</div>
+                            <a href="/projects" class="btn btn-success">View projects</a>
+                          </div>
+                        <!---END USER------>
 
-                            </div>
+                        <!---ENGINEER------>
+                        <% } else if (user.local.role == 'engineer') { %>
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Account Information</div>
+                            <div class="card-body" style="text-align:center">Manage your account information</div>
+                            <a href="/profile" class="btn btn-success">Go to your profile</a>
+                          </div>
+
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Recent Project</div>
+                            <div class="card-body" style="text-align:center">View your most recent project</div>
+                            <a href="/projects" class="btn btn-success">Go to project</a>
+                          </div>
+
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Projects</div>
+                            <div class="card-body" style="text-align:center">View all of your projects</div>
+                            <a href="/projects" class="btn btn-success">View projects</a>
+                          </div>
+
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Materials</div>
+                            <div class="card-body" style="text-align:center">Manage materials</div>
+                            <a href="/addMaterial" class="btn btn-success">Go to materials list</a>
+                          </div>
+                        <!---END ENGINEER----->
+
+                        <!---ADMIN----->
+                        <% } else if (user.local.role == 'admin') { %>
+                        <div class="card" style="width:50%; margin-top:25px; float:left;">
+                          <div class="card-header" style="text-align: center;">Account Information</div>
+                          <div class="card-body" style="text-align:center">Manage your account information</div>
+                          <a href="/profile" class="btn btn-success">Go to your profile</a>
+                        </div>
+
+                        <div class="card" style="width:50%; margin-top:25px; float:left;">
+                          <div class="card-header" style="text-align: center;">Users</div>
+                          <div class="card-body" style="text-align:center">View all users</div>
+                          <a href="/adminUserList" class="btn btn-success">Go to users list</a>
+                        </div>
+
+                        <div class="card" style="width:50%; margin-top:25px; float:left;">
+                          <div class="card-header" style="text-align: center;">Reports</div>
+                          <div class="card-body" style="text-align:center">Display all reports</div>
+                          <a href="/reports" class="btn btn-success">View all reports</a>
+                        </div>
+
+                        <div class="card" style="width:50%; margin-top:25px; float:left;">
+                          <div class="card-header" style="text-align: center;">Materials</div>
+                          <div class="card-body" style="text-align:center">Manage materials</div>
+                          <a href="/addMaterial" class="btn btn-success">Go to materials list</a>
+                        </div>
+                        <!---END ADMIN----->
+
+                        <!---FINANCE----->
+                        <% } else if (user.local.role == 'finance') { %>
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Account Information</div>
+                            <div class="card-body" style="text-align:center">Manage your account information</div>
+                            <a href="/profile" class="btn btn-success">Go to your profile</a>
+                          </div>
+
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Users</div>
+                            <div class="card-body" style="text-align:center">View all users</div>
+                            <a href="/adminUserList" class="btn btn-success">Go to Users List</a>
+                          </div>
+
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Reports</div>
+                            <div class="card-body" style="text-align:center">Display all reports</div>
+                            <a href="/reports" class="btn btn-success">View all reports</a>
+                          </div>
+                        <!---END FINANCE----->
+                        <% } else { %>
+                            <p>MSU bball > UK bball</p>
+                        <% } %>
+
                         </div>
                     </div>
                 </div>
