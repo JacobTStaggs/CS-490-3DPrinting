@@ -3,6 +3,7 @@ var passport = require('passport');
 var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId;
 // const multer = require('multer');
+var bcrypt   = require('bcrypt-nodejs');
 var nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
 var NodeStl = require('node-stl');
@@ -82,6 +83,14 @@ router.get('/projects', isLoggedIn, function(req, res) {
       user: req.user,
       projects: results
     });
+  });
+});
+// SHOW EDIT USER FORM
+router.get('/editPassword/(:id)', function(req,res,next){
+  var o_id = new ObjectId(req.params.id).toString();
+  res.render('editPassword.ejs', {
+    message: '',
+    id: o_id
   });
 });
 
@@ -237,8 +246,51 @@ router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
     }
   });
 
+  router.post('/editPassword/(:id)', function(req, res) {
+    console.log(req.params.id);
+    var o_id = new ObjectId(req.params.id).toString();
+
+      console.log(o_id);
+
+
+      db.collection('users').find({
+        "_id": ObjectId(o_id).toString
+      }).toArray(function(err, results) {
+
+        for (var i = 0; i < results.length; i++) {
+
+          if (results[i]._id == o_id) {
+
+            console.log(results[i]);
+            let password = req.body.password;
+
+            db.collection('users').updateOne({
+              "_id": results[i]._id
+            }, {
+
+              $set: {
+                "local.password":  bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+              }
+
+            });
+            console.log("success");
+            break;
+          }
+
+        }
+      });
+
+
+
+
+
+
+
+  res.render('success.ejs', {
+
   res.render('landing.ejs', {
     user: req.user
+});
   });
 });
 
@@ -466,7 +518,23 @@ router.get('/quote', isLoggedIn, function(req, res) {
   });
 });
 
+router.get('/resetPassword', function(req, res){
+  res.render('resetPassword.ejs');
+});
+router.post('/resetPassword', function(req, res){
+  res.send('Email sent');
+  let email = req.body.email;
+  console.log(email);
+  db.collection('users').find({
+    "local.email": email
+  }).toArray(function(err, result) {
+    console.log(result[0]._id);
+    resetPassword(email, result[0]._id);
+    return result;
+  });
 
+
+})
 
 router.post('/quote', isLoggedIn, function(req, res) {
 
@@ -713,4 +781,32 @@ function calcPrintCost(materialCostPerVolume, volume, density) {
   var preCost = (materialCostPerVolume * volume * densityCostModifier) + manHours * costPerManHour * densityCostModifier;
   cost = preCost.toFixed(2);
   return cost;
+}
+
+
+
+
+function resetPassword(userEmail, userID){
+  var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'rcbi3dprinting@gmail.com',
+    pass: 'RCBI2018'
+  }
+});
+
+var mailOptions = {
+  from: 'RCBI3DPRINTING@noresponse.COM',
+  to: userEmail,
+  subject: 'Sending Email using Node.js',
+  html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID+ '">here</a> to reset your password</p>'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 }
