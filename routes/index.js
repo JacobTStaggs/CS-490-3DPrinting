@@ -697,8 +697,8 @@ router.get('/download/(:fileNewName)', function(req, res) {
 
 router.get("/banned", function(req, res) {
   console.log("a banned user");
-  res.render("index.ejs", {
-    msg: "You were banned, please conteact RCBI if you have questions."
+  res.render("banned.ejs", {
+    user: req.user
   });
 
 });
@@ -716,7 +716,7 @@ router.post('/signup', passport.authenticate('local-signup', {
   failureRedirect: '/signup',
   failureFlash: true,
 }));
-router.get('/verify', isLoggedIn, function(req, res) {
+router.get('/verify', function(req, res) {
   res.render('verify.ejs', {
     user: req.user
   });
@@ -734,13 +734,16 @@ router.post('/login', passport.authenticate('local-login', {
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
 
-  if (req.user.local.banned) {
+  if (!(req.user.local.emailValidated)) {
+    res.redirect('/verify');
+  } else if (req.user.local.banned) {
     res.redirect('/banned');
-  }
-  res.redirect('/');
+  } else if (req.isAuthenticated()){
+    return next();
+} else{   res.redirect('/'); }
+
+
 }
 
 function isRole(req, res, next) {
