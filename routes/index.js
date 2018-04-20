@@ -3,7 +3,7 @@ var passport = require('passport');
 var User = require('../models/usersModel.js');
 var ObjectId = require('mongodb').ObjectId;
 // const multer = require('multer');
-var bcrypt   = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
 var nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
 var NodeStl = require('node-stl');
@@ -59,8 +59,11 @@ router.post('/addMaterial', isLoggedIn, function(req, res) {
     salePrice: req.body.matSellingPrice,
     description: req.body.matDescription
   });
-  res.redirect('/materials', {
-    user: req.user
+  db.collection('materials').find().toArray(function(err, results) {
+    res.render('materials.ejs', {
+      user: req.user,
+      materials: results
+    });
   });
 });
 
@@ -85,8 +88,9 @@ router.get('/projects', isLoggedIn, function(req, res) {
     });
   });
 });
+
 // SHOW EDIT USER FORM
-router.get('/editPassword/(:id)', function(req,res,next){
+router.get('/editPassword/(:id)', function(req, res, next) {
   var o_id = new ObjectId(req.params.id).toString();
   res.render('editPassword.ejs', {
     message: '',
@@ -110,7 +114,7 @@ router.post('/projects', isLoggedIn, function(req, res) {
   } else if (choice == 'engineer') {
     console.log(req.body.parameter);
     db.collection('projects').find({
-      'engineer': parameter
+      'engineerEmail': parameter
     }).toArray(function(err, results) {
       res.render('projects.ejs', {
         projects: results,
@@ -150,7 +154,8 @@ router.post('/projects', isLoggedIn, function(req, res) {
   } else if (choice == 'paid') {
     console.log(req.body.parameter);
     db.collection('projects').find({
-      'paid': true
+      'paid': true,
+      'archived': false
     }).toArray(function(err, results) {
       res.render('projects.ejs', {
         projects: results,
@@ -160,7 +165,8 @@ router.post('/projects', isLoggedIn, function(req, res) {
   } else if (choice == 'unpaid') {
     console.log(req.body.parameter);
     db.collection('projects').find({
-      'unpaid': true
+      'unpaid': true,
+      'archived': false
     }).toArray(function(err, results) {
       res.render('projects.ejs', {
         projects: results,
@@ -170,7 +176,8 @@ router.post('/projects', isLoggedIn, function(req, res) {
   } else if (choice == 'completed') {
     console.log(req.body.parameter);
     db.collection('projects').find({
-      'completed': true
+      'completed': true,
+      'archived': false
     }).toArray(function(err, results) {
       res.render('projects.ejs', {
         projects: results,
@@ -190,7 +197,18 @@ router.post('/projects', isLoggedIn, function(req, res) {
   } else if (choice == 'notinvoiced') {
     console.log(req.body.parameter);
     db.collection('projects').find({
-      'invoiced': false
+      'invoiced': false,
+      'archived': false
+    }).toArray(function(err, results) {
+      res.render('projects.ejs', {
+        projects: results,
+        user: req.user
+      });
+    });
+  } else if (choice == 'all') {
+    console.log(req.body.parameter);
+    db.collection('projects').find({
+      'archived': false
     }).toArray(function(err, results) {
       res.render('projects.ejs', {
         projects: results,
@@ -240,57 +258,55 @@ router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
 
         });
         console.log("success");
+        res.render('landing.ejs', {
+          user: req.user
+        });
         break;
       }
 
     }
   });
+});
+router.post('/editPassword/(:id)', function(req, res) {
+  console.log(req.params.id);
+  var o_id = new ObjectId(req.params.id).toString();
 
-  router.post('/editPassword/(:id)', function(req, res) {
-    console.log(req.params.id);
-    var o_id = new ObjectId(req.params.id).toString();
-
-      console.log(o_id);
+  console.log(o_id);
 
 
-      db.collection('users').find({
-        "_id": ObjectId(o_id).toString
-      }).toArray(function(err, results) {
+  db.collection('users').find({
+    "_id": ObjectId(o_id).toString
+  }).toArray(function(err, results) {
 
-        for (var i = 0; i < results.length; i++) {
+    for (var i = 0; i < results.length; i++) {
 
-          if (results[i]._id == o_id) {
+      if (results[i]._id == o_id) {
 
-            console.log(results[i]);
-            let password = req.body.password;
+        console.log(results[i]);
+        let password = req.body.password;
 
-            db.collection('users').updateOne({
-              "_id": results[i]._id
-            }, {
+        db.collection('users').updateOne({
+          "_id": results[i]._id
+        }, {
 
-              $set: {
-                "local.password":  bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
-              }
-
-            });
-            console.log("success");
-            break;
+          $set: {
+            "local.password": bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
           }
 
-        }
-      });
+        });
+        console.log("success");
+        res.render('success.ejs', {
+          user: req.user
+        });
 
+        break;
+      }
 
-
-
-
-
-
+    }
+  });
   res.render('success.ejs', {
 
-  res.render('landing.ejs', {
-    user: req.user
-});
+
   });
 });
 
@@ -303,29 +319,36 @@ router.get('/edit/(:id)', function(req, res, next) {
   }).toArray(function(err, result) {
     if (err) return console.log(err);
 
-    // if user not found
+    // if porject not found
     if (!result) {
       req.flash('error', 'Project not found with id = ' + req.params.id);
       res.redirect('/projects');
-    } else { // if user found
+    } else { // if porject not found
       for (var i = 0; i < result.length; i++) {
+
         if (result[i]._id == o_id) {
           console.log(result[i]);
-          res.render('edit.ejs', {
-            user: req.user,
-            title: 'Edit User',
-            //data: rows[0],
-            id: result[i]._id,
-            projName: result[i].projectName,
-            projEmail: result[i].email,
-            projStat: result[i].status,
-            projEngineer: result[i].engineer,
-            projCost: result[i].finalCost,
-            engineers: getEngineers()
+          var project = result[i];
+
+          db.collection('users').find({
+            "local.role": "engineer"
+          }).toArray(function(err, engineers) {
+            console.log("get Engineers");
+            console.log(engineers);
+
+            res.render('edit.ejs', {
+              user: req.user,
+              title: 'Edit User',
+              project: project,
+              engineers: engineers
+
+
+            });
           });
+
+
         }
       }
-      // render to views/user/edit.ejs template file
 
     }
   });
@@ -333,26 +356,34 @@ router.get('/edit/(:id)', function(req, res, next) {
 
 router.post('/edit/(:id)', function(req, res) {
   var o_id = new ObjectId(req.params.id).toString();
+
+  engineerInfo = JSON.parse(req.body.projEngineer);
+
+  var archived = false;
+  var completed = false;
+
+  if (req.body.projArchived == 'true')
+    archived = true;
+  if (req.body.projCompleted == 'true')
+    completed = true;
+
   db.collection('projects').update({
     "_id": ObjectId(o_id).toString
   }, {
-    "projectName": req.body.projName,
-    "email": req.body.projEmail,
-    "status": req.body.projStat,
-    "engineer": req.body.projEngineer,
-    "finalCost": req.body.projCost
+    $set: {
+      "projectName": req.body.projName,
+      "email": req.body.projCustEmail,
+      "engineerName": engineerInfo.name,
+      "engineerEmail": engineerInfo.email,
+      "engineerID": engineerInfo.id,
+      "finalCost": req.body.projEstimateCost,
+      "completed": completed,
+      "Density": req.body.projDensity,
+      "comments": req.body.projComments,
+      "archived": archived
+    }
   });
-  res.render('edit.ejs', {
-    user: req.user,
-    title: 'Edit User',
-    //data: rows[0],
-    id: o_id,
-    projName: req.body.projName,
-    projEmail: req.body.projEmail,
-    projStat: req.body.projStat,
-    projEngineer: req.body.projStat,
-    projCost: req.body.projCost
-  });
+  res.redirect("/edit/" + req.body.projId);
 });
 
 // SHOW EDIT USER FORM
@@ -375,7 +406,7 @@ router.get('/editUser/(:id)', function(req, res, next) {
           res.render('editUser.ejs', {
             user: req.user,
             title: 'Edit User',
-            //data: rows[0],
+
             id: result[i]._id,
             userFName: result[i].local.firstName,
             userLName: result[i].local.lastName,
@@ -386,9 +417,12 @@ router.get('/editUser/(:id)', function(req, res, next) {
             userZip: result[i].local.zip,
             userPhone: result[i].local.phone,
             userContract: result[i].local.contract,
-            userRole: result[i].local.role
+            userRole: result[i].local.role,
+            userBan: result[i].local.banned
           });
         }
+
+
       }
 
     }
@@ -407,9 +441,6 @@ router.post('/editUser/(:id)', function(req, res) {
 
   console.log(o_id);
 
-  console.log(req.body.userLName);
-  console.log(req.body.userState);
-
   db.collection('users').find({
     "_id": ObjectId(o_id).toString
   }).toArray(function(err, results) {
@@ -427,6 +458,11 @@ router.post('/editUser/(:id)', function(req, res) {
         } else {
           state = req.body.userState;
         }
+
+        var Banned = false;
+        if (req.body.userBan == "true")
+          Banned = true;
+
         db.collection('users').updateOne({
           "_id": results[i]._id
         }, {
@@ -441,39 +477,42 @@ router.post('/editUser/(:id)', function(req, res) {
             "local.zip": req.body.userZip,
             "local.phone": req.body.userPhone,
             "local.contract": req.body.userContract,
-            "local.role": req.body.userRole
+            "local.role": req.body.userRole,
+            "local.banned": Banned
           }
 
         });
         console.log("success");
-        break;
+
+        res.render('editUser.ejs', {
+          user: req.user,
+          title: 'Edit User',
+          //data: rows[0],
+          id: o_id,
+          userFName: req.body.userFName,
+          userLName: req.body.userLName,
+          userEmail: req.body.userEmail,
+          userStreet: req.body.userStreet,
+          userCity: req.body.userCity,
+          userState: req.body.userState,
+          userZip: req.body.userZip,
+          userPhone: req.body.userPhone,
+          userContract: req.body.userContract,
+          userRole: req.body.userRole,
+          userBan: Banned
+        });
+
       }
 
     }
   });
-
-
-
-
-
-
-  res.render('editUser.ejs', {
-    user: req.user,
-    title: 'Edit User',
-    //data: rows[0],
-    id: o_id,
-    userFName: req.body.userFName,
-    userLName: req.body.userLName,
-    userEmail: req.body.userEmail,
-    userStreet: req.body.userStreet,
-    userCity: req.body.userCity,
-    userState: req.body.userState,
-    userZip: req.body.userZip,
-    userPhone: req.body.userPhone,
-    userContract: req.body.userContract,
-    userRole: req.body.userRole
-  });
 });
+
+
+
+
+
+
 
 
 
@@ -518,10 +557,10 @@ router.get('/quote', isLoggedIn, function(req, res) {
   });
 });
 
-router.get('/resetPassword', function(req, res){
+router.get('/resetPassword', function(req, res) {
   res.render('resetPassword.ejs');
 });
-router.post('/resetPassword', function(req, res){
+router.post('/resetPassword', function(req, res) {
   res.send('Email sent');
   let email = req.body.email;
   console.log(email);
@@ -601,19 +640,14 @@ router.post('/quote', isLoggedIn, function(req, res) {
       fileMimeType: theFile.mimetype,
       fileMd5: theFile.md5,
       fileEncoding: theFile.encoding,
-
-
+      volume: volume,
       email: email,
       engineerName: 'Unassigned',
       engineerEmail: 'Unassigned',
       datePosted: datePosted,
-      density: density,
+      Density: density,
 
       archived: false,
-      paid: false,
-      print: false,
-      ship: false,
-      invoiced: false,
       completed: false,
       finalCost: finalCost
     }, (err, result) => {
@@ -622,16 +656,14 @@ router.post('/quote', isLoggedIn, function(req, res) {
 
     });
 
+    console.log('saved to database');
+    res.redirect('/projects');
+
   });
 
-  console.log('saved to database');
-  db.collection('projects').find().toArray(function(err, results) {
-    res.render('projects.ejs', {
-      user: req.user,
-      projects: results
-    });
-  });
+
 });
+
 
 
 
@@ -649,17 +681,26 @@ router.get('/profile', isLoggedIn, function(req, res) {
 
 
 
-router.get('/download', function(req, res) {
+router.get('/download/(:fileNewName)', function(req, res) {
 
-  var file = __dirname + '/uploads/' + req.fileName;
-  res.download(file); // Set disposition and send it.
-  db.collection('projects').find().toArray(function(err, results) {
-    console.log(results);
-    res.render('projects.ejs', {
-      user: req.user,
-      projects: results
-    });
+  console.log("made it to download");
+
+  var file = __dirname + '/../uploads/' + req.params.fileNewName;
+
+  console.log(file);
+  res.download(file, req.params.fileNewName); // Set disposition and send it.
+
+
+
+
+});
+
+router.get("/banned", function(req, res) {
+  console.log("a banned user");
+  res.render("index.ejs", {
+    msg: "You were banned, please conteact RCBI if you have questions."
   });
+
 });
 
 
@@ -695,6 +736,10 @@ module.exports = router;
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
     return next();
+
+  if (req.user.local.banned) {
+    res.redirect('/banned');
+  }
   res.redirect('/');
 }
 
@@ -714,8 +759,9 @@ function isVerified(req, res, next) {
 
 function getEngineers() {
   db.collection('users').find({
-    "role": "engineer"
+    "local.role": "engineer"
   }).toArray(function(err, result) {
+    console.log("get Engineers");
     console.log(result);
     return result;
   });
@@ -778,7 +824,7 @@ function calcPrintCost(materialCostPerVolume, volume, density) {
   var manHours = volume;
   var costPerManHour = 25;
 
-  var preCost = (materialCostPerVolume * volume * densityCostModifier) + manHours * costPerManHour * densityCostModifier;
+  var preCost = (materialCostPerVolume * volume * densityCostModifier) + (manHours * costPerManHour * densityCostModifier);
   cost = preCost.toFixed(2);
   return cost;
 }
@@ -786,27 +832,27 @@ function calcPrintCost(materialCostPerVolume, volume, density) {
 
 
 
-function resetPassword(userEmail, userID){
+function resetPassword(userEmail, userID) {
   var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'rcbi3dprinting@gmail.com',
-    pass: 'RCBI2018'
-  }
-});
+    service: 'gmail',
+    auth: {
+      user: 'rcbi3dprinting@gmail.com',
+      pass: 'RCBI2018'
+    }
+  });
 
-var mailOptions = {
-  from: 'RCBI3DPRINTING@noresponse.COM',
-  to: userEmail,
-  subject: 'Sending Email using Node.js',
-  html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID+ '">here</a> to reset your password</p>'
-};
+  var mailOptions = {
+    from: 'RCBI3DPRINTING@noresponse.COM',
+    to: userEmail,
+    subject: 'Sending Email using Node.js',
+    html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
+  };
 
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 }

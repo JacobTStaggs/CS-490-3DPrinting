@@ -49,13 +49,14 @@
                       <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
                         <div class="input-group-btn search-panel">
                           <select class="form-control form-group" name="filter">
-                  <option value="email">Email</option>
+                  <option value="email">Client Email</option>
                   <option value="paid">Paid</option>
                   <option value="unpaid">Unpaid</option>
                   <option value="invoiced">Invoiced</option>
                   <option value="notinvoiced">Not Invoiced</option>
                   <option value="shipped">Shipped</option>
-                  <option value="engineer">Engineer</option>
+                  <option value="engineer">Engineer Email</option>
+                  <option value="archived">Archived</option>
                 </select>
                           <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
                           <button type="submit" class="btn btn-success">Filter</button>
@@ -94,10 +95,6 @@
                                   <th onClick="sortTable(0)">Completed</th>
                                   <th onClick="sortTable(0)">Estimate</th>
                                   <th onClick="sortTable(0)">Date </th>
-                                  <th> Invoiced </th>
-                                  <th> Paid </th>
-                                  <th> Printed </th>
-                                  <th> Shipped </th>
 
                                   <% if(user.local.role == "admin" || user.local.role == "engineer") { %>
                                     <th onClick="sortTable(0)">Options</th>
@@ -111,7 +108,7 @@
                               <tbody>
 
                                 <% for(var i=0; i<projects.length; i++) {%>
-                                  <% if (user.local.role == "user" && user.id == projects[i].clientID) {%>
+                                  <% if ((user.local.role == "user" && user.id == projects[i].clientID) || (user.local.role && user.local.role !='user')) {%>
                                     <tr>
                                       <% if(user.local.role == "admin" || user.local.role == "engineer") { %>
                                       <td>
@@ -138,21 +135,9 @@
                                       <td>
                                         <%= projects[i].datePosted %>
                                       </td>
-                                      <td>
-                                        <%= projects[i].invoiced %>
-                                      </td>
-                                      <td>
-                                        <%= projects[i].paid %>
-                                      </td>
-                                      <td>
-                                        <%= projects[i].print %>
-                                      </td>
-                                      <td>
-                                        <%= projects[i].ship %>
-                                      </td>
-                                      <% if(user.local.role == "admin" || user.local.role == "engineer") { %>}
+                                      <% if(user.local.role == "admin" || user.local.role == "engineer") { %>
                                         <td> <a href='/edit/<%=projects[i]._id %>'>Edit</a></td>
-                                        <td> <a href='/download/<%=projects[i].filePath %>'>Download STL</a></td>
+                                        <td> <a href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
                                         <%}%>
                                     </tr>
                                     <% } %>

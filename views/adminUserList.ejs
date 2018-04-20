@@ -40,8 +40,10 @@
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
       <div>
+
         <h1 style="color:#ffffff;margin-bottom:20px;">User List</h1>
       </div>
+              <%- include partials/breadcrumb.ejs%>
       <div>
         <div class="card-group">
           <div class="card">
@@ -99,7 +101,7 @@
                           <%= users[i].local.contract %>
                         </td>
                         <td>
-                          <button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;"><a href="/editUser/<%=users[i]._id%>"> Edit Info </a></button>
+                          <a href="/editUser/<%=users[i]._id%>">Edit</a>
                         </td>
                       </tr>
                       <%}%>

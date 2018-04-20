@@ -50,9 +50,10 @@
                                     <thead>
                                         <tr>
                                             <th>Material</th>
+                                            <% if (user.local.role != 'user') {%>
                                             <th>Our cost</th>
+                                            <% } %>
                                             <th>Sale Price</th>
-                                            <th>Colors</th>
                                             <th>
                                               Description
                                             </th>
@@ -63,9 +64,10 @@
                                       <% for(var i=0; i<materials.length; i++) {%>
                                                     <tr>
                                                       <td>  <%= materials[i].name %> </td>
+                                                      <% if (user.local.role != 'user') {%>
                                                       <td>   $<%=materials[i].actualCost%></td>
+                                                      <% } %>
                                                       <td>  $<%= materials[i].salePrice %> </td>
-                                                      <td> <%=materials[i].colors%></td>
                                                         <td> <%=materials[i].description%></td>
                                                         <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
                                                       <td> <a href='/edit/<%= materials[i]._id %>'>Edit</a></td>
