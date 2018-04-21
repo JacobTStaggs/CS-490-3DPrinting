@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rcbi3d</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+    <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/Team-Boxed.css">
+    <link rel="stylesheet" href="assets/css/Team-Clean.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body>
+    <div>
+<%- include partials/head.ejs %>
+    </div>
+    <div class="header-blue">
+        <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
+            <div>
+            </div>
+            <div>
+                <div class="card">
+
+                    <div class="card-header">
+                    </div>
+
+                    <div class="card-body">
+                      <form action="/reports" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
+
+                      <!---USER------>
+                      <% if (user.local.role == 'user') { %>
+                        <p>
+                          <h4>Sorry, you are not authorized to be here. If you feel like this is a mistake
+                          please contact us so we can fix it.</h4>
+                        </p>
+                      <!---END USER------>
+
+                    <!---ENGINEER------>
+
+
+                      <% } else if (user.local.role == 'engineer') { %>
+                        <h1>Greetings, <%=user.local.email%></h1>
+                        <div class="form-group"><p><b>Select a parameter</b></p>
+                        <select name="parameters">
+                          <option name="totalMats">Total Material Used</option>
+                          <option name="totalMatsRange">Total Material Used Between Dates</option>
+                          <option value="allUsers">All Users</option>
+                          <option name="totalMats">Total Sale</option>
+                          <option name="engProj">Engineer Projects</option>
+                          <option name="allProj">All Projects</option>
+                          <option name="projBetween">Projects Between Dates</option>
+                        </select>
+                        <div class="form-group"><p><b>Select an engineer if needed</b></p>
+                        <select name="engineers">
+                          <% for(var i = 0; i < engineers.length; i++){%>
+                            <option value="<%=engineers[i].local.email%>"><%=engineers[i].local.email%></option>
+                        <%  }%>
+                        </select>
+                        <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                        <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                        <% } else if (user.local.role == 'admin') { %>
+                          <h1>Greetings, <%=user.local.email%></h1>
+                          <div class="form-group"><p><b>Select a parameter</b></p>
+                          <select name="parameters">
+                            <option name="totalMats">Total Material Used</option>
+                            <option name="totalMatsRange">Total Material Used Between Dates</option>
+                            <option name="totalMats">All Users</option>
+                            <option name="totalMats">Total Sale</option>
+                            <option name="engProj">Engineer Projects</option>
+                            <option name="allProj">All Projects</option>
+                            <option name="projBetween">Projects Between Dates</option>
+                          </select>
+                          <div class="form-group"><p><b>Select an engineer if needed</b></p>
+                          <select name="engineers">
+                            <option> </option>
+                            <% for(var i = 0; i < engineers.length; i++){%>
+                              <option value="<%=engineers[i].local.email%>"><%=engineers[i].local.email%></option>
+                          <%  }%>
+                          </select>
+                          <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                          <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                          <% } else if (user.local.role == 'finance') { %>
+                            <h1>Greetings, <%=user.local.email%></h1>
+                            <div class="form-group"><p><b>Select a parameter</b></p>
+                            <select name="parameters">
+                              <option value="totalMats">Total Material Used</option>
+                              <option value="totalMatsRange">Total Material Used Between Dates</option>
+                              <option value="allUsers">All Users</option>
+                              <option value="totalMats">Total Sale</option>
+                              <option value="engProj">Engineer Projects</option>
+                              <option value="allProj">All Projects</option>
+                              <option value="projBetween">Projects Between Dates</option>
+                            </select>
+                            <div class="form-group"><p><b>Select an engineer if needed</b></p>
+                            <select name="engineers">
+                              <option> </option>
+                              <% for(var i = 0; i < engineers.length; i++){%>
+                                <option value="<%=engineers[i].local.email%>"><%=engineers[i].local.email%></option>
+                            <%  }%>
+                            </select>
+                            <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                            <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+
+                      <!---END ENGINEER----->
+
+                      <% } else { %>
+                          <p>UK bball > MSU bball</p>
+                      <% } %>
+                        <button class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button>
+                        </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-clean">
+        <footer>
+            <div class="container" style="width:960px;">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">About Us</h3>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                    </div>
+                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                </div>
+            </div>
+            <div class="container">
+                <div>
+                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
+    <i class="icon ion-social-facebook"></i></a><a href="#">
+    <i class="icon ion-social-twitter"></i></a><a href="#">
+    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
+    <i class="icon ion-social-youtube-outline"></i></a>
+        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+</div></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+</body>
+
+</html>

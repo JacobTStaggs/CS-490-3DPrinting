@@ -1,0 +1,17 @@
+_id._bsontype,_id.id.0,_id.id.1,_id.id.2,_id.id.3,_id.id.4,_id.id.5,_id.id.6,_id.id.7,_id.id.8,_id.id.9,_id.id.10,_id.id.11,emailValidated,local.emailValidated,local.contract,local.phone,local.zip,local.state,local.city,local.street,local.role,local.lastName,local.firstName,local.password,local.email,__v,local.banned
+ObjectID,90,207,128,84,124,150,3,63,80,154,33,220,true,,,,,,,,,,,,,,
+ObjectID,90,207,196,59,5,110,102,19,48,250,173,99,,false,false,242432424,23134,VT,wewe,213123 fefeg,admin,Staggs,Jacob,$2a$08$9piRMK0NiJaV8m.2Srs3n.tXouEN45wAYs3L2uNBTqx7VfqQiy7q.,jacob@test.com,0,
+ObjectID,90,212,195,208,69,194,84,21,176,32,200,114,,false,false,3333,34344,DC,test,test,user,test,test,$2a$08$CU0nbffw3M.eXTBcLjFPhuNSTrL7zKh3Qsj32.9vdLWNwFU0WW6y.,test1@1.com,0,
+ObjectID,90,213,238,146,159,253,129,59,192,138,5,197,,false,false,2342342345,25701,WV,Huntington,4343 street,engineer,omer,cust,$2a$08$POHSPflIdaEBv2DN.W.mVuvXEGBwzBr/pHQWWXqdTTl3k4nPlRgpu,cust1@test.com,0,
+ObjectID,90,214,2,23,163,172,21,22,56,29,108,173,,false,false,3424234234,23123,WV,ererr,testsat,user,test,test,$2a$08$PQ0rRWAm9RRVSbi1I4q0U.8tixrcPF/VqcSJ34gW0BOBAOl6rNupK,test@tet.com,0,
+ObjectID,90,214,3,139,211,4,207,35,40,41,88,161,,false,false,42132144,21345,AL,wewe,jsjs,user,jsjs,jacob,$2a$08$Vqra5nFHbQw72GtU7zR94.P9Qv7XQODSQgOxkxDKijrkJjCIGdpvS,test4@test.com,0,
+ObjectID,90,214,3,221,221,62,184,33,128,7,155,35,,false,false,232323,23232,FL,fefef,fefef,user,fefef,fefef,$2a$08$JQatfiwsLnT8x9P4V6lKn.tavCXHrNmWLCMBV8TSyeZHSI4VsHoB.,fefef@emai.com,0,
+ObjectID,90,214,4,92,221,62,184,33,128,7,155,36,,false,false,2321313,23123,TN,test,test,user,test,test,$2a$08$Amy591mUFUfUN/0gmUyjEecYSAsJAGF.u5bZkdpp6NdDVzCM/cfY.,test20000@test.com,0,
+ObjectID,90,214,5,97,132,26,83,6,132,204,117,238,,false,false,3131313,213,DE,dwqd,rere,user,test,test,$2a$08$vKxrP3CZoMkhEDbB2Bs7TO0vlCHie4qVaK4O9wFD7F6R9tQxVQWfC,blah@blah.com,0,
+ObjectID,90,214,6,116,132,188,204,62,68,215,73,204,,false,false,32131313,12313,DC,rest,rest,user,rest,rest,$2a$08$eJ2iIgtjpc76iGiU5WEupeQrPSH.41A76HkXzSNrnjuxev81Wo3Yq,rerer@re.com,0,
+ObjectID,90,214,12,244,51,251,164,73,204,69,209,113,,false,false,2323133,23233,AL,wewe,3123213,user,tttt,tttt,$2a$08$JnMbq..7H33vFXWLZP9vMONL1ZV9BzV/3sFqVzn/AfeE4qerP3mT.,tttt@tttt.com,0,
+ObjectID,90,214,14,34,224,111,131,62,28,194,13,169,,false,false,3213123,23231,WV,rewr,rerer,user,eer,rere,$2a$08$OlOvHX13RuOHy627.tXg7.SU3nUcVVr/iP3irBuUgPNozUwYrISQS,tttt@1.com,0,
+ObjectID,90,214,18,205,37,148,213,63,12,100,46,80,,true,false,2333,232,TN,test,test,user,test,test,$2a$08$Jn3ghwN7x5LuRMB/vMxBs.cYty1ZkShjk8Hi.CEAyf8VsyntLBJGu,test@tetet.com,0,
+ObjectID,90,214,22,230,229,209,25,5,208,214,85,194,,true,false,3049287958,41101,KY,Ashland,"202 Providence Hill Dr, Apt 211",user,Staggs,Jacob,$2a$08$u.PAn.GdXTMq.S.sRjBSBOnNSkEJyK4INwDVmUbw4dtF0FjsgKOVe,jacobstaggs22@gmail.com,0,
+ObjectID,90,215,177,165,202,249,123,65,100,135,201,130,,false,false,232323,3223,AL,rre,tetew,user,test,test,$2a$08$Ms4bj.uR278Pa95NyADfGecqdsnb6OxohKjmvGsSfEYPokh5Pjl0C,jacob@te2st.com,0,
+ObjectID,90,216,168,92,54,190,254,58,84,194,65,44,,true,false,434-423-4444,23134,IL,rerewr,23123 rerwer,user,Staggs,Jacob,$2a$08$.LDQ0ePZ/RcrDponBilGWO7Ta0nwGVbNhUtb3DV2ywiQEm/xPXx/6,Staggs11@marshall.edu,0,false
