@@ -297,9 +297,11 @@ router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
 
         });
         console.log("success");
+
         res.render('landing.ejs', {
           user: req.user
         });
+
         break;
       }
 
@@ -309,6 +311,7 @@ router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
 router.post('/editPassword/(:id)', function(req, res) {
   console.log(req.params.id);
   var o_id = new ObjectId(req.params.id).toString();
+
 
   console.log(o_id);
 
@@ -332,11 +335,16 @@ router.post('/editPassword/(:id)', function(req, res) {
             "local.password": bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
           }
 
+
         });
         console.log("success");
         res.render('success.ejs', {
           user: req.user
         });
+
+        }
+      });
+
 
   res.render('login.ejs');
 });
@@ -760,7 +768,9 @@ router.post('/quote', isLoggedIn, function(req, res) {
 
 
 
+
 router.get('/profile', isLoggedIn, function(req, res) {
+
   db.collection('users').find().toArray(function(err, results) {
     if (err) console.log(err);
     res.render('profile.ejs', {
@@ -774,7 +784,9 @@ router.get('/profile', isLoggedIn, function(req, res) {
 
 
 
+
 router.get('/download/(:fileNewName)', function(req, res) {
+
 
   console.log("made it to download");
 
@@ -826,6 +838,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 module.exports = router;
 
+
 function isLoggedIn(req, res, next) {
 
   if (!(req.user.local.emailValidated)) {
@@ -835,7 +848,6 @@ function isLoggedIn(req, res, next) {
   } else if (req.isAuthenticated()){
     return next();
 } else{   res.redirect('/'); }
-
 
 }
 
@@ -944,12 +956,13 @@ function resetPassword(userEmail, userID) {
     html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
   };
 
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
   });
 }
 
