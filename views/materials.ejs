@@ -35,10 +35,11 @@
     </div>
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+          <%- include partials/breadcrumb.ejs%>
             <div>
                 <h1 style="color:#ffffff;margin-bottom:20px;">Materials</h1>
             </div>
-            <div><%- include partials/breadcrumb.ejs%>
+            <div>
                 <div class="card-group">
                     <div class="card">
                         <div class="card-header">
@@ -69,9 +70,7 @@
                                                       <% } %>
                                                       <td>  $<%= materials[i].salePrice %> </td>
                                                         <td> <%=materials[i].description%></td>
-                                                        <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
-                                                      <td> <a href='/editMaterials/<%= materials[i]._id %>'>Edit</a></td>
-                                                      <%}%>
+                                                      <td> <a href='/editMaterials/<%= materials[i]._id %>'><% if (user.local.role == 'user' || user.local.role == 'finance') { %> View <%} else {%> Edit <%}%></a></td>
                                                     </tr>
                                                        <%}%>
                                     </tbody>

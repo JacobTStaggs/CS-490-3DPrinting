@@ -50,7 +50,7 @@
                 <input class="form-control" type="text" name=projId value='<%= project._id%>' readonly></div>
               <div>
                 <p style="color:#ffffff;"> Project Name: </p>
-                <input class="form-control" type="text" name=projName value='<%= project.projectName%>'></div>
+                <input class="form-control" type="text" name=projName value='<%= project.projectName%>' required></div>
               <div>
                 <p style="color:#ffffff;"> Customer Email:</p>
                 <input class="form-control" type="text" name=projCustEmail value='<%= project.email%>' readonly></div>
@@ -65,15 +65,10 @@
                 <input class="form-control" type="text" name=projFileName value='<%= project.fileNewName%>' readonly></div>
               <div>
                 <p style="color:#ffffff;"> Volume of File: </p>
-                <input class="form-control" type="Number" name=projVolume value='<%= project.volume%>' readonly></div>
+                <input class="form-control" type="Number" name=projVolume value='<%= project.fileVolumeCmCubed%>' readonly></div>
               <div>
                 <p style="color:#ffffff;"> Requested Model Density: </p>
-                <select class="form-control form-group" name="projDensity">
-                                    <option value=<%=project.Density%> ><%=project.density%></option>
-                                    <option value="Solid">Solid</option>
-                                    <option value="Sparse">Sparse</option>
-                                    <option value="Sparse Double Dense">Sparse Double-Dense</option>
-                </select></div>
+                <input class="form-control" type="text" name=projDensity value='<%= project.Density%>' readonly></div>
               <div>
                 <p style="color:#ffffff;"> Requested Material </p>
                 <input class="form-control" type="text" name=projMaterialName value='<%= project.materialName%>' readonly></div>
@@ -85,12 +80,13 @@
                 <input class="form-control" type="text" name=projMaterialID value='<%= project.materialID%>' readonly></div>
               <div>
                 <p style="color:#ffffff;"> Project Estimated Cost: </p>
-                <input class="form-control" type="text" name=projEstimateCost value='<%= project.finalCost%>'></div>
+                <input class="form-control" type="number" name=projEstimateCost value='<%= project.finalCost%>' required></div>
               <div>
                 <p style="color:#ffffff;"> Selected Engineer: </p>
                 <% if (user.local.role == 'admin') { %>
                   <select class="form-control" name="projEngineer">
                           <option value='{ "id" : "<%=project.engineerID %>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' ><%=project.engineerName%></option>
+                          <option value='{ "id" : "", "name" : "Unassigned", "email": "Unassigned" }' >Unassign</option>
                            <% for(var i = 0; i < engineers.length; i++){%>
                                 <option value='{ "id" : "<%=engineers[i]._id%>", "name" : "<%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%>", "email": "<%=engineers[i].local.email%>" }' <%if (engineers[i].local.email == project.engineerEmail) {%> checked <%}%> ><%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%></option>
                               <% }%>
@@ -128,7 +124,7 @@
                   <input class="form-control" type="text" name=projId value='<%= project._id%>' readonly></div>
                 <div>
                   <p style="color:#ffffff;"> Project Name: </p>
-                  <input class="form-control" type="text" name=projName value='<%= project.projectName%>'> </div>
+                  <input class="form-control" type="text" name=projName value='<%= project.projectName%>' <%if (user.local.role == 'finance') {%> readonly <%}%>> </div>
                 <div>
                   <p style="color:#ffffff;"> Customer Email:</p>
                   <input class="form-control" type="text" name=projCustEmail value='<%= project.email%>' readonly></div>
@@ -155,34 +151,32 @@
                   <input class="form-control" type="text" name=projMaterialCost value='<%= project.materialCost%>' readonly></div>
                 <div>
                   <p style="color:#ffffff;"> Material ID: </p>
-                  <input class="form-control" type="text" name=projMaterialID value='<%= project.materialID%>' readonly hidden></div>
+                  <input class="form-control" type="text" name=projMaterialID value='<%= project.materialID%>' readonly></div>
                 <div>
                   <p style="color:#ffffff;"> Project Estimated Cost: </p>
                   <input class="form-control" type="text" name=projEstimateCost value='<%= project.finalCost%>' readonly></div>
                 <div>
                     <p style="color:#ffffff;"> Assigned Engineer: </p>
-                    <input class="form-control" type="text" name=projEngineer value='{ "id" : "<%=project.engineerID%>", "name" : "<%=project.engineerName%>", "email": "project.engineerEmail" }' readonly>
+                    <input class="form-control" type="text" name=projEngineer value='{ "id" : "<%=project.engineerID%>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' hidden>
+                    <input class="form-control" type="text" name=nothing value="<%=project.engineerName%>" readonly>
+
                 </div>
-                <div>
-                    <p style="color:#ffffff;"> Comments: </p>
-                    <input class="form-control" type="text" name=projComments value=project.comments readonly>
-                      </div>
-              <div>
-                <p style="color:#ffffff;"> Project Completed: </p>
-                 <input class="form-control" type="text" name=projCompleted value='<%= project.completed %>'>
+
+                <%if (user.local.role != 'user'){%><p style="color:#ffffff;"> Project Completed: </p><%}%>
+                 <input class="form-control" type="text" name=projCompleted value='<%= project.completed %>' readonly <%if (user.local.role == 'user') {%> hidden <%}%> >
                </div>
 
                <div>
                    <p style="color:#ffffff;"> Comments </p>
-                   <input class="form-control" type="text" name="projComments" value="<%= project.projectComments %>" readonly >
+                   <input class="form-control" type="text" name="projComments" value="<%= project.projectComments %>" <%if (user.local.role == 'finance') {%> readonly <%}%> >
                </div>
 
                <div>
                  <p style="color:#ffffff;"> Archived: </p>
-                  <input class="form-control" type="text" name=projArchived value='<%= project.archived %>'>
+                  <input class="form-control" type="text" name=projArchived value='<%= project.archived %>' readonly>
                 </div>
         <%}%>
-          <div> <input style="color:#ffffff;background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;" type="submit" value="Upload"></div>
+          <div> <input style="color:#ffffff;background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;" type="submit" value="Upload"  <%if (user.local.role == 'finance') {%> hidden <%}%>></div>
       </div>
 
       </form>

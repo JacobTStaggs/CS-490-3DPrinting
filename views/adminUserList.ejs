@@ -37,83 +37,112 @@
   <div>
     <%- include partials/head.ejs %>
   </div>
+
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+
       <div>
 
         <h1 style="color:#ffffff;margin-bottom:20px;">User List</h1>
       </div>
-              <%- include partials/breadcrumb.ejs%>
-      <div>
-        <div class="card-group">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="mb-0"></h5>
-            </div>
+      <%- include partials/breadcrumb.ejs%>
+        <div>
+          <div class="card-group">
+
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-8 col-xs-offset-2">
+                  <div class="input-group">
+                    <form action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
+                      <div class="input-group-btn search-panel">
+                        <select class="form-control form-group" name="choice">
+                          <option value="all">All Users</option>
+                          <option value="email">User Email</option>
+                          <option value="banned">Banned Users</option>
+                          <option value="contractSigned">Contract Signed</option>
+                          <option value="contractNotSigned">Contract Not Signed</option>
+                          <option value="admins">Admins</option>
+                          <option value="engineers">Engineers</option>
+                          <option value="finance">Finance</option>
+                          <option value="clients">Clients</option>
+              </select>
+                        <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
+                        <button type="submit" class="btn btn-success">Filter</button>
+                      </div>
+
+                    </form>
 
 
-
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                      <th>Street</th>
-                      <th>City</th>
-                      <th>State</th>
-                      <th>Zip</th>
-                      <th>Phone</th>
-                      <th>Contract Signed</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% for(var i=0; i<users.length; i++) { %>
-                      <tr>
-
-                        <td>
-                          <%= users[i].local.firstName + " " +  users[i].local.lastName %>
-                        </td>
-                        <td>
-                          <%= users[i].local.email %>
-                        </td>
-                        <td>
-                          <%= users[i].local.role %>
-                        </td>
-                        <td>
-                          <%= users[i].local.street %>
-                        </td>
-                        <td>
-                          <%= users[i].local.city %>
-                        </td>
-                        <td>
-                          <%= users[i].local.state %>
-                        </td>
-                        <td>
-                          <%= users[i].local.zip %>
-                        </td>
-                        <td>
-                          <%= users[i].local.phone %>
-                        </td>
-                        <td>
-                          <%= users[i].local.contract %>
-                        </td>
-                        <td>
-                          <a href="/editUser/<%=users[i]._id%>">Edit</a>
-                        </td>
-                      </tr>
-                      <%}%>
-
-
-                  </tbody>
-                </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+        <div>
+          <div class="card-group">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0"></h5>
+              </div>
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Contract Signed</th>
+                        <th> Banned </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(var i=0; i<users.length; i++) { %>
+                        <tr>
+
+                          <td>
+                            <%= users[i].local.firstName + " " +  users[i].local.lastName %>
+                          </td>
+                          <td>
+                            <%= users[i].local.email %>
+                          </td>
+                          <td>
+                            <%= users[i].local.role %>
+                          </td>
+                          <td>
+                            <%= users[i].local.street %>,
+                              <%= users[i].local.city %>,
+                                <%= users[i].local.state %>
+                                  <%= users[i].local.zip %>
+                          </td>
+                          <td>
+                            <%= users[i].local.phone %>
+                          </td>
+                          <td>
+                            <%= users[i].local.contract %>
+                          </td>
+                          <td>
+                            <%= users[i].local.banned %>
+                          </td>
+                          <td>
+                            <a href="/editUser/<%=users[i]._id%>">Edit</a>
+                          </td>
+                        </tr>
+                        <%}%>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
   <div class="footer-clean">

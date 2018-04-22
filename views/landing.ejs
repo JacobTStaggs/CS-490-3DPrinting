@@ -44,7 +44,7 @@
                     </div>
                     <div class="card-body">
 
-                            <h3>Hello, <%=user.local.email%></h3>
+                            <h3>Hello, <%=user.local.firstName%> <%=user.local.lastName%></h3>
                         <!---USER------>
                         <% if (user.local.role == 'user') { %>
                           <div class="card" style="width:50%; margin-top:25px; float:left;">
@@ -54,9 +54,9 @@
                           </div>
 
                           <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Recent Project</div>
-                            <div class="card-body" style="text-align:center">View your most recent project</div>
-                            <a href="/projects" class="btn btn-success">Go to project</a>
+                            <div class="card-header" style="text-align: center;">Materials</div>
+                            <div class="card-body" style="text-align:center">View a list of Materials RCBI offers to its customers for Printing</div>
+                            <a href="/materials" class="btn btn-success">Go to Materials</a>
                           </div>
 
                           <div class="card" style="width:50%; margin-top:25px; float:left;">
@@ -102,21 +102,27 @@
                         </div>
 
                         <div class="card" style="width:50%; margin-top:25px; float:left;">
-                          <div class="card-header" style="text-align: center;">Users</div>
-                          <div class="card-body" style="text-align:center">View all users</div>
-                          <a href="/adminUserList" class="btn btn-success">Go to users list</a>
+                          <div class="card-header" style="text-align: center;">Projects</div>
+                          <div class="card-body" style="text-align:center">View List of Projects</div>
+                          <a href="/projects" class="btn btn-success">Go to Projects</a>
                         </div>
 
                         <div class="card" style="width:50%; margin-top:25px; float:left;">
                           <div class="card-header" style="text-align: center;">Reports</div>
-                          <div class="card-body" style="text-align:center">Display all reports</div>
-                          <a href="/reports" class="btn btn-success">View all reports</a>
+                          <div class="card-body" style="text-align:center">Get various site Reports</div>
+                          <a href="/reports" class="btn btn-success">Go to Reports</a>
                         </div>
 
                         <div class="card" style="width:50%; margin-top:25px; float:left;">
                           <div class="card-header" style="text-align: center;">Materials</div>
                           <div class="card-body" style="text-align:center">Manage materials</div>
                           <a href="/materials" class="btn btn-success">Go to materials list</a>
+                        </div>
+
+                        <div class="card" style="width:50%; margin-top:25px; float:left;">
+                          <div class="card-header" style="text-align: center;">User List</div>
+                          <div class="card-body" style="text-align:center">Manage site Users</div>
+                          <a href="/adminUserList" class="btn btn-success">Go to list of site Users</a>
                         </div>
                         <!---END ADMIN----->
 
@@ -129,15 +135,20 @@
                           </div>
 
                           <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Users</div>
-                            <div class="card-body" style="text-align:center">View all users</div>
-                            <a href="/adminUserList" class="btn btn-success">Go to Users List</a>
+                            <div class="card-header" style="text-align: center;">Projects</div>
+                            <div class="card-body" style="text-align:center">View all Projects</div>
+                            <a href="/projects" class="btn btn-success">Go to Projects</a>
                           </div>
 
                           <div class="card" style="width:50%; margin-top:25px; float:left;">
                             <div class="card-header" style="text-align: center;">Reports</div>
-                            <div class="card-body" style="text-align:center">Display all reports</div>
-                            <a href="/reports" class="btn btn-success">View all reports</a>
+                            <div class="card-body" style="text-align:center">Get various site Reports</div>
+                            <a href="/reports" class="btn btn-success">Go to Reports</a>
+                          </div>
+                          <div class="card" style="width:50%; margin-top:25px; float:left;">
+                            <div class="card-header" style="text-align: center;">Materials</div>
+                            <div class="card-body" style="text-align:center">View a list of Materials RCBI offers for Printing</div>
+                            <a href="/materials" class="btn btn-success">Go to Materials</a>
                           </div>
                         <!---END FINANCE----->
                         <% } else { %>
@@ -171,10 +182,6 @@
             <div class="container">
                 <div>
                     <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
-    <i class="icon ion-social-facebook"></i></a><a href="#">
-    <i class="icon ion-social-twitter"></i></a><a href="#">
-    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
-    <i class="icon ion-social-youtube-outline"></i></a>
         <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
 </div></div>
                 </div>

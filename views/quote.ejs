@@ -38,23 +38,25 @@
 
       <div>
 
-
+        <%- include partials/breadcrumb.ejs%>
         <div>
           <h1 style="color:#ffffff;"> Lets get Started </h1>
         </div>
 
-        <%- include partials/breadcrumb.ejs%>
+
 
           <form action="/quote" enctype="multipart/form-data" method="post">
             <div>
               <h5 style="color:#ffffff;">Upload a file to start your project</h5>
-              <p style="color:#ffffff;">The file must be in .stl format</p>
-              <input style="color:#ffffff;" type="file" accept=".stl" name="myFile">
+              <p style="color:#ffffff;">The file must be in .stl format. Please keep files less than 20Mb in size</p>
+              <p style="color:yellow;"><%=error%></p>
+              <input style="color:#ffffff;" type="file" accept=".stl" name="myFile" required>
+
             </div>
             <div>
               <h5 style="color:#ffffff;">Project Name</h5>
               <p style="color:#ffffff;"> Give your Project a name: </p>
-              <input type="text" name="projectName">
+              <input type="text" name="projectName" required>
             </div>
 
             <div>
@@ -83,10 +85,10 @@
             <div>
 
               <% for (var i = 0; i<materials.length; i++) { %>
-                <p style="color:#ffffff;">
+                <!-- <p style="color:#ffffff;">
                   <%= materials[i].name%>:
                     <%= materials[i].description%>
-                </p>
+                </p> -->
 
                 <%}%>
 
@@ -96,9 +98,16 @@
               <p style="color:#ffffff;"> Please input any additional comments of concerns you have with this project: </p>
               <textarea name="projectComments" cols="40" rows="5"></textarea>
             </div>
+            <% if (user.local.role == 'admin' || user.local.role == 'engineer') {%>
+            <div>
+              <h5 style="color:#ffffff;">Client Info: </h5>
+              <p style="color:#ffffff;"> Please Clients Email: </p>
+              <input type="text" name="custEmail" required>
+            </div>
+            <%}%>
             <div>
               <input style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;" type="submit" value="Upload">
-              <p style="color:#ffffff;"> Larger files may take a second to upload. Please allow up to 30 seconds for server responce. </p>
+              <p style="color:#ffffff;"> Larger files may take some time to upload. Please allow up to a minute for server responce. </p>
             </div>
           </form>
       </div>

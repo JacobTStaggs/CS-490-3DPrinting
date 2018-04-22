@@ -35,13 +35,16 @@
     </div>
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
-            <div>
-            </div>
-            <div>
+          <%- include partials/breadcrumb.ejs%>
+
+
                 <div class="card">
 
                     <div class="card-header">
-                    </div>
+                      <div>
+                      <h1>Greetings, <%=user.local.email%></h1>
+                      </div>
+
 
                     <div class="card-body">
                       <form action="/reports" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
@@ -58,7 +61,7 @@
 
 
                       <% } else if (user.local.role == 'engineer') { %>
-                        <h1>Greetings, <%=user.local.email%></h1>
+
                         <div class="form-group"><p><b>Select a parameter</b></p>
                         <select name="parameters">
                           <option name="totalMats">Total Material Used</option>
@@ -75,10 +78,10 @@
                             <option value="<%=engineers[i].local.email%>"><%=engineers[i].local.email%></option>
                         <%  }%>
                         </select>
-                        <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
-                        <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                        <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YYYY-MM-DD"></div>
+                        <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YYYY-MM-DD"></div>
                         <% } else if (user.local.role == 'admin') { %>
-                          <h1>Greetings, <%=user.local.email%></h1>
+
                           <div class="form-group"><p><b>Select a parameter</b></p>
                           <select name="parameters">
                             <option name="totalMats">Total Material Used</option>
@@ -96,10 +99,10 @@
                               <option value="<%=engineers[i].local.email%>"><%=engineers[i].local.email%></option>
                           <%  }%>
                           </select>
-                          <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
-                          <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                          <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YYYY-MM-DD"></div>
+                          <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YYYY-MM-DD"></div>
                           <% } else if (user.local.role == 'finance') { %>
-                            <h1>Greetings, <%=user.local.email%></h1>
+
                             <div class="form-group"><p><b>Select a parameter</b></p>
                             <select name="parameters">
                               <option value="totalMats">Total Material Used</option>
@@ -117,8 +120,8 @@
                                 <option value="<%=engineers[i].local.email%>"><%=engineers[i].local.email%></option>
                             <%  }%>
                             </select>
-                            <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
-                            <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YEAR-MONTH-DATE... i.e. '2000-01-01'"></div>
+                            <div class="form-group"><p><b>Start Date</b></p><input class="form-control" type="text" name="startDate" placeholder="YYYY-MM-DD"></div>
+                            <div class="form-group"><p><b>End Date</b></p><input class="form-control" type="text" name="endDate" placeholder="YYYY-MM-DD"></div>
 
                       <!---END ENGINEER----->
 
