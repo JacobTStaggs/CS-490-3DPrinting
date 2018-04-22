@@ -934,7 +934,7 @@
       sendAdmin(results[i].local.email, email )
     }
   });
-});
+};
 
 
 
@@ -1000,13 +1000,7 @@
 
        });
      }
-   }
-
-
- });
-
-
-
+   });
 
  router.get('/profile', isLoggedIn, function(req, res) {
    db.collection('users').find().toArray(function(err, results) {
@@ -1018,10 +1012,6 @@
    });
  });
 
-
-
-
-
  router.get('/download/(:fileNewName)', isLoggedIn, function(req, res) {
 
    console.log("made it to download");
@@ -1030,9 +1020,6 @@
 
    console.log(file);
    res.download(file, req.params.fileNewName); // Set disposition and send it.
-
-
-
 
  });
 
@@ -1227,8 +1214,6 @@
      }
    });
  }
-=======
-
 
 
 router.get('/logout', function(req, res) {
