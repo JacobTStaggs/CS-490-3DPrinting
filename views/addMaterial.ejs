@@ -8,10 +8,11 @@
 
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+          <%- include partials/breadcrumb.ejs%>
             <div>
                 <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
             </div>
-            <div><%- include partials/breadcrumb.ejs%>
+            <div>
                 <div class="card-group">
                     <div class="card">
                         <div class="card-header">
@@ -25,22 +26,16 @@
                                             <th>Material Name</th>
                                             <th>Our Cost</th>
                                             <th>Selling Price</th>
-                                            <th>Colors</th>
                                             <th>Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                       <form action="/addMaterial" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
                                                     <tr>
-                                                        <td> <input type="text" class="form-control" name="matName" placeholder="Material Name"></td>
-                                                        <td> <input type="text" class="form-control" name="matOurCost" placeholder="Our Cost"></td>
-                                                        <td> <input type="text" class="form-control" name="matSellingPrice" placeholder="Selling Price"></td>
-                                                        <td> <select class="selectpicker" name="matColors" multiple>
-                                                          <option value="Black">Black</option>
-                                                          <option value="Green">Green</option>
-                                                          <option value="Red">Red</option>
-                                                        </select></td>
-                                                        <td> <input type="text" class="form-control" name="matDescription" placeholder="Description of Material"></td>
+                                                        <td> <input type="text" class="form-control" name="matName" placeholder="Material Name" required></td>
+                                                        <td> <input type="number" class="form-control" name="matOurCost" placeholder="Our Cost" required></td>
+                                                        <td> <input type="number" class="form-control" name="matSellingPrice" placeholder="Selling Price" required></td>
+                                                        <td> <input type="text" class="form-control" name="matDescription" placeholder="Description of Material" required></td>
 
                                                     </tr>
                                                     <button class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button>

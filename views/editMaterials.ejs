@@ -34,10 +34,11 @@
   </div>
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
-
+        <%- include partials/breadcrumb.ejs%>
       <div>
 
         <h1 style="color:#ffffff;"> Project Details </h1>
+
         <div>
 
 
@@ -49,17 +50,25 @@
             <input class="form-control" type="text" name="matID" value='<%= material._id%>' readonly></div>
           <div>
             <p style="color:#ffffff;"> Material Name: </p>
-            <input class="form-control" type="text" name="matName" value='<%= material.name%>'> </div>
+            <input class="form-control" type="text" name="matName" value='<%= material.name%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required>  </div>
+
+            <%if( user.local.role != "user") {%>
           <div>
             <p style="color:#ffffff;"> Material Cost:</p>
-            <input class="form-control" type="text" name="matOurCost" value='<%= material.actualCost%>'></div>
+            <input class="form-control" type="number" name="matOurCost" value='<%= material.actualCost%>' <%if( user.local.role == "finance") {%> readonly <%}%> required></div>
+          <%} else {%>
+            <input class="form-control" type="number" name="matOurCost" value='<%= material.actualCost%>' readonly hidden>
+            <%}%>
+
           <div>
             <p style="color:#ffffff;"> Material Selling Price: </p>
-            <input class="form-control" type="text" name="matSellingPrice" value='<%= material.salePrice%>' ></div>
+            <input class="form-control" type="number" name="matSellingPrice" value='<%= material.salePrice%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required></div>
           <div>
-            <p style="color:#ffffff;"> Material Selling Price: </p>
-            <input class="form-control" type="text" name=matDescription value='<%= material.description%>'></div>
-            <div> <input type="submit" value="Update"></div>
+            <p style="color:#ffffff;"> Material Description: </p>
+            <input class="form-control" type="text" name=matDescription value='<%= material.description%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required></div>
+
+
+            <div> <input type="submit" value="Update" <%if( user.local.role == "user" || user.local.role == "finance") {%> hidden <%}%>></div>
       </div>
 
       </form>

@@ -1,17 +1,29 @@
 <nav aria-label="breadcrumb">
+  <style>
+  .btn2 {
+    display: inline-block;
+    background-color: #28a745;
+    color: #FFFFFF;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 0px;
+    opacity: 0.9;
+}
+  </style>
   <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href='/landing'>Home</a>
-    </li>
-    <li class="breadcrumb-item"><a href="/profile">Profile</a></li>
-    <li class="breadcrumb-item"><a href="/projects">Projects</a></li>
-    <li class="breadcrumb-item">
-      <a href='/materials'>Materials</a>
-    </li>
+    <li ><a href='/landing' class="btn2">Home</a></li>
+    <li ><a href="/profile" class="btn2">Profile</a></li>
+    <li ><a href="/projects" class="btn2">Projects</a></li>
+    <li  ><a href='/materials' class="btn2">Materials</a></li>
 
     <% if (user.local.role == 'admin') { %>
-      <li class="breadcrumb-item"><a href="/adminUserList">Users</a></li>
+      <li ><a href="/adminUserList" class="btn2">Users</a></li>
     <% } %>
 
+    <% if (user.local.role == 'admin' || user.local.role == 'finance' ) { %>
+    <li ><a href="/reports" class="btn2">Reports</a></li>
+    <% } %>
   </ol>
 </nav>
