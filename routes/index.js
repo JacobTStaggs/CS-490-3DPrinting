@@ -723,6 +723,19 @@ router.post('/quote', isLoggedIn, function(req, res) {
       projects: results
     });
   });
+
+  //Sending stuff to admins/getEngineers
+  db.collection('users').find({"local.role": "engineer"}).toArray(function(err, results){
+    for(var i = 0; i < results.length; i++){
+      sendAdmin(results[i].local.email, email )
+    }
+  });
+  //Sending stuff to admins/getEngineers
+  db.collection('users').find({"local.role": "admin"}).toArray(function(err, results){
+    for(var i = 0; i < results.length; i++){
+      sendAdmin(results[i].local.email, email )
+    }
+  });
 });
 
 
@@ -903,7 +916,7 @@ transporter.sendMail(mailOptions, function(error, info){
   });
 }
 
-function sendAdmin(email, projectID, projName, custEmail){
+function sendAdmin(email, custEmail){
       var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -916,7 +929,7 @@ function sendAdmin(email, projectID, projName, custEmail){
       from: 'RCBI3DPRINTING@noresponse.COM',
       to: email,
       subject: 'Sending Email using Node.js',
-      html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The project ID is: '+projectID+'. The project name is: '+projectName+'. The email for the customer is '+custEmail+'</p>'
+      html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The email for the customer is '+custEmail+'</p>'
     };
 
     transporter.sendMail(mailOptions, function(error, info){
