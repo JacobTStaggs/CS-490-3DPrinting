@@ -1189,7 +1189,9 @@
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     }
+     },    tls: {
+        rejectUnauthorized: false
+    }
    });
 
    var mailOptions = {
@@ -1238,7 +1240,9 @@
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     }
+     },    tls: {
+        rejectUnauthorized: false
+    }
    });
 
    var mailOptions = {
@@ -1263,14 +1267,16 @@
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     }
+     },    tls: {
+        rejectUnauthorized: false
+    }
    });
 
    var mailOptions = {
      from: 'RCBI3DPRINTING@noresponse.COM',
      to: email,
      subject: 'Sending Email using Node.js',
-     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The project ID is: ' + projectID + '. The project name is: ' + projectName + '. The email for the customer is ' + custEmail + '</p>'
+     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to login and see it. </p>'
    };
 
    transporter.sendMail(mailOptions, function(error, info) {
@@ -1309,121 +1315,3 @@
 
 
  module.exports = router;
-
-
-
-
- function isRole(req, res, next) {
-   if (req.isAuthenticated() && req.user.local.role == 'admin')
-     return next();
-   res.redirect('/profile');
- }
-
- function isVerified(req, res, next) {
-   if (req.isAuthenticated())
-     return next();
-   res.redirect('/verify');
-
- }
-
-
- function getEngineers() {
-   db.collection('users').find({
-     "role": "engineer"
-   }).toArray(function(err, result) {
-     console.log(result);
-     return result;
-   });
- }
-
- function getMaterials() {
-   db.collection('materials').find().toArray(function(err, result) {
-     console.log(result);
-     return result;
-   });
- }
-
- function isEngineer(req, res, next) {
-   if (req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role == 'engineer')
-     return next();
-   res.redirect('/profile');
- }
-
- function sendEmail(userID, userEmail) {
-   var transporter = nodemailer.createTransport({
-     service: 'gmail',
-     auth: {
-       user: 'rcbi3dprinting@gmail.com',
-       pass: 'RCBI2018'
-     }
-   });
-
-   var mailOptions = {
-     from: 'RCBI3DPRINTING@noresponse.COM',
-     to: userEmail,
-     subject: 'Sending Email using Node.js',
-     html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
-   };
-
-   transporter.sendMail(mailOptions, function(error, info) {
-     if (error) {
-       console.log(error);
-     } else {
-       console.log('Email sent: ' + info.response);
-     }
-   });
- }
-
- function calcPrintCost(materialCostPerVolume, volume, density) {
-   var densityCostModifier;
-
-   switch (density) {
-     case "Solid":
-       densityCostModifier = 1.0;
-       break;
-     case "Sparse":
-       densityCostModifier = 0.35;
-       break;
-     case "Sparse Double Dense":
-       densityCostModifier = 0.55;
-       break;
-   }
-
-   //This is a terrible and rough estimation to estiamte man hours. needs work.
-   var manHours = volume;
-   var costPerManHour = 25;
-
-   var preCost = (materialCostPerVolume * volume * densityCostModifier) + manHours * costPerManHour * densityCostModifier;
-   cost = preCost.toFixed(2);
-   return cost;
- }
-
-
-
-
-
-
- function sendAdmin(email, custEmail) {
-   var transporter = nodemailer.createTransport({
-     service: 'gmail',
-     auth: {
-       user: 'rcbi3dprinting@gmail.com',
-       pass: 'RCBI2018'
-     }
-   });
-
-   var mailOptions = {
-     from: 'RCBI3DPRINTING@noresponse.COM',
-     to: email,
-     subject: 'Sending Email using Node.js',
-     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The email for the customer is ' + custEmail + '</p>'
-   };
-
-   transporter.sendMail(mailOptions, function(error, info) {
-     if (error) {
-       console.log(error);
-     } else {
-       console.log('Email sent: ' + info.response);
-     }
-   });
- }
