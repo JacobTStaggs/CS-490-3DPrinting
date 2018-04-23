@@ -8,10 +8,11 @@
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
       <div>
+
         <h1 style="color:#ffffff;margin-bottom:20px;">Edit Account</h1>
       </div>
+                  <%- include partials/breadcrumb.ejs%>
       <div>
-        <%- include partials/breadcrumb.ejs%>
           <div class="card-group">
             <div class="card">
               <div class="card-header">
@@ -35,6 +36,7 @@
                             <th>Zip</th>
                             <th>Contract Signed</th>
                             <th>Role</th>
+                            <th>Ban </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -42,14 +44,15 @@
                         <tr>
                           <% if (user.local.role == 'admin') { %>
                             <td> <input type="text" class="form-control" name="id" value="<%= id %>" readonly> </td>
-                            <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>"></td>
-                            <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>"></td>
-                            <td> <input type="text" class="form-control" name="userEmail" value="<%=userEmail %>"></td>
-                            <td> <input type="text" class="form-control" name="userPhone" value="<%=userPhone %>" pattern="\d{3}[\-]\d{3}[\-]\d{4}" ></td>
-                            <td> <input type="text" class="form-control" name="userStreet" value="<%=userStreet %>"></td>
-                            <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>"></td>
+                            <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>" required></td>
+                            <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>" required></td>
+                            <td> <input type="text" class="form-control" name="userEmail" value="<%=userEmail %>" readonly></td>
+                            <td> <input type="text" class="form-control" name="userPhone" value="<%=userPhone %>" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required></td>
+                            <td> <input type="text" class="form-control" name="userStreet" value="<%=userStreet %>" required></td>
+                            <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>" required></td>
                             <td>
                               <select class="form-control form-group" name="userState">
+                                                          <option value ="<%=userState%>"><%=userState%></option>
                                                         	<option value="AL">Alabama</option>
                                                         	<option value="AK">Alaska</option>
                                                         	<option value="AZ">Arizona</option>
@@ -103,18 +106,23 @@
                                                         	<option value="WY">Wyoming</option>
                                                         </select>
                             </td>
-                            <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)"></td>
-
-                            <td> <input type="text" class="form-control" name="userContract" value="<%=userContract %>"></td>
+                            <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)" required></td>
+                            <td>  <input type="radio" name="userContract" value="true" <%if (userContract){%> checked <%}%> > Yes<br>
+                              <input type="radio" name="userContract" value="false" <%if (!userContract){%> checked <%}%> > No <br></td>
                             <% if (user.id == id) { %>
-                              <td> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </td>
+                              <td> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly > </td>
                               <% } else { %>
                                 <td> <select class="form-control form-group" name="userRole" value="<%userRole%>">
+                                <option value=<%= userRole%>> <% if (userRole == "user") { %> client <%} else{%> <%=userRole%>  <%}%> </option>
                                 <option value="user">Client</option>
                                 <option value="engineer">Engineer</option>
                                 <option value="finance">Finance</option>
                                 <option value="admin">Admin</option>
                               </select></td>
+                              <% if (userRole != 'admin') {%>
+                              <td>  <input type="radio" name="userBan" value="true" <%if (userBan){%> checked <%}%> > Yes<br>
+                                <input type="radio" name="userBan" value="false" <%if (!userBan){%> checked <%}%> > No<br></td>
+                                <%}%>
                                 <% } %>
 
                                   <% } else if (user.local.role == 'user' || user.local.role == 'engineer' || user.local.role == 'finance' ) { %>
@@ -122,12 +130,12 @@
                                       <%=id%>
                                     </td>
 
-                                    <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>"></td>
-                                    <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>"></td>
+                                    <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>" required></td>
+                                    <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>" required></td>
                                     <td> <input type="text" class="form-control" name="userEmail" value="<%=userEmail %>" readonly></td>
-                                    <td> <input type="text" class="form-control" name="userPhone" value="<%=userPhone %>" pattern="\d{3}[\-]\d{3}[\-]\d{4}"></td>
-                                    <td> <input type="text" class="form-control" name="userStreet" value="<%=userStreet %>"></td>
-                                    <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>"></td>
+                                    <td> <input type="text" class="form-control" name="userPhone" value="<%=userPhone %>" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required></td>
+                                    <td> <input type="text" class="form-control" name="userStreet" value="<%=userStreet %>" required></td>
+                                    <td> <input type="text" class="form-control" name="userCity" value="<%=userCity %>" required></td>
 
                                     <td>
                                       <select type="text" class="form-control form-group" name="userState">
@@ -185,9 +193,10 @@
                                                         	<option value="WY">Wyoming</option>
                                                         </select>
                                     </td>
-                                    <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)"></td>
+                                    <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)" required></td>
                                     <td> <input type="text" class="form-control" name="userContract" value="<%= userContract %>" readonly></td>
                                     <td> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </td>
+                                    <td hidden> <input type="text" class="form-control" name="userBan" value="<%= userBan %>" readonly hidden> </td>
 
                                     <% } else { %>
                                       <p>Hey terra!</p>
@@ -198,6 +207,7 @@
                       </form>
                     </tbody>
                   </table>
+                  <a href="/editPassword/<%=id%>"><button class="btn btn-primary btn-block" style="background-color:rgb(4,148,74);"> Edit Password </button></a>
                 </div>
               </div>
             </div>
