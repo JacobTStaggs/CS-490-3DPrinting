@@ -24,8 +24,8 @@
                                     <thead>
                                         <tr>
                                             <th>Material Name</th>
-                                            <th>Our Cost</th>
-                                            <th>Selling Price</th>
+                                            <th>Our Cost per Cubic Centimeter</th>
+                                            <th>Selling Price per Cubic Centimeter</th>
                                             <th>Description</th>
                                         </tr>
                                     </thead>
@@ -33,8 +33,8 @@
                                       <form action="/addMaterial" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
                                                     <tr>
                                                         <td> <input type="text" class="form-control" name="matName" placeholder="Material Name" required></td>
-                                                        <td> <input type="number" class="form-control" name="matOurCost" placeholder="Our Cost" required></td>
-                                                        <td> <input type="number" class="form-control" name="matSellingPrice" placeholder="Selling Price" required></td>
+                                                        <td> <input type="number" step=0.01 class="form-control" name="matOurCost" placeholder="Our Cost" required></td>
+                                                        <td> <input type="number" step=0.01 class="form-control" name="matSellingPrice" placeholder="Selling Price" required></td>
                                                         <td> <input type="text" class="form-control" name="matDescription" placeholder="Description of Material" required></td>
 
                                                     </tr>

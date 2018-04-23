@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="assets/css/Team-Boxed.css">
   <link rel="stylesheet" href="assets/css/Team-Clean.css">
   <link rel="stylesheet" href="assets/css/untitled.css">
+  <script src="assets/js/sorttable.js"></script>
 </head>
 
 <body>
@@ -40,7 +41,7 @@
         </div>
         <div>
 
-          <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
+
             <div class="card-group">
 
               <div class="container">
@@ -51,17 +52,23 @@
                         <div class="input-group-btn search-panel">
 
                           <select class="form-control form-group" name="filter">
+
                           <option value="all">All</option>
+                          <option value="archived">Archived</option>
+                          <option value="notArchived">Not Archived</option>
+          <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
                           <% if (user.local.role == 'engineer') {%>
                           <option value="yourProjects">Your Projects</option>
                           <%}%>
                           <option value="email">Client Email</option>
                           <option value="engineer">Engineer Email</option>
-                          <option value="archived">Archived</option>
-                          <option value="notArchived">Not Archived</option>
+
                           <option value="completed" >Completed</option>
                           <option value="notCompleted">Not Completed</option>
+                                                    <% } %>
                           </select>
+
+
 
                           <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
                           <button type="submit" class="btn btn-success">Filter</button>
@@ -76,7 +83,6 @@
               </div>
             </div>
         </div>
-        <% } %>
 
           <div class="card-group">
             <div class="card">
@@ -89,17 +95,20 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table" id="projects">
+                  <table class="table sortable">
                     <thead>
                       <tr>
                         <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
                           <th>Project ID</th>
+                          <th>Completed</th>
                           <% } %>
                             <th>Project Name</th>
-                            <th onClick="sortTable(0)">User Email</th>
-                            <th onClick="sortTable(0)">Engineer</th>
-                            <th onClick="sortTable(0)">Estimate</th>
-                            <th onClick="sortTable(0)">Date Posted </th>
+                            <th>Comments</th>
+                            <th>User Email</th>
+                            <th>Engineer</th>
+                            <th>Estimate</th>
+                            <th>Date Posted </th>
+                            <th>Archived</th>
 
                             <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
                               <th>Options</th>
@@ -107,9 +116,6 @@
 
                       </tr>
                     </thead>
-                    <tbody>
-                      </tr>
-                      </thead>
                       <tbody>
 
                         <% for(var i=0; i<projects.length; i++) {%>
@@ -119,10 +125,16 @@
                                 <td>
                                   <%= projects[i]._id %>
                                 </td>
+                                <td>
+                                  <%= projects[i].completed %>
+                                </td>
                                 <%}%>
 
                                   <td>
                                     <%= projects[i].projectName %>
+                                  </td>
+                                  <td>
+                                    <%if(projects[i].projectComments){%> Yes <%} else {%> No <%}%>
                                   </td>
                                   <td>
                                     <%= projects[i].email%>
@@ -137,9 +149,12 @@
                                   <td>
                                     <%= projects[i].datePosted %>
                                   </td>
-                                  <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
-                                    <td> <a href='/edit/<%=projects[i]._id %>'><% if (user.local.role == 'user' || user.local.role == 'finance') { %> View <%} else {%> Edit <%}%></a></td>
-                                    <%}%>
+                                  <td>
+                                    <%= projects[i].archived %>
+                                  </td>
+
+                                    <td> <a href='/edit/<%=projects[i]._id %>'><% if (user.local.role == 'user' || user.local.role == 'finance') { %> View <%} else {%> View/Edit <%}%></a></td>
+
                                       <td> <a href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
 
                             </tr>
@@ -191,61 +206,4 @@
           <script src="assets/js/bs-animation.js"></script>
 
 </body>
-<script>
-  function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("projects");
-    switching = true;
-    //Set the sorting direction to ascending:
-    dir = "asc";
-    /*Make a loop that will continue until
-    no switching has been done:*/
-    while (switching) {
-      //start by saying: no switching is done:
-      switching = false;
-      rows = table.getElementsByTagName("TR");
-      /*Loop through all table rows (except the
-      first, which contains table headers):*/
-      for (i = 1; i < (rows.length - 1); i++) {
-        //start by saying there should be no switching:
-        shouldSwitch = false;
-        /*Get the two elements you want to compare,
-        one from current row and one from the next:*/
-        x = rows[i].getElementsByTagName("TD")[n];
-        y = rows[i + 1].getElementsByTagName("TD")[n];
-        /*check if the two rows should switch place,
-        based on the direction, asc or desc:*/
-        if (dir == "asc") {
-          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-            //if so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
-          }
-        } else if (dir == "desc") {
-          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-            //if so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
-          }
-        }
-      }
-      if (shouldSwitch) {
-        /*If a switch has been marked, make the switch
-        and mark that a switch has been done:*/
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        //Each time a switch is done, increase this count by 1:
-        switchcount++;
-      } else {
-        /*If no switching has been done AND the direction is "asc",
-        set the direction to "desc" and run the while loop again.*/
-        if (switchcount == 0 && dir == "asc") {
-          dir = "desc";
-          switching = true;
-        }
-      }
-    }
-  }
-</script>
-
 </html>

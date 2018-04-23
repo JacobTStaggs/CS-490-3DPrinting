@@ -64,16 +64,20 @@
 
     <div class="collapse navbar-collapse" id="navcol-1">
 
+      <ul class="nav navbar-nav mr-auto"></ul>
+      <span class="navbar-text actions">
+         <a href="http://www.rcbi.org/index.php/about"  style=" background-color:rgb(256,256,256) ; color: rgb(4,148,74); font-family:'Source Sans Pro', sans-serif;font-size:20px; margin:30px"><strong>About</strong></a>
+         <a href="http://www.rcbi.org/index.php/about/staff-directory"  style=" background-color:rgb(256,256,256) ; color: rgb(4,148,74); font-family:'Source Sans Pro', sans-serif;font-size:20px;"><strong>Contact Us</strong></a>
 
-      <a class="btn btn-outline-primary btn-sm" role="button" href="/contactUs" style="background-color:rgb(4,148,74); color: rgb(256,256,256) ; font-family:'Source Sans Pro', sans-serif;font-size:16px;">Contact Us</a>
 
+      </span>
       <ul class="nav navbar-nav mr-auto"></ul>
       <span class="navbar-text actions">
          <i class="fa fa-user-o"></i>
          <a href="/profile" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><%=user.local.email%></a>
 
         <a class="btn btn-outline-primary btn-sm" role="button" href="/logout" style="background-color:rgb(4,148,74); color: rgb(256,256,256) ; font-family:'Source Sans Pro', sans-serif;font-size:16px;">Logout</a>
-       </span>
+
     </div>
   </div>
 </nav>

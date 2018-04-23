@@ -62,13 +62,9 @@
      salePrice: req.body.matSellingPrice,
      description: req.body.matDescription
    });
-   db.collection('materials').find().toArray(function(err, results) {
-     res.render('materials.ejs', {
-       user: req.user,
-       materials: results
-     });
-   });
+   res.redirect("/materials");
  });
+
 
  router.get('/materials', isLoggedIn, function(req, res) {
    db.collection('materials').find().toArray(function(err, results) {
@@ -79,28 +75,56 @@
    });
  });
 
+ router.get('/deleteMaterial/(:id)', isLoggedIn, function(req, res) {
+
+   var o_id = new ObjectId(req.params.id).toString();
+
+
+   db.collection('materials').find().toArray(function(err, results) {
+
+     for (var i = 0; i < results.length; i++) {
+
+       if (results[i]._id == o_id) {
+
+         db.collection('materials').deleteOne({
+           "_id": results[i]._id
+         }, function(err) {
+           if (err) return handleError(err);
+           console.log("deleted");
+           res.redirect("/materials")
+         });
+       }
+     }
+   });
+ });
+
 
 
 
 
  router.get('/projects', isLoggedIn, function(req, res) {
-   if(req.user.local.role == 'engineer'){
-   db.collection('projects').find({'engineerEmail': user.local.email, 'archived':false}).toArray(function(err, results) {
-     console.log(results);
-     res.render('projects.ejs', {
-       user: req.user,
-       projects: results
+   if (req.user.local.role == 'engineer') {
+     db.collection('projects').find({
+       'engineerEmail': req.user.local.email,
+       'archived': false
+     }).toArray(function(err, results) {
+       console.log(results);
+       res.render('projects.ejs', {
+         user: req.user,
+         projects: results
+       });
      });
-   });
- } else {
-   db.collection('projects').find({'archived':false}).toArray(function(err, results) {
-     console.log(results);
-     res.render('projects.ejs', {
-       user: req.user,
-       projects: results
+   } else {
+     db.collection('projects').find({
+       'archived': false
+     }).toArray(function(err, results) {
+       console.log(results);
+       res.render('projects.ejs', {
+         user: req.user,
+         projects: results
+       });
      });
-   });
- }
+   }
  });
 
  // SHOW EDIT USER FORM
@@ -170,7 +194,7 @@
          user: req.user
        });
      });
-   }  else if (choice == 'completed') {
+   } else if (choice == 'completed') {
      console.log(req.body.parameter);
      db.collection('projects').find({
        'completed': true,
@@ -192,7 +216,7 @@
          user: req.user
        });
      });
-   }else if (choice == 'archived') {
+   } else if (choice == 'archived') {
      console.log(req.body.parameter);
      db.collection('projects').find({
        'archived': true
@@ -335,6 +359,8 @@
  router.get('/edit/(:id)', isLoggedIn, function(req, res, next) {
    var o_id = new ObjectId(req.params.id).toString();
 
+
+
    db.collection('projects').find({
      "_id": ObjectId(o_id).toString
    }).toArray(function(err, result) {
@@ -359,7 +385,7 @@
 
              res.render('edit.ejs', {
                user: req.user,
-               title: 'Edit User',
+               title: 'Edit Project',
                project: project,
                engineers: engineers
 
@@ -388,23 +414,37 @@
    if (req.body.projCompleted == 'true')
      completed = true;
 
-   db.collection('projects').update({
+   db.collection('projects').find({
      "_id": ObjectId(o_id).toString
-   }, {
-     $set: {
-       "projectName": req.body.projName,
-       "email": req.body.projCustEmail,
-       "engineerName": engineerInfo.name,
-       "engineerEmail": engineerInfo.email,
-       "engineerID": engineerInfo.id,
-       "finalCost": req.body.projEstimateCost,
-       "completed": completed,
-       "Density": req.body.projDensity,
-       "comments": req.body.projComments,
-       "archived": archived
+   }).toArray(function(err, results) {
+
+     for (var i = 0; i < results.length; i++) {
+
+       if (results[i]._id == o_id) {
+
+         console.log(results[i]);
+
+         db.collection('projects').updateOne({
+           "_id": results[i]._id
+         }, {
+           $set: {
+             "projectName": req.body.projName,
+             "email": req.body.projCustEmail,
+             "engineerName": engineerInfo.name,
+             "engineerEmail": engineerInfo.email,
+             "engineerID": engineerInfo.id,
+             "finalCost": req.body.projEstimateCost,
+             "completed": completed,
+             "Density": req.body.projDensity,
+             "projectComments": req.body.projComments,
+             "archived": archived
+           }
+         });
+
+         res.redirect("/edit/" + req.body.projId);
+       }
      }
    });
-   res.redirect("/edit/" + req.body.projId);
  });
 
  // SHOW EDIT USER FORM
@@ -481,14 +521,7 @@
 
  router.post('/editMaterials/(:id)', isLoggedIn, function(req, res, next) {
    var o_id = new ObjectId(req.params.id).toString();
-   db.collection('materials').update({
-     "_id": ObjectId(o_id).toString
-   }, {
-     "name": req.body.matName,
-     "actualCost": req.body.matOurCost,
-     "salePrice": req.body.matSellingPrice,
-     "description": req.body.matDescription
-   });
+
    db.collection('materials').find({
      "_id": ObjectId(o_id).toString
    }).toArray(function(err, result) {
@@ -502,6 +535,15 @@
        for (var i = 0; i < result.length; i++) {
          if (result[i]._id == o_id) {
            console.log(result[i]);
+
+           db.collection('materials').update({
+             "_id": result[i]._id
+           }, {
+             "name": req.body.matName,
+             "actualCost": req.body.matOurCost,
+             "salePrice": req.body.matSellingPrice,
+             "description": req.body.matDescription
+           });
            res.redirect("/editMaterials/" + req.params.id);
          }
        }
@@ -719,7 +761,7 @@
        });
      });
 
-   } else{
+   } else {
      res.send("somehow we let you make an invalid choice")
    }
 
@@ -751,23 +793,28 @@
  });
 
  router.get('/resetPassword', function(req, res) {
-   res.render('resetPassword.ejs');
+   res.render('resetPassword.ejs', {
+     user: req.body.user
+   });
  });
 
  router.post('/resetPassword', function(req, res) {
-   res.send('Email sent');
+
+   res.render('forgotPassword.ejs');
+
    let email = req.body.email;
    console.log(email);
-   db.collection('users').findOne({
+   db.collection('users').find({
      "local.email": email
    }).toArray(function(err, result) {
-     console.log(result[0]._id);
-     if(result){
-     resetPassword(email, result._id);
-     return result;
-   }else {
+     if (result) {
+       resetPassword(email, result._id);
+       return result;
+     } else {
 
-   }
+     }
+
+
 
    });
  });
@@ -775,144 +822,149 @@
  router.post('/quote', isLoggedIn, function(req, res) {
 
    if (!req.files) {
-     return res.status(400).send('No files were uploaded.');
-   }
-
-
-   var matArr = JSON.parse(req.body.material);
-   let materialID = matArr.id;
-   let materialName = matArr.name;
-   let materialCost = matArr.price;
-
-   let projectName = req.body.projectName;
-   let email = req.user.local.email;
-   let clientID = req.user.id;
-   let density = req.body.projectDensity;
-   var datePosted = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-   let projectComments = req.body.projectComments;
-   //Calculate Estimate Price
-
-   var theFile = req.files.myFile;
-   var originalName = theFile.name;
-   var stripped = theFile.name.split(".");
-
-   if (theFile.data.length > 20000000 && req.user.local.role != "admin") { // If file larger than x number of bytes, stop it from uploading
-     console.log("too big");
-     db.collection('materials').find().toArray(function(err, results) {
-       if (err) console.log(err);
-       res.render('quote.ejs', {
-         materials: results,
-         user: req.user,
-         error: "FILE TOO LARGE. Contact RCBI for help if you need this file printed."
-       });
-     });
-   } else if (path.extname(theFile.name).toLowerCase() != ".stl") {
-     console.log("Not STL");
-     db.collection('materials').find().toArray(function(err, results) {
-       if (err) console.log(err);
-       res.render('quote.ejs', {
-         materials: results,
-         user: req.user,
-         error: "FILE INCORRECT FORMAT. '.STL' format only please"
-       });
-     });
+     res.status(400).send('No files were uploaded.');
    } else {
 
-     if (req.user.local.role == "admin" || req.user.local.role == "engineer") {
 
-       db.collection('users').findOne({
-         "local.email": req.body.custEmail
-       }, function(err, result) {
-         console.log("Getting Email");
-         if (result) {
-           console.log(result);
-           console.log("user found")
-           db.collection('materials').find().toArray(function(err, results) {
-             if (err) console.log(err);
+     var matArr = JSON.parse(req.body.material);
+     let materialID = matArr.id;
+     let materialName = matArr.name;
+     let materialCost = matArr.price;
 
-             custID = result._id;
-             custName = result.local.firstName + " " + result.local.lastName;
-             custEmail = result.local.email;
+     let projectName = req.body.projectName;
+     let email = req.user.local.email;
+     let clientID = req.user.id;
+     let density = req.body.projectDensity;
+     var datePosted = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+     let projectComments = req.body.projectComments;
+     //Calculate Estimate Price
 
-             var newName = stripped[0] + "-" + Date.now() + path.extname(theFile.name);
+     var theFile = req.files.myFile;
+     var originalName = theFile.name;
+     var stripped = theFile.name.split(".");
 
-             console.log(__dirname);
-             var fullPath = path.join(__dirname, "..", "uploads", newName);
-             console.log(fullPath);
-             //  Use the mv() method to place the file somewhere on your server
+     if ((theFile.data.length > 20000000) && (req.user.local.role != "admin" && req.user.local.role != "engineer")) { // If file larger than x number of bytes, stop it from uploading
+       console.log("too big");
+       db.collection('materials').find().toArray(function(err, results) {
+         if (err) console.log(err);
+         res.render('quote.ejs', {
+           materials: results,
+           user: req.user,
+           error: "FILE TOO LARGE. Contact RCBI for help if you need this file printed."
+         });
+       });
+     } else if (path.extname(theFile.name).toLowerCase() != ".stl") {
+       console.log("Not STL");
+       db.collection('materials').find().toArray(function(err, results) {
+         if (err) console.log(err);
+         res.render('quote.ejs', {
+           materials: results,
+           user: req.user,
+           error: "FILE INCORRECT FORMAT. '.STL' format only please"
+         });
+       });
+     } else {
 
-             theFile.mv(fullPath, function(err) {
+       if (req.user.local.role == "admin" || req.user.local.role == "engineer") {
 
-               if (err)
-                 console.log(err);
+         db.collection('users').findOne({
+           "local.email": req.body.custEmail
+         }, function(err, result) {
+           console.log("Getting Email");
+           if (result) {
+             console.log(result);
+             console.log("user found")
+             db.collection('materials').find().toArray(function(err, results) {
+               if (err) console.log(err);
 
-               var fileInfo = NodeStl(fullPath);
+               custID = result._id;
+               custName = result.local.firstName + " " + result.local.lastName;
+               custEmail = result.local.email;
 
-               console.log(fileInfo.volume);
-               var volume = fileInfo.volume;
-               finalCost = calcPrintCost(materialCost, volume, density);
-               console.log(finalCost);
+               var newName = stripped[0] + "-" + Date.now() + path.extname(theFile.name);
 
-               db.collection('projects').save({
+               console.log(__dirname);
+               var fullPath = path.join(__dirname, "..", "uploads", newName);
+               console.log(fullPath);
+               //  Use the mv() method to place the file somewhere on your server
 
-                 projectName: projectName,
-                 clientName: custName,
-                 email: custEmail,
-                 clientID: custID,
+               theFile.mv(fullPath, function(err) {
 
-                 materialName: materialName,
-                 materialCost: materialCost,
-                 materialID: materialID,
+                 if (err)
+                   console.log(err);
+
+                 var fileInfo = NodeStl(fullPath);
+
+                 console.log(fileInfo.volume);
+                 var volume = fileInfo.volume;
+                 finalCost = calcPrintCost(materialCost, volume, density);
+                 console.log(finalCost);
+
+                 db.collection('projects').save({
+
+                   projectName: projectName,
+                   clientName: custName,
+                   email: custEmail,
+                   clientID: custID,
+
+                   materialName: materialName,
+                   materialCost: materialCost,
+                   materialID: materialID,
 
 
 
-                 fileOldName: originalName,
-                 fileNewName: newName,
-                 filePath: fullPath,
-                 fileSize: theFile.data.length,
-                 fileMimeType: theFile.mimetype,
-                 fileMd5: theFile.md5,
-                 fileEncoding: theFile.encoding,
-                 fileVolumeCmCubed: volume,
-                 engineerName: 'Unassigned',
-                 engineerEmail: 'Unassigned',
-                 datePosted: datePosted,
-                 Density: density,
-                 projectComments: req.body.projectComments,
-                 archived: false,
-                 completed: false,
-                 finalCost: finalCost
-               }, (err, result) => {
-                 if (err) return console.log(err);
+                   fileOldName: originalName,
+                   fileNewName: newName,
+                   filePath: fullPath,
+                   fileSize: theFile.data.length,
+                   fileMimeType: theFile.mimetype,
+                   fileMd5: theFile.md5,
+                   fileEncoding: theFile.encoding,
+                   fileVolumeCmCubed: volume,
+                   engineerName: 'Unassigned',
+                   engineerEmail: 'Unassigned',
+                   datePosted: datePosted,
+                   Density: density,
+                   projectComments: req.body.projComments,
+                   archived: false,
+                   completed: false,
+                   finalCost: finalCost
+                 }, (err, result) => {
+                   if (err) return console.log(err);
+                   console.log('saved to database');
+                   console.log("brackets in place");
+                   res.redirect('/projects');
+
+                 });
+
 
 
                });
 
-               console.log('saved to database');
-               res.redirect('/projects');
+
+               //#################### end admin project creation
+
 
              });
-             //#################### end admin project creation
 
 
-           });
-         } else {
-           console.log("user not found")
-           db.collection('materials').find().toArray(function(err, results) {
-             if (err) console.log(err);
-             res.render('quote.ejs', {
-               materials: results,
-               user: req.user,
-               error: "User Not Found. Please check that entered cutomer email exists"
+           } else {
+             console.log("user not found")
+             db.collection('materials').find().toArray(function(err, results) {
+               if (err) console.log(err);
+               res.render('quote.ejs', {
+                 materials: results,
+                 user: req.user,
+                 error: "User Not Found. Please check that entered cutomer email exists"
+               });
              });
-           });
 
 
-         }
-       });
+           }
+         });
 
 
-     } else {
+       } else {
 
   console.log('saved to database');
   db.collection('projects').find().toArray(function(err, results) {
@@ -1461,59 +1513,59 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
 
 
 
-       var newName = stripped[0] + "-" + Date.now() + path.extname(theFile.name);
+
+         var newName = stripped[0] + "-" + Date.now() + path.extname(theFile.name);
 
 
-       console.log(__dirname);
-       var fullPath = path.join(__dirname, "..", "uploads", newName);
-       console.log(fullPath);
-       //  Use the mv() method to place the file somewhere on your server
+         console.log(__dirname);
+         var fullPath = path.join(__dirname, "..", "uploads", newName);
+         console.log(fullPath);
+         //  Use the mv() method to place the file somewhere on your server
 
-       theFile.mv(fullPath, function(err) {
+         theFile.mv(fullPath, function(err) {
 
-         if (err)
-           console.log(err);
+           if (err)
+             console.log(err);
 
-         var fileInfo = NodeStl(fullPath);
+           var fileInfo = NodeStl(fullPath);
 
-         console.log(fileInfo.volume);
-         var volume = fileInfo.volume;
-         finalCost = calcPrintCost(materialCost, volume, density);
-         console.log(finalCost);
+           console.log(fileInfo.volume);
+           var volume = fileInfo.volume;
+           finalCost = calcPrintCost(materialCost, volume, density);
+           console.log(finalCost);
 
-         db.collection('projects').save({
+           db.collection('projects').save({
 
-           projectName: projectName,
-           clientName: req.user.local.firstName + " " + req.user.local.lastName,
-           email: email,
-           clientID: clientID,
+             projectName: projectName,
+             clientName: req.user.local.firstName + " " + req.user.local.lastName,
+             email: email,
+             clientID: clientID,
 
-           materialName: materialName,
-           materialCost: materialCost,
-           materialID: materialID,
+             materialName: materialName,
+             materialCost: materialCost,
+             materialID: materialID,
 
 
 
-           fileOldName: originalName,
-           fileNewName: newName,
-           filePath: fullPath,
-           fileSize: theFile.data.length,
-           fileMimeType: theFile.mimetype,
-           fileMd5: theFile.md5,
-           fileEncoding: theFile.encoding,
-           fileVolumeCmCubed: volume,
-           email: email,
-           engineerName: 'Unassigned',
-           engineerEmail: 'Unassigned',
-           datePosted: datePosted,
-           Density: density,
-           projectComments: req.body.projectComments,
-           archived: false,
-           completed: false,
-           finalCost: finalCost
-         }, (err, result) => {
-           if (err) return console.log(err);
-
+             fileOldName: originalName,
+             fileNewName: newName,
+             filePath: fullPath,
+             fileSize: theFile.data.length,
+             fileMimeType: theFile.mimetype,
+             fileMd5: theFile.md5,
+             fileEncoding: theFile.encoding,
+             fileVolumeCmCubed: volume,
+             email: email,
+             engineerName: 'Unassigned',
+             engineerEmail: 'Unassigned',
+             datePosted: datePosted,
+             Density: density,
+             projectComments: req.body.projectComments,
+             archived: false,
+             completed: false,
+             finalCost: finalCost
+           }, (err, result) => {
+             if (err) return console.log(err);
 
 <<<<<<< HEAD
       projectName: projectName,
@@ -1531,9 +1583,14 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
          res.redirect('/projects');
 >>>>>>> d5b7b433ab5378690b1710df2bbedae65a659052
 
-       });
+           console.log('saved to database');
+           res.redirect('/projects');
+
+         });
+       }
      }
-   });
+   }
+ });
 
  router.get('/profile', isLoggedIn, function(req, res) {
    db.collection('users').find().toArray(function(err, results) {
@@ -1749,173 +1806,184 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
  }
 
 
-router.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/');
-});
+ router.get('/logout', function(req, res) {
+   req.logout();
+   res.redirect('/');
+ });
 
-router.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/verify',
-  failureRedirect: '/signup',
-  failureFlash: true,
-}));
-router.get('/verify', isLoggedIn, function(req, res) {
-  res.render('verify.ejs', {
-    user: req.user
-  });
-  sendEmail(req.user._id, req.user.local.email);
-});
+ router.post('/signup', passport.authenticate('local-signup', {
+   successRedirect: '/verify',
+   failureRedirect: '/signup',
+   failureFlash: true,
+ }));
+ router.get('/verify', isLoggedIn, function(req, res) {
+   res.render('verify.ejs', {
+     user: req.user
+   });
+   sendEmail(req.user._id, req.user.local.email);
+ });
 
-router.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/landing',
-  failureRedirect: '/login',
-  failureFlash: true,
-}));
-
-
-
-module.exports = router;
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated())
-      return next();
-    res.redirect('/');
-}
-
-function isRole(req, res, next) {
-  if (req.isAuthenticated() && req.user.local.role == 'admin')
-    return next();
-  res.redirect('/profile');
-}
-
-function isVerified(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.redirect('/verify');
-
-}
-
-
-function getEngineers() {
-  db.collection('users').find({
-    "role": "engineer"
-  }).toArray(function(err, result) {
-    console.log(result);
-    return result;
-  });
-}
-
-function getMaterials() {
-  db.collection('materials').find().toArray(function(err, result) {
-    console.log(result);
-    return result;
-  });
-}
-
-function isEngineer(req, res, next) {
-  if (req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role == 'engineer')
-    return next();
-  res.redirect('/profile');
-}
-
-function sendEmail(userID, userEmail) {
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'rcbi3dprinting@gmail.com',
-      pass: 'RCBI2018'
-    }
-  });
-
-  var mailOptions = {
-    from: 'RCBI3DPRINTING@noresponse.COM',
-    to: userEmail,
-    subject: 'Sending Email using Node.js',
-    html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
-  };
-
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-}
-
-function calcPrintCost(materialCostPerVolume, volume, density) {
-  var densityCostModifier;
-
-  switch (density) {
-    case "Solid":
-      densityCostModifier = 1.0;
-      break;
-    case "Sparse":
-      densityCostModifier = 0.35;
-      break;
-    case "Sparse Double Dense":
-      densityCostModifier = 0.55;
-      break;
-  }
-
-  //This is a terrible and rough estimation to estiamte man hours. needs work.
-  var manHours = volume;
-  var costPerManHour = 25;
-
-  var preCost = (materialCostPerVolume * volume * densityCostModifier) + manHours * costPerManHour * densityCostModifier;
-  cost = preCost.toFixed(2);
-  return cost;
-}
+ router.post('/login', passport.authenticate('local-login', {
+   successRedirect: '/landing',
+   failureRedirect: '/login',
+   failureFlash: true,
+ }));
 
 
 
+ module.exports = router;
 
-function resetPassword(userEmail, userID){
-  var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'rcbi3dprinting@gmail.com',
-    pass: 'RCBI2018'
-  }
-});
+ function isLoggedIn(req, res, next) {
+   if (!(req.user.local.emailValidated)) {
+     res.redirect('/verify');
 
-var mailOptions = {
-  from: 'RCBI3DPRINTING@noresponse.COM',
-  to: userEmail,
-  subject: 'Sending Email using Node.js',
-  html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID+ '">here</a> to reset your password</p>'
-};
+   } else if (req.user.local.banned) {
+     res.redirect('/banned');
 
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-  });
-}
+   } else if (req.isAuthenticated()) {
+     return next();
 
-function sendAdmin(email, custEmail){
-      var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'rcbi3dprinting@gmail.com',
-        pass: 'RCBI2018'
-      }
-    });
+   } else {
+     res.redirect('/');
+   }
 
-    var mailOptions = {
-      from: 'RCBI3DPRINTING@noresponse.COM',
-      to: email,
-      subject: 'Sending Email using Node.js',
-      html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The email for the customer is '+custEmail+'</p>'
-    };
+ }
 
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-      });
-}
+
+ function isRole(req, res, next) {
+   if (req.isAuthenticated() && req.user.local.role == 'admin')
+     return next();
+   res.redirect('/profile');
+ }
+
+ function isVerified(req, res, next) {
+   if (req.isAuthenticated())
+     return next();
+   res.redirect('/verify');
+
+ }
+
+
+ function getEngineers() {
+   db.collection('users').find({
+     "role": "engineer"
+   }).toArray(function(err, result) {
+     console.log(result);
+     return result;
+   });
+ }
+
+ function getMaterials() {
+   db.collection('materials').find().toArray(function(err, result) {
+     console.log(result);
+     return result;
+   });
+ }
+
+ function isEngineer(req, res, next) {
+   if (req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role == 'engineer')
+     return next();
+   res.redirect('/profile');
+ }
+
+ function sendEmail(userID, userEmail) {
+   var transporter = nodemailer.createTransport({
+     service: 'gmail',
+     auth: {
+       user: 'rcbi3dprinting@gmail.com',
+       pass: 'RCBI2018'
+     }
+   });
+
+   var mailOptions = {
+     from: 'RCBI3DPRINTING@noresponse.COM',
+     to: userEmail,
+     subject: 'Sending Email using Node.js',
+     html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
+   };
+
+   transporter.sendMail(mailOptions, function(error, info) {
+     if (error) {
+       console.log(error);
+     } else {
+       console.log('Email sent: ' + info.response);
+     }
+   });
+ }
+
+ function calcPrintCost(materialCostPerVolume, volume, density) {
+   var densityCostModifier;
+
+   switch (density) {
+     case "Solid":
+       densityCostModifier = 1.0;
+       break;
+     case "Sparse":
+       densityCostModifier = 0.35;
+       break;
+     case "Sparse Double Dense":
+       densityCostModifier = 0.55;
+       break;
+   }
+
+   //This is a terrible and rough estimation to estiamte man hours. needs work.
+   var manHours = volume;
+   var costPerManHour = 25;
+
+   var preCost = (materialCostPerVolume * volume * densityCostModifier) + manHours * costPerManHour * densityCostModifier;
+   cost = preCost.toFixed(2);
+   return cost;
+ }
+
+
+
+
+ function resetPassword(userEmail, userID) {
+   var transporter = nodemailer.createTransport({
+     service: 'gmail',
+     auth: {
+       user: 'rcbi3dprinting@gmail.com',
+       pass: 'RCBI2018'
+     }
+   });
+
+   var mailOptions = {
+     from: 'RCBI3DPRINTING@noresponse.COM',
+     to: userEmail,
+     subject: 'Sending Email using Node.js',
+     html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
+   };
+
+   transporter.sendMail(mailOptions, function(error, info) {
+     if (error) {
+       console.log(error);
+     } else {
+       console.log('Email sent: ' + info.response);
+     }
+   });
+ }
+
+ function sendAdmin(email, custEmail) {
+   var transporter = nodemailer.createTransport({
+     service: 'gmail',
+     auth: {
+       user: 'rcbi3dprinting@gmail.com',
+       pass: 'RCBI2018'
+     }
+   });
+
+   var mailOptions = {
+     from: 'RCBI3DPRINTING@noresponse.COM',
+     to: email,
+     subject: 'Sending Email using Node.js',
+     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The email for the customer is ' + custEmail + '</p>'
+   };
+
+   transporter.sendMail(mailOptions, function(error, info) {
+     if (error) {
+       console.log(error);
+     } else {
+       console.log('Email sent: ' + info.response);
+     }
+   });
+ }
