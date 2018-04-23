@@ -106,7 +106,7 @@
                                                         	<option value="WY">Wyoming</option>
                                                         </select>
                             </td>
-                            <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)" required></td>
+                            <td> <input type="text" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)" required></td>
                             <td>  <input type="radio" name="userContract" value="true" <%if (userContract){%> checked <%}%> > Yes<br>
                               <input type="radio" name="userContract" value="false" <%if (!userContract){%> checked <%}%> > No <br></td>
                             <% if (user.id == id) { %>
@@ -193,7 +193,7 @@
                                                         	<option value="WY">Wyoming</option>
                                                         </select>
                                     </td>
-                                    <td> <input type="number" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)" required></td>
+                                    <td> <input type="text" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)" required></td>
                                     <td> <input type="text" class="form-control" name="userContract" value="<%= userContract %>" readonly></td>
                                     <td> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </td>
                                     <td hidden> <input type="text" class="form-control" name="userBan" value="<%= userBan %>" readonly hidden> </td>

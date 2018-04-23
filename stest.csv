@@ -1,17 +1,10 @@
-_id._bsontype,_id.id.0,_id.id.1,_id.id.2,_id.id.3,_id.id.4,_id.id.5,_id.id.6,_id.id.7,_id.id.8,_id.id.9,_id.id.10,_id.id.11,emailValidated,local.emailValidated,local.contract,local.phone,local.zip,local.state,local.city,local.street,local.role,local.lastName,local.firstName,local.password,local.email,__v,local.banned
-ObjectID,90,207,128,84,124,150,3,63,80,154,33,220,true,,,,,,,,,,,,,,
-ObjectID,90,207,196,59,5,110,102,19,48,250,173,99,,false,false,242432424,23134,VT,wewe,213123 fefeg,admin,Staggs,Jacob,$2a$08$9piRMK0NiJaV8m.2Srs3n.tXouEN45wAYs3L2uNBTqx7VfqQiy7q.,jacob@test.com,0,
-ObjectID,90,212,195,208,69,194,84,21,176,32,200,114,,false,false,3333,34344,DC,test,test,user,test,test,$2a$08$CU0nbffw3M.eXTBcLjFPhuNSTrL7zKh3Qsj32.9vdLWNwFU0WW6y.,test1@1.com,0,
-ObjectID,90,213,238,146,159,253,129,59,192,138,5,197,,false,false,2342342345,25701,WV,Huntington,4343 street,engineer,omer,cust,$2a$08$POHSPflIdaEBv2DN.W.mVuvXEGBwzBr/pHQWWXqdTTl3k4nPlRgpu,cust1@test.com,0,
-ObjectID,90,214,2,23,163,172,21,22,56,29,108,173,,false,false,3424234234,23123,WV,ererr,testsat,user,test,test,$2a$08$PQ0rRWAm9RRVSbi1I4q0U.8tixrcPF/VqcSJ34gW0BOBAOl6rNupK,test@tet.com,0,
-ObjectID,90,214,3,139,211,4,207,35,40,41,88,161,,false,false,42132144,21345,AL,wewe,jsjs,user,jsjs,jacob,$2a$08$Vqra5nFHbQw72GtU7zR94.P9Qv7XQODSQgOxkxDKijrkJjCIGdpvS,test4@test.com,0,
-ObjectID,90,214,3,221,221,62,184,33,128,7,155,35,,false,false,232323,23232,FL,fefef,fefef,user,fefef,fefef,$2a$08$JQatfiwsLnT8x9P4V6lKn.tavCXHrNmWLCMBV8TSyeZHSI4VsHoB.,fefef@emai.com,0,
-ObjectID,90,214,4,92,221,62,184,33,128,7,155,36,,false,false,2321313,23123,TN,test,test,user,test,test,$2a$08$Amy591mUFUfUN/0gmUyjEecYSAsJAGF.u5bZkdpp6NdDVzCM/cfY.,test20000@test.com,0,
-ObjectID,90,214,5,97,132,26,83,6,132,204,117,238,,false,false,3131313,213,DE,dwqd,rere,user,test,test,$2a$08$vKxrP3CZoMkhEDbB2Bs7TO0vlCHie4qVaK4O9wFD7F6R9tQxVQWfC,blah@blah.com,0,
-ObjectID,90,214,6,116,132,188,204,62,68,215,73,204,,false,false,32131313,12313,DC,rest,rest,user,rest,rest,$2a$08$eJ2iIgtjpc76iGiU5WEupeQrPSH.41A76HkXzSNrnjuxev81Wo3Yq,rerer@re.com,0,
-ObjectID,90,214,12,244,51,251,164,73,204,69,209,113,,false,false,2323133,23233,AL,wewe,3123213,user,tttt,tttt,$2a$08$JnMbq..7H33vFXWLZP9vMONL1ZV9BzV/3sFqVzn/AfeE4qerP3mT.,tttt@tttt.com,0,
-ObjectID,90,214,14,34,224,111,131,62,28,194,13,169,,false,false,3213123,23231,WV,rewr,rerer,user,eer,rere,$2a$08$OlOvHX13RuOHy627.tXg7.SU3nUcVVr/iP3irBuUgPNozUwYrISQS,tttt@1.com,0,
-ObjectID,90,214,18,205,37,148,213,63,12,100,46,80,,true,false,2333,232,TN,test,test,user,test,test,$2a$08$Jn3ghwN7x5LuRMB/vMxBs.cYty1ZkShjk8Hi.CEAyf8VsyntLBJGu,test@tetet.com,0,
-ObjectID,90,214,22,230,229,209,25,5,208,214,85,194,,true,false,3049287958,41101,KY,Ashland,"202 Providence Hill Dr, Apt 211",user,Staggs,Jacob,$2a$08$u.PAn.GdXTMq.S.sRjBSBOnNSkEJyK4INwDVmUbw4dtF0FjsgKOVe,jacobstaggs22@gmail.com,0,
-ObjectID,90,215,177,165,202,249,123,65,100,135,201,130,,false,false,232323,3223,AL,rre,tetew,user,test,test,$2a$08$Ms4bj.uR278Pa95NyADfGecqdsnb6OxohKjmvGsSfEYPokh5Pjl0C,jacob@te2st.com,0,
-ObjectID,90,216,168,92,54,190,254,58,84,194,65,44,,true,false,434-423-4444,23134,IL,rerewr,23123 rerwer,user,Staggs,Jacob,$2a$08$.LDQ0ePZ/RcrDponBilGWO7Ta0nwGVbNhUtb3DV2ywiQEm/xPXx/6,Staggs11@marshall.edu,0,false
+_id._bsontype,_id.id.0,_id.id.1,_id.id.2,_id.id.3,_id.id.4,_id.id.5,_id.id.6,_id.id.7,_id.id.8,_id.id.9,_id.id.10,_id.id.11,local.emailValidated,local.contract,local.phone,local.zip,local.state,local.city,local.street,local.role,local.lastName,local.firstName,local.password,local.email,local.banned,__v
+ObjectID,90,213,86,216,210,102,80,76,252,202,166,158,true,false,777-341-2244,25567,RI,Huntington,34 Happy Lane,engineer,Staggering,Jacobith,$2a$08$1ijf77hl18sAjw1d4iil9.il.ZU2DpxdhYy.4upX39YTRmb5oxPay,test1@gmail.com,false,0
+ObjectID,90,213,93,209,207,162,250,75,64,112,27,3,true,false,555-000-1234,25701,CO,Huntington,123 Joy Lane,admin,Adamsa,Damian,$2a$08$6tl/dej.1UF8uImFIidtb.Sp8f0hFUVpQbW17RZ9GnFZ5t7fsYLGO,test@gmail.com,false,0
+ObjectID,90,213,93,245,207,162,250,75,64,112,27,4,true,true,100-000-1234,25701,CA,Huntington,123 Joy Lane,finance,Yooooo,Wook-Sung,$2a$08$4.C.yZ46mDG18k78/.LDN.Og7MmhSrgQOJ21awg5ZEUUcO/IwMeoy,test2@gmail.com,false,0
+ObjectID,90,214,63,228,103,177,97,88,64,112,6,51,true,true,554-000-1234,25701,AZ,Huntington,1234 Joy Lane,user,Smith,John,$2a$08$rTEnV9PwWaNstJlQQ1BSYO18kVveM6t.DKyVcpCAmvzlt7vHGk34S,cust@gmail.com,false,0
+ObjectID,90,216,3,183,1,3,82,76,60,174,43,85,true,true,850-313-9679,25701,WV,Huntington,1528 6th Ave Apt 6,admin,Adams,Jillith,$2a$08$Cqj2s7lhjXBXPgY./gGnQ.q1R5Bpjt2jDFmllCB7tGfv2iJYcSo0G,damianadams96@Hotmail.com,false,0
+ObjectID,90,221,20,86,169,254,200,49,120,147,75,16,true,false,555-666-7654,44455,FL,Huntington,123 Me St,engineer,Ngo,Trang,$2a$08$FbYZxEjjZTUqtJaZe.juouhwR2QTtNl.5S0I6ICuowZWq9YVhYrE2,Trang@gmail.com,false,0
+ObjectID,90,221,27,29,189,136,136,45,76,6,202,77,false,false,555-313-9679,25701,WV,Huntington,1599 Burly Ave,user,Hendricks,Jimmy,$2a$08$4HxQ2zesrCBrqKnZnIuaaeYSUssWN5mueNWczWtmoEdO9XtfRo2Gi,tester5@gmail.com,true,0
+ObjectID,90,221,30,52,189,136,136,45,76,6,202,78,false,true,555-768-9945,25701,UT,Huntington,5645 My Dick Ave,finance,Willerson,Zilch,$2a$08$mvqgGKA65Lp6LZ4ql2JUG.WuyK3mpXQ01AochMQfdvGn2SPANEUL.,anyone@what.com,false,0
+ObjectID,90,221,81,66,202,106,91,32,84,129,26,155,true,false,850-313-3333,35566-2333,KS,Huntington,3445 Buddy st,user,Sins,Jonny,$2a$08$MSV8SCoB7OISkEC2cHuyG.bK2rsVpveWZLTRkdfUu2Z.kS.CSmJXW,jonny@gmail.com,false,0
