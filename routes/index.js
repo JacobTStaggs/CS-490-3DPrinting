@@ -115,23 +115,145 @@ router.get('/reports',isLoggedIn, function(req,res, next){
 router.post('/reports', isLoggedIn, function(req, res){
   let choice = req.body.parameters;
   console.log(req.body.parameters);
+  console.log(req.body.engineer);
   var dt = dateTime.create();
   var formatted = dt.format('Y-m-d H:M:S');
-  if (req.body.parameters == 'All Users') {
+  if (req.body.parameters == 'allUsers') {
     db.collection('users').find().toArray(function(err, results){
       console.log(results);
       csvwriter(results,function(err,csv){
-        var stream = fs.createWriteStream("stest.csv");
+        var stream = fs.createWriteStream("./report/allUsers.csv");
         stream.once('open', function(fd){
           stream.write(csv);
           stream.end();
         })
         console.log(csv);
       })
+      res
     });
     }
+    else if(req.body.parameters == 'engProj'){
+
+      console.log(req.body.engineer);
+      db.collection('projects').find({"engineerEmail": req.body.engineer}).toArray(function(err, results){
+        console.log(results);
+        var reportLink = "./report/"+req.body.engineer+"-report.csv";
+        var file = req.body.engineer+"-report.csv";
+        csvwriter(results,function(err,csv){
+
+          var stream = fs.createWriteStream(reportLink);
+          stream.once('open', function(fd){
+            stream.write(csv);
+            stream.end();
+          })
+          console.log(csv);
+        })
+          res.download(reportLink);
+      });
+      }
+      else if(req.body.parameters == 'projBetween'){
+
+        console.log(req.body.engineer);
+        db.collection('projects').find({"engineerEmail": req.body.engineer}).toArray(function(err, results){
+          console.log(results);
+          var reportLink = "./report/"+req.body.engineer+"-report.csv";
+          var file = req.body.engineer+"-report.csv";
+          csvwriter(results,function(err,csv){
+
+            var stream = fs.createWriteStream(reportLink);
+            stream.once('open', function(fd){
+              stream.write(csv);
+              stream.end();
+            })
+            console.log(csv);
+          })
+            res.download(reportLink);
+        });
+        }
+      else if(req.body.parameters == 'totalMats'){
+
+        db.collection('projects').find().toArray(function(err, results){
+          console.log(results);
+          var volume = 0;
+          for(var i = 0; i < results.length; i++){
+            volume = volume + results[i].volume;
+            console.log(results[i].volume);
+          }
+
+          db.collection('totalMats').save({"volume": volume});
+
+          db.collection('totalMats').find().toArray(function(err, results){
+            var reportLink = "./report/totalMaterial-report.csv";
+            for(var i = 0; i < results.length; i++){
+              if(i = results.length){
+                csvwriter(results[i],function(err,csv){
+
+                  var stream = fs.createWriteStream(reportLink);
+                  stream.once('open', function(fd){
+                    stream.write(csv);
+                    stream.end();
+                  })
+                  console.log(csv);
+                })
+                  res.download(reportLink);
+              }
+            }
+
+          })
+
+        });
+        }
+        else if(req.body.parameters == 'totalRev'){
+
+          db.collection('projects').find().toArray(function(err, results){
+            console.log(results);
+            var rev = 0;
+            for(var i = 0; i < results.length; i++){
+              rev = rev + results[i].finalCost;
+              console.log(results[i].finalCost);
+            }
+
+
+            var reportLink = "./report/totalRev-report.csv";
+            csvwriter(rev,function(err,csv){
+
+              var stream = fs.createWriteStream(reportLink);
+              stream.once('open', function(fd){
+                stream.write(csv);
+                stream.end();
+              })
+              console.log(csv);
+            })
+              res.render('downloadReport.ejs', {user: req.user, reportLink: reportLink});
+          });
+          }    else if(req.body.parameters == 'totalMats'){
+
+                db.collection('projects').find().toArray(function(err, results){
+                  console.log(results);
+                  var volume = 0;
+                  for(var i = 0; i < results.length; i++){
+                    volume = volume + results[i].volume;
+                    console.log(results[i].volume);
+                  }
+
+                  var reportLink = "./report/totalMaterial-report.csv";
+                  csvwriter(volume,function(err,csv){
+
+                    var stream = fs.createWriteStream(reportLink);
+                    stream.once('open', function(fd){
+                      stream.write(csv);
+                      stream.end();
+                    })
+                    console.log(csv);
+                  })
+                    res.render('downloadReport.ejs', {user: req.user, reportLink: reportLink});
+                });
+                }
   });
 
+router.get('/downloadReport', isLoggedIn, function(req, res){
+
+});
 
 router.post('/projects', isLoggedIn, function(req, res) {
   let choice = req.body.filter;
@@ -679,7 +801,7 @@ router.post('/quote', isLoggedIn, function(req, res) {
       clientName: req.user.local.firstName + " " + req.user.local.lastName,
       email: email,
       clientID: clientID,
-
+      volume: volume,
       materialName: materialName,
       materialCost: materialCost,
       materialID: materialID,
