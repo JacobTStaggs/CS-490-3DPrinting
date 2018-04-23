@@ -260,13 +260,30 @@
 
 
  // SHOW EDIT USER FORM
- router.get('/verifyEmail/(:id)', isLoggedIn, function(req, res, next) {
-   res.render('verifyEmail.ejs', {
-     user: req.user
+ router.get('/verifyEmail/(:id)', function(req, res, next) {
+
+   var o_id = new ObjectId(req.params.id).toString();
+
+
+   db.collection('users').find({
+     "_id": ObjectId(o_id).toString
+   }).toArray(function(err, results) {
+
+     for (var i = 0; i < results.length; i++) {
+
+       if (results[i]._id == o_id) {
+
+         console.log(results[i]);
+
+         res.render('verifyEmail.ejs', {
+           user: results[i]
+         });
+       }
+     }
    });
  });
 
- router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
+ router.post('/verifyEmail/(:id)', function(req, res) {
 
    var o_id = new ObjectId(req.params.id).toString();
 
@@ -282,12 +299,7 @@
          console.log(results[i]);
 
 
-         var state;
-         if (req.body.userState == "NOT") {
-           state = result[i].state;
-         } else {
-           state = req.body.userState;
-         }
+
          db.collection('users').updateOne({
            "_id": results[i]._id
          }, {
@@ -296,17 +308,18 @@
              "local.emailValidated": true
            }
 
+         }, function(err) {
+
+           console.log("success");
+           res.redirect('/');
          });
-         console.log("success");
-         res.render('landing.ejs', {
-           user: req.user
-         });
-         break;
        }
 
      }
    });
  });
+
+
  router.post('/editPassword/(:id)', function(req, res) {
    console.log(req.params.id);
    var o_id = new ObjectId(req.params.id).toString();
@@ -798,26 +811,32 @@
    });
  });
 
+
+
  router.post('/resetPassword', function(req, res) {
 
-   res.render('forgotPassword.ejs');
+
 
    let email = req.body.email;
    console.log(email);
-   db.collection('users').find({
+   db.collection('users').findOne({
      "local.email": email
-   }).toArray(function(err, result) {
+   }, function(err, result) {
      if (result) {
        resetPassword(email, result._id);
+       console.log(result._id);
+       res.render('forgotPassword.ejs');
        return result;
      } else {
-
+       res.render('forgotPassword.ejs');
      }
-
-
-
    });
  });
+
+
+
+
+
 
  router.post('/quote', isLoggedIn, function(req, res) {
 
@@ -835,7 +854,7 @@
      let email = req.user.local.email;
      let clientID = req.user.id;
      let density = req.body.projectDensity;
-     var datePosted = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+     var datePosted = new Date().toISOString();
      let projectComments = req.body.projectComments;
      //Calculate Estimate Price
 
@@ -925,7 +944,7 @@
                    engineerEmail: 'Unassigned',
                    datePosted: datePosted,
                    Density: density,
-                   projectComments: req.body.projComments,
+                   projectComments: req.body.projectComments,
                    archived: false,
                    completed: false,
                    finalCost: finalCost
@@ -1110,7 +1129,7 @@
 
 
 
- module.exports = router;
+
 
  function isLoggedIn(req, res, next) {
 
@@ -1213,9 +1232,6 @@
    return cost;
  }
 
-
-
-
  function resetPassword(userEmail, userID) {
    var transporter = nodemailer.createTransport({
      service: 'gmail',
@@ -1294,21 +1310,7 @@
 
  module.exports = router;
 
- function isLoggedIn(req, res, next) {
-   if (!(req.user.local.emailValidated)) {
-     res.redirect('/verify');
 
-   } else if (req.user.local.banned) {
-     res.redirect('/banned');
-
-   } else if (req.isAuthenticated()) {
-     return next();
-
-   } else {
-     res.redirect('/');
-   }
-
- }
 
 
  function isRole(req, res, next) {
@@ -1399,30 +1401,7 @@
 
 
 
- function resetPassword(userEmail, userID) {
-   var transporter = nodemailer.createTransport({
-     service: 'gmail',
-     auth: {
-       user: 'rcbi3dprinting@gmail.com',
-       pass: 'RCBI2018'
-     }
-   });
 
-   var mailOptions = {
-     from: 'RCBI3DPRINTING@noresponse.COM',
-     to: userEmail,
-     subject: 'Sending Email using Node.js',
-     html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
-   };
-
-   transporter.sendMail(mailOptions, function(error, info) {
-     if (error) {
-       console.log(error);
-     } else {
-       console.log('Email sent: ' + info.response);
-     }
-   });
- }
 
  function sendAdmin(email, custEmail) {
    var transporter = nodemailer.createTransport({
