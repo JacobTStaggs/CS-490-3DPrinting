@@ -49,8 +49,8 @@
               <form method="post">
                   <h2 cl ass="text-center"><strong>Create</strong> an account.</h2>
                   <div class="form-group"><p><b>Email</b></p><input class="form-control" type="email" name="email" placeholder="Email" required></div>
-                  <div class="form-group"><p><b>Password</b></p><input class="form-control" type="password" name="password" placeholder="Password" minlength="8" required></div>
-                  <div class="form-group"><p><b>Re-Enter Password</b></p><input class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)" minlength="8" required></div>
+                  <div class="form-group"><p><b>Password</b></p><input id="password" class="form-control" type="password" name="password" placeholder="Password" minlength="8" required></div>
+                  <div class="form-group"><p><b>Re-Enter Password</b></p><input id="passwordConfirm" class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)" minlength="8" required></div>
                   <div class="form-group"><p><b>First Name</b></p><input class="form-control" type="text" name="firstName" placeholder="First Name" required></div>
                   <div class="form-group"><p><b>Last Name</b></p><input class="form-control" type="text" name="lastName" placeholder="Last Name" required></div>
                   <div class="form-group"><p><b>Street Address</b></p><input class="form-control" type="text" name="street" placeholder="Street Address i.e. '123 Joy Lane'" required></div>
@@ -113,13 +113,30 @@
                   <div class="form-group"><p><b>Zip</b> in format: XXXXX or XXXXX-XXXX</p><input class="form-control" type="text" name="zip" placeholder="Zip" pattern="(\d{5}([\-]\d{4})?)" required></div>
                   <div class="form-group"><p><b>Phone</b> in format: XXX-XXX-XXXX</p><input class="form-control" type="text" name="phone" placeholder="Phone Number" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required></div>
                   <div class="form-group">
-                      <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox">I agree to the license terms.</label></div>
+                      <div class="form-check"><label class="form-check-label" hidden><input class="form-check-input" type="checkbox">I agree to the license terms.</label ></div>
                   </div>
-                  <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sign Up</button></div><a href="#" class="already">You already have an account? Login here.</a></form>
+                  <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sign Up</button></div><a href="/login" class="already" hidden>You already have an account? Login here.</a></form>
           </div>
       </div>
       <script src="assets/js/jquery.min.js"></script>
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>
       <script src="assets/js/bs-animation.js"></script>
   </body>
+  <script>
+
+  var password = document.getElementById("password")
+    , confirm_password = document.getElementById("passwordConfirm");
+
+  function validatePassword(){
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
+
+  </script>
 </html>

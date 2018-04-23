@@ -23,7 +23,7 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <% if (user.local.role == 'admin') { %>
+                        <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
                           <th>ID</th>
                           <% } %>
                             <th>First Name</th>
@@ -42,7 +42,7 @@
                     <tbody>
                       <form action="/editUser/<%=id%>" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
                         <tr>
-                          <% if (user.local.role == 'admin') { %>
+                          <% if (user.local.role == 'admin'|| user.local.role == 'engineer') { %>
                             <td> <input type="text" class="form-control" name="id" value="<%= id %>" readonly> </td>
                             <td> <input type="text" class="form-control" name="userFName" value="<%=userFName %>" required></td>
                             <td> <input type="text" class="form-control" name="userLName" value="<%=userLName %>" required></td>
@@ -119,13 +119,13 @@
                                 <option value="finance">Finance</option>
                                 <option value="admin">Admin</option>
                               </select></td>
-                              <% if (userRole != 'admin') {%>
+                              <% if (userRole != 'admin' || user.local.role == "engineer") {%>
                               <td>  <input type="radio" name="userBan" value="true" <%if (userBan){%> checked <%}%> > Yes<br>
                                 <input type="radio" name="userBan" value="false" <%if (!userBan){%> checked <%}%> > No<br></td>
                                 <%}%>
                                 <% } %>
 
-                                  <% } else if (user.local.role == 'user' || user.local.role == 'engineer' || user.local.role == 'finance' ) { %>
+                                  <% } else if (user.local.role == 'user' || user.local.role == 'finance' ) { %>
                                     <td name="id" hidden>
                                       <%=id%>
                                     </td>
@@ -207,7 +207,9 @@
                       </form>
                     </tbody>
                   </table>
+                  <% if(user.id == id) {%>
                   <a href="/editPassword/<%=id%>"><button class="btn btn-primary btn-block" style="background-color:rgb(4,148,74);"> Edit Password </button></a>
+                  <%}%>
                 </div>
               </div>
             </div>

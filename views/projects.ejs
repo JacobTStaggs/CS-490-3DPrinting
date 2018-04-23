@@ -40,7 +40,7 @@
         </div>
         <div>
 
-          <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
+
             <div class="card-group">
 
               <div class="container">
@@ -51,17 +51,23 @@
                         <div class="input-group-btn search-panel">
 
                           <select class="form-control form-group" name="filter">
+
                           <option value="all">All</option>
+                          <option value="archived">Archived</option>
+                          <option value="notArchived">Not Archived</option>
+          <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
                           <% if (user.local.role == 'engineer') {%>
                           <option value="yourProjects">Your Projects</option>
                           <%}%>
                           <option value="email">Client Email</option>
                           <option value="engineer">Engineer Email</option>
-                          <option value="archived">Archived</option>
-                          <option value="notArchived">Not Archived</option>
+
                           <option value="completed" >Completed</option>
                           <option value="notCompleted">Not Completed</option>
+                                                    <% } %>
                           </select>
+
+
 
                           <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
                           <button type="submit" class="btn btn-success">Filter</button>
@@ -76,7 +82,6 @@
               </div>
             </div>
         </div>
-        <% } %>
 
           <div class="card-group">
             <div class="card">
@@ -94,12 +99,15 @@
                       <tr>
                         <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
                           <th>Project ID</th>
+                          <th>Completed</th>
                           <% } %>
                             <th>Project Name</th>
+                            <th>Comments</th>
                             <th onClick="sortTable(0)">User Email</th>
                             <th onClick="sortTable(0)">Engineer</th>
                             <th onClick="sortTable(0)">Estimate</th>
                             <th onClick="sortTable(0)">Date Posted </th>
+                            <th>Archived</th>
 
                             <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
                               <th>Options</th>
@@ -119,10 +127,16 @@
                                 <td>
                                   <%= projects[i]._id %>
                                 </td>
+                                <td>
+                                  <%= projects[i].completed %>
+                                </td>
                                 <%}%>
 
                                   <td>
                                     <%= projects[i].projectName %>
+                                  </td>
+                                  <td>
+                                    <%if(projects[i].projectComments){%> Yes <%} else {%> No <%}%>
                                   </td>
                                   <td>
                                     <%= projects[i].email%>
@@ -137,9 +151,12 @@
                                   <td>
                                     <%= projects[i].datePosted %>
                                   </td>
-                                  <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
+                                  <td>
+                                    <%= projects[i].archived %>
+                                  </td>
+
                                     <td> <a href='/edit/<%=projects[i]._id %>'><% if (user.local.role == 'user' || user.local.role == 'finance') { %> View <%} else {%> Edit <%}%></a></td>
-                                    <%}%>
+
                                       <td> <a href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
 
                             </tr>

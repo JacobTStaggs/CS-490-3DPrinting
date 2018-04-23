@@ -80,7 +80,7 @@
                 <input class="form-control" type="text" name=projMaterialID value='<%= project.materialID%>' readonly></div>
               <div>
                 <p style="color:#ffffff;"> Project Estimated Cost: </p>
-                <input class="form-control" type="number" name=projEstimateCost value='<%= project.finalCost%>' required></div>
+                <input class="form-control" type="number" step=0.01 name=projEstimateCost value='<%= project.finalCost%>' required></div>
               <div>
                 <p style="color:#ffffff;"> Selected Engineer: </p>
                 <% if (user.local.role == 'admin') { %>
@@ -96,7 +96,8 @@
                       <input type="radio" name="projEngineer" value='{ "id" : " ", "name" : "Unassigned", "email": "Unassigned" }' <%if (project.engineerEmail == "Unassigned" ){%> checked<%}%> > Drop<br>
 
                     <%} else {%>
-                      <input class="form-control" type="text" name=projEngineer value='{ "id" : "<%=engineers[i]._id%>", "name" : "<%=engineers[i].firstName%> <%=engineers[i].lastName%>", "email": "<%=engineers[i].email%>" }' readonly></div>
+                      <input class="form-control" type="text" name=projEngineer value='{ "id" : "<%=project.engineerID%>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' hidden>
+                      <input class="form-control" type="text" name=nothing value="<%=project.engineerName%>" readonly></div>
                       <% }%>
               </div>
 
