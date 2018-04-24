@@ -71,7 +71,6 @@
             <div> <input type="submit" value="Update" <%if( user.local.role == "user" || user.local.role == "finance") {%> hidden <%}%>></div>
       </div>
 
-        <a href='/deleteMaterial/<%= material._id%>' <% if (user.local.role == 'user' || user.local.role == 'finance') { %> hidden<%}%> >  Delete </a>
         <a href='/deleteMaterial/<%= material._id%>'>  <button type="button" class="btn btn-success"  <% if (user.local.role == 'user' || user.local.role == 'finance') { %> hidden<%}%>>Delete</button></a>
 
       </form>

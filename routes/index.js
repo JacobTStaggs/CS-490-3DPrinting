@@ -260,13 +260,30 @@
 
 
  // SHOW EDIT USER FORM
- router.get('/verifyEmail/(:id)', isLoggedIn, function(req, res, next) {
-   res.render('verifyEmail.ejs', {
-     user: req.user
+ router.get('/verifyEmail/(:id)', function(req, res, next) {
+
+   var o_id = new ObjectId(req.params.id).toString();
+
+
+   db.collection('users').find({
+     "_id": ObjectId(o_id).toString
+   }).toArray(function(err, results) {
+
+     for (var i = 0; i < results.length; i++) {
+
+       if (results[i]._id == o_id) {
+
+         console.log(results[i]);
+
+         res.render('verifyEmail.ejs', {
+           user: results[i]
+         });
+       }
+     }
    });
  });
 
- router.post('/verifyEmail/(:id)', isLoggedIn, isVerified, function(req, res) {
+ router.post('/verifyEmail/(:id)', function(req, res) {
 
    var o_id = new ObjectId(req.params.id).toString();
 
@@ -282,12 +299,7 @@
          console.log(results[i]);
 
 
-         var state;
-         if (req.body.userState == "NOT") {
-           state = result[i].state;
-         } else {
-           state = req.body.userState;
-         }
+
          db.collection('users').updateOne({
            "_id": results[i]._id
          }, {
@@ -296,17 +308,18 @@
              "local.emailValidated": true
            }
 
+         }, function(err) {
+
+           console.log("success");
+           res.redirect('/');
          });
-         console.log("success");
-         res.render('landing.ejs', {
-           user: req.user
-         });
-         break;
        }
 
      }
    });
  });
+
+
  router.post('/editPassword/(:id)', function(req, res) {
    console.log(req.params.id);
    var o_id = new ObjectId(req.params.id).toString();
@@ -798,26 +811,32 @@
    });
  });
 
+
+
  router.post('/resetPassword', function(req, res) {
 
-   res.render('forgotPassword.ejs');
+
 
    let email = req.body.email;
    console.log(email);
-   db.collection('users').find({
+   db.collection('users').findOne({
      "local.email": email
-   }).toArray(function(err, result) {
+   }, function(err, result) {
      if (result) {
        resetPassword(email, result._id);
+       console.log(result._id);
+       res.render('forgotPassword.ejs');
        return result;
      } else {
-
+       res.render('forgotPassword.ejs');
      }
-
-
-
    });
  });
+
+
+
+
+
 
  router.post('/quote', isLoggedIn, function(req, res) {
 
@@ -835,7 +854,7 @@
      let email = req.user.local.email;
      let clientID = req.user.id;
      let density = req.body.projectDensity;
-     var datePosted = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+     var datePosted = new Date().toISOString();
      let projectComments = req.body.projectComments;
      //Calculate Estimate Price
 
@@ -925,7 +944,7 @@
                    engineerEmail: 'Unassigned',
                    datePosted: datePosted,
                    Density: density,
-                   projectComments: req.body.projComments,
+                   projectComments: req.body.projectComments,
                    archived: false,
                    completed: false,
                    finalCost: finalCost
@@ -1649,7 +1668,7 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
 
 
 
- module.exports = router;
+
 
  function isLoggedIn(req, res, next) {
 
@@ -1709,7 +1728,9 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     }
+     },    tls: {
+        rejectUnauthorized: false
+    }
    });
 
    var mailOptions = {
@@ -1752,16 +1773,15 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
    return cost;
  }
 
-
-
-
  function resetPassword(userEmail, userID) {
    var transporter = nodemailer.createTransport({
      service: 'gmail',
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     }
+     },    tls: {
+        rejectUnauthorized: false
+    }
    });
 
    var mailOptions = {
@@ -1786,14 +1806,16 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     }
+     },    tls: {
+        rejectUnauthorized: false
+    }
    });
 
    var mailOptions = {
      from: 'RCBI3DPRINTING@noresponse.COM',
      to: email,
      subject: 'Sending Email using Node.js',
-     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The project ID is: ' + projectID + '. The project name is: ' + projectName + '. The email for the customer is ' + custEmail + '</p>'
+     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to login and see it. </p>'
    };
 
    transporter.sendMail(mailOptions, function(error, info) {
@@ -1832,158 +1854,3 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
 
 
  module.exports = router;
-
- function isLoggedIn(req, res, next) {
-   if (!(req.user.local.emailValidated)) {
-     res.redirect('/verify');
-
-   } else if (req.user.local.banned) {
-     res.redirect('/banned');
-
-   } else if (req.isAuthenticated()) {
-     return next();
-
-   } else {
-     res.redirect('/');
-   }
-
- }
-
-
- function isRole(req, res, next) {
-   if (req.isAuthenticated() && req.user.local.role == 'admin')
-     return next();
-   res.redirect('/profile');
- }
-
- function isVerified(req, res, next) {
-   if (req.isAuthenticated())
-     return next();
-   res.redirect('/verify');
-
- }
-
-
- function getEngineers() {
-   db.collection('users').find({
-     "role": "engineer"
-   }).toArray(function(err, result) {
-     console.log(result);
-     return result;
-   });
- }
-
- function getMaterials() {
-   db.collection('materials').find().toArray(function(err, result) {
-     console.log(result);
-     return result;
-   });
- }
-
- function isEngineer(req, res, next) {
-   if (req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role == 'engineer')
-     return next();
-   res.redirect('/profile');
- }
-
- function sendEmail(userID, userEmail) {
-   var transporter = nodemailer.createTransport({
-     service: 'gmail',
-     auth: {
-       user: 'rcbi3dprinting@gmail.com',
-       pass: 'RCBI2018'
-     }
-   });
-
-   var mailOptions = {
-     from: 'RCBI3DPRINTING@noresponse.COM',
-     to: userEmail,
-     subject: 'Sending Email using Node.js',
-     html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
-   };
-
-   transporter.sendMail(mailOptions, function(error, info) {
-     if (error) {
-       console.log(error);
-     } else {
-       console.log('Email sent: ' + info.response);
-     }
-   });
- }
-
- function calcPrintCost(materialCostPerVolume, volume, density) {
-   var densityCostModifier;
-
-   switch (density) {
-     case "Solid":
-       densityCostModifier = 1.0;
-       break;
-     case "Sparse":
-       densityCostModifier = 0.35;
-       break;
-     case "Sparse Double Dense":
-       densityCostModifier = 0.55;
-       break;
-   }
-
-   //This is a terrible and rough estimation to estiamte man hours. needs work.
-   var manHours = volume;
-   var costPerManHour = 25;
-
-   var preCost = (materialCostPerVolume * volume * densityCostModifier) + manHours * costPerManHour * densityCostModifier;
-   cost = preCost.toFixed(2);
-   return cost;
- }
-
-
-
-
- function resetPassword(userEmail, userID) {
-   var transporter = nodemailer.createTransport({
-     service: 'gmail',
-     auth: {
-       user: 'rcbi3dprinting@gmail.com',
-       pass: 'RCBI2018'
-     }
-   });
-
-   var mailOptions = {
-     from: 'RCBI3DPRINTING@noresponse.COM',
-     to: userEmail,
-     subject: 'Sending Email using Node.js',
-     html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
-   };
-
-   transporter.sendMail(mailOptions, function(error, info) {
-     if (error) {
-       console.log(error);
-     } else {
-       console.log('Email sent: ' + info.response);
-     }
-   });
- }
-
- function sendAdmin(email, custEmail) {
-   var transporter = nodemailer.createTransport({
-     service: 'gmail',
-     auth: {
-       user: 'rcbi3dprinting@gmail.com',
-       pass: 'RCBI2018'
-     }
-   });
-
-   var mailOptions = {
-     from: 'RCBI3DPRINTING@noresponse.COM',
-     to: email,
-     subject: 'Sending Email using Node.js',
-     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to see it. The email for the customer is ' + custEmail + '</p>'
-   };
-
-   transporter.sendMail(mailOptions, function(error, info) {
-     if (error) {
-       console.log(error);
-     } else {
-       console.log('Email sent: ' + info.response);
-     }
-   });
- }

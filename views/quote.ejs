@@ -48,7 +48,7 @@
           <form action="/quote" enctype="multipart/form-data" method="post">
             <div>
               <h5 style="color:#ffffff;">Upload a file to start your project</h5>
-              <% if (user.local.role == user) {%>
+              <% if (user.local.role == "user") {%>
               <p style="color:#ffffff;">The file must be in .stl format. Please keep files less than 20Mb in size</p>
               <% } else {%>
                 <p style="color:#ffffff;">The file must be in .stl format. Admins and Engineers can upload files without limit to size. Please upload cautiously...</p>
