@@ -991,8 +991,6 @@
       user: req.user,
       projects: results
     });
-  });
-<<<<<<< HEAD
 });
 // SHOW EDIT USER FORM
 router.get('/editPassword/(:id)', function(req,res,next){
@@ -1512,8 +1510,7 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
         }
       }
       // render to views/user/edit.ejs template file
-=======
->>>>>>> d5b7b433ab5378690b1710df2bbedae65a659052
+
 
   //Sending stuff to admins/getEngineers
   db.collection('users').find({"local.role": "engineer"}).toArray(function(err, results){
@@ -1586,7 +1583,7 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
            }, (err, result) => {
              if (err) return console.log(err);
 
-<<<<<<< HEAD
+
       projectName: projectName,
       clientName: req.user.local.firstName + " " + req.user.local.lastName,
       email: email,
@@ -1595,12 +1592,7 @@ router.post('/editMaterials/(:id)', function(req, res,next) {
       materialName: materialName,
       materialCost: materialCost,
       materialID: materialID,
-=======
-         });
 
-         console.log('saved to database');
-         res.redirect('/projects');
->>>>>>> d5b7b433ab5378690b1710df2bbedae65a659052
 
            console.log('saved to database');
            res.redirect('/projects');

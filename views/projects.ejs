@@ -99,7 +99,6 @@
                     <thead>
                       <tr>
                         <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
-                          <th>Project ID</th>
                           <th>Completed</th>
                           <% } %>
                             <th>Project Name</th>
@@ -122,9 +121,6 @@
                           <% if (user.local.role == "user" && user.id == projects[i].clientID || user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") {%>
                             <tr>
                               <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
-                                <td>
-                                  <%= projects[i]._id %>
-                                </td>
                                 <td>
                                   <%= projects[i].completed %>
                                 </td>
