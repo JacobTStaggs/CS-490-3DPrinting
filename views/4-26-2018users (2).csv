@@ -1,0 +1,17 @@
+"_id","local.firstName","local.lastName","local.email","local.role","local.street","local.city","local.zip","local.phone","local.contract","local.emailValidated","local.banned"
+"5acfc43b056e661330faad63","Jacob","Staggs","jacob@test.com","admin","213123 fefeg","wewe","23134","242432424","false",false,
+"5ad4c3d045c25415b020c872","test","test","test1@1.com","user","test","test","34344","3333","false",false,
+"5ad5ee929ffd813bc08a05c5","cust","omer","cust1@test.com","engineer","4343 street","Huntington",25701,2342342345,false,false,
+"5ad60217a3ac1516381d6cad","test","test","test@tet.com","user","testsat","ererr",23123,3424234234,false,false,
+"5ad6038bd304cf23282958a1","jacob","jsjs","test4@test.com","user","jsjs","wewe",21345,42132144,false,false,
+"5ad603dddd3eb82180079b23","fefef","fefef","fefef@emai.com","user","fefef","fefef",23232,232323,false,false,
+"5ad6045cdd3eb82180079b24","test","test","test20000@test.com","user","test","test",23123,2321313,false,false,
+"5ad60561841a530684cc75ee","test","test","blah@blah.com","user","rere","dwqd",213,3131313,false,false,
+"5ad6067484bccc3e44d749cc","rest","rest","rerer@re.com","user","rest","rest",12313,32131313,false,false,
+"5ad60cf433fba449cc45d171","tttt","tttt","tttt@tttt.com","user","3123213","wewe",23233,2323133,false,false,
+"5ad60e22e06f833e1cc20da9","rere","eer","tttt@1.com","user","rerer","rewr",23231,3213123,false,false,
+"5ad612cd2594d53f0c642e50","test","test","test@tetet.com","user","test","test",232,2333,false,true,
+"5ad616e6e5d11905d0d655c2","Jacob","Staggs","jacobstaggs22@gmail.com","admin","202 Providence Hill Dr, Apt 211","Ashland",41101,3049287958,false,true,
+"5ad7b1a5caf97b416487c982","test","test","jacob@te2st.com","user","tetew","rre",3223,232323,false,false,
+"5ad8a85c36befe3a54c2412c","Jacob","Staggs","Staggs11@marshall.edu","engineer","23123 rerwer","rerewr","23134","434-423-4444","false",true,false
+"5ae0e535cc3c1d2648fcf0f1","test","test","jacob.staggs@sbcs.com","user","test","tes","12345","222-333-4444",false,true,false

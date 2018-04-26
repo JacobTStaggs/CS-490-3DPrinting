@@ -1,0 +1,56 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+<!-- <nav aria-label="breadcrumb">
+  <style>
+  .btn2 {
+    display: inline-block;
+    background-color:rgb(4,148,74);
+    color: #FFFFFF;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 0px;
+    opacity: 0.9;
+}
+  </style> -->
+
+
+<!-- <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li ><a href='/landing' class="btn2"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+    <li ><a href="/profile" class="btn2">Profile</a></li>
+    <li ><a href="/projects" class="btn2">Projects</a></li>
+    <% if (user.local.role != 'user') { %>
+    <li  ><a href='/materials' class="btn2">Materials</a></li>
+    <li  ><a href='/reports' class="btn2">Reports</a></li>
+    <% } %>
+    <% if (user.local.role == 'admin') { %>
+      <li ><a href="/adminUserList" class="btn2">Users</a></li>
+    <% } %>
+  </ol>
+</nav> -->
+
+<!-- <nav aria-label="breadcrumb"> -->
+<div class="container">
+<div class="row">
+       <div class="btn-group btn-breadcrumb">
+         <ol class="breadcrumb">
+           <li><a href="#" class="btn btn-success"><i class="glyphicon glyphicon-home"></i></a></li>
+           <li><a href="#" class="btn btn-success">Profile</a></li>
+           <li> <a href="#" class="btn btn-success">Projects</a></li>
+           <% if (user.local.role != 'user') { %>
+           <li><a href="#" class="btn btn-success">Materials</a></li>
+           <li><a href="#" class="btn btn-success">Reports</a></li>
+           <% } %>
+           <% if (user.local.role == 'admin') { %>
+           <li><a href="#" class="btn btn-success">Users</a></li>
+           <% } %>
+         </ol>
+       </div>
+ </div>
+</div>
+<!-- </nav> -->

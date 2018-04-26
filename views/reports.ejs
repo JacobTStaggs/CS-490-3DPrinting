@@ -1,113 +1,68 @@
-<!DOCTYPE html>
+
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rcbi3d</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Article-Clean.css">
-    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
-    <link rel="stylesheet" href="assets/css/Footer-Clean.css">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
-    <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
-    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/Team-Boxed.css">
-    <link rel="stylesheet" href="assets/css/Team-Clean.css">
-    <link rel="stylesheet" href="assets/css/untitled.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rcbi3d</title>
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+  <link rel="stylesheet" href="assets/css/Article-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+  <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+  <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
+  <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/Team-Boxed.css">
+  <link rel="stylesheet" href="assets/css/Team-Clean.css">
+  <link rel="stylesheet" href="assets/css/untitled.css">
+  <script src="assets/js/sorttable.js"></script>
+
 </head>
 
 <body>
-    <div>
-<%- include partials/head.ejs %>
-    </div>
-    <div class="header-blue">
-        <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
-                  <%- include partials/breadcrumb.ejs%>
+  <div>
+    <%- include partials/head.ejs %>
+  </div>
+  <div class="header-blue">
+    <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+
+
+      <%- include partials/breadcrumb.ejs%>
+      <div class="card-group">
+        <div class="card">
+          <div class="card-header">
             <div>
+              <h1 style="margin-bottom:20px;">Reports</h1>
             </div>
+          </div>
             <div>
-                <div class="card" style="width: 50%; margin: 0 auto;">
-                    <div class="card-header">
-                      <h1>Reports</h1>
-                    </div>
                     <div class="card-body" style="margin: 0 auto;">
-                      <div style="margin: 0 auto;">
 
-                      <p style="text-align:center;">
-                        Please select an option below (Hover over options for details):
+                      <p align="center">
+                        Please select report to download below:
                       </p>
-                      <div style="margin-left:25%;">
-
-
-                      <form method="post">
-                        <select name="choice" style="margin: 0 auto;">
-                          <option title="donwload and excel sheet of all current Users" value="users">
+                      <form style="width:10%;padding-top: 10px;margin: 0 auto;" method="post">
+                        <select name="choice">
+                          <option value="users">
                             Users
                           </option>
-                          <option title="donwload and excel sheet of all current Projects" value="projects">
+                          <option value="projects">
                             Projects
                           </option>
-                          <option title="donwload and excel sheet of all current Materials" value="materials">
-                            Materials
-                          </option>
-                        </select>
+                          <option value="materials">
 
-                        <div style="margin-top:5px;">
-                          <button type="submit" class="btn btn-success">Download</button>
-
-                        </div>
-                      </form>
-                    </div>
-                      </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-clean">
-        <footer>
-            <div class="container" style="width:960px;">
-                <div class="row justify-content-center">
-                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
-                        <ul>
-                            <li></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">About Us</h3>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
-                    </div>
-                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
-                </div>
-            </div>
-            <div class="container">
-                <div>
-                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
-        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
-</div></div>
-                </div>
-            </div>
-        </footer>
-    </div>
 
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

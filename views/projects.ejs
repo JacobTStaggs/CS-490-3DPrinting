@@ -54,13 +54,13 @@ td {
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
       <%- include partials/breadcrumb.ejs%>
 
-
           <div class="card-group">
             <div class="card">
               <div class="card-header">
                 <div>
                   <h1 style="color:#000000;margin-bottom:20px;">Projects</h1>
                 </div>
+
                 <% if(user.local.role == 'user'){%>
                   <div>
                       <div class="card-group">
@@ -86,6 +86,7 @@ td {
                 <%} else {%>
                   <div>
                       <div class="card-group">
+
                         <div class="container">
                           <div class="row">
                               <span>
@@ -106,14 +107,17 @@ td {
                                     <option value="notCompleted">Not Completed</option>
                                                               <% } %>
                                     </select>
+
                                     <input class="" type="text" name="parameter" placeholder="Search parameter">
                                     <button type="submit" class="btn btn-success">Filter</button>
+
                                   </div>
                                 </form>
                             </div>
                           </span>
                           </div>
                         </div>
+
                       </div>
                   </div>
                   <%}%>
@@ -126,6 +130,7 @@ td {
               </div>
               <div class="card-body">
                 <div class="table-responsive">
+
 
                   <% if ( user.local.role == "admin" || user.local.role == "super") { %>
                       <table class="table sortable">
@@ -240,9 +245,11 @@ td {
                                         <th>Project Name</th>
                                         <th>Status</th>
                                         <th>Estimate</th>
+
                                           <th>
                                              Final Cost
                                           </th>
+
 
                                         <th>Engineer</th>
                                         <th>Date Posted </th>
@@ -261,6 +268,7 @@ td {
                                                 <%= projects[i].status%>
                                               </td>
                                               <td>
+
                                                 $<%= projects[i].finalCost %>
                                               </td>
                                               <td>
@@ -275,6 +283,7 @@ td {
                                                 <td>
                                                 <%= projects[i].engineerEmail %>
                                               </td>
+
 
                                               <td>
                                                 <%= projects[i].datePosted %>
@@ -299,6 +308,7 @@ td {
                   <a href="  /quote" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create Project </button></a>
                   <% } %>
               </div>
+
 
             </div>
           </div>
@@ -335,6 +345,7 @@ td {
           <script src="assets/js/jquery.min.js"></script>
           <script src="assets/bootstrap/js/bootstrap.min.js"></script>
           <script src="assets/js/bs-animation.js"></script>
+
 
 </body>
 </html>

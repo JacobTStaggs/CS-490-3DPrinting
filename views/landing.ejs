@@ -34,26 +34,32 @@
 <%- include partials/head.ejs %>
     </div>
     <div class="header-blue">
-        <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
+        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
             <div>
               <%- include partials/breadcrumb.ejs%>
             </div>
             <div>
                 <div class="card">
-                            <h3>Hello, <%=user.local.firstName%> <%=user.local.lastName%></h3>
+
+                  <div class="card-header">
+                    <div>
+                      <h1 style="color:#000000;margin-bottom:20px;">Hello, <%=user.local.firstName%>!</h1>
+                    </div>
+                  </div>
                             <% if (user.local.role == 'user'){%>
 
                               <ul>
-                                <li>To see your current projects please click <a href="/projects">here</a></li>
-                                <li>To see your account please click <a href="/profile">here</a></li>
+                                <li>To see your current projects, please click <a href="/projects">here</a></li>
+                                <li>To see your account, please click <a href="/profile">here</a></li>
                               </ul>
-                        
+
                           <% }else {%>
                             <ul>
-                              <li>To see your current projects please click <a href="/projects">here</a></li>
-                              <li>To see your account please click <a href="/profile">here</a></li>
-                              <li>To see the list of materials please click <a href="/materials">here</a></li>
-                              <li>To generate a report please click <a href="/reports">here</a></li>
+                              <li>To see your current projects, please click <a href="/projects">here</a></li>
+                              <li>To see your account, please click <a href="/profile">here</a></li>
+                              <li>To see the list of materials, please click <a href="/materials">here</a></li>
+                              <li>To generate a report, please click <a href="/reports">here</a></li>
+
                             </ul>
                           <% } %>
                     </div>
