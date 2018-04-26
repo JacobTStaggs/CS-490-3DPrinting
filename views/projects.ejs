@@ -59,6 +59,13 @@
                                   <div class="">
 
 
+                          <div style="padding-top:10px" class="input-group">
+                            <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
+                              <div class="input-group-btn search-panel">
+                                <span style="position: absolute; left: 5px;">
+                                <select class="" style="margin-right: 5px;" name="filter">
+
+
                                     <select class="" name="filter">
 
                                     <option value="all">All</option>
@@ -102,6 +109,7 @@
                     <h5 class="mb-0"></h5>
               </div>
               <div class="card-body">
+
                 <div class="table-responsive">
 
                   <% if ( user.local.role == "admin" || user.local.role == "super") { %>

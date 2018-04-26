@@ -180,16 +180,17 @@
                   <input class="form-control" type="text" name=projArchived value='<%= project.archived %>' readonly>
                 </div>
         <%}%>
-          <div> <input style="color:#00000;background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;" type="submit" value="Upload"  <%if (user.local.role == 'finance') {%> hidden <%}%>></div>
+          <div style="padding-top:10px"> <input style="color:#00000;background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;color:rgb(255,255,255)" type="submit" value="Update"  <%if (user.local.role == 'finance') {%> hidden <%}%>></div>
       </div>
 
       </form>
+
     </div>
   </div>
-
+</div>
+</div>
   <div>
       <% include partials/footer.ejs %>
-
   </div>
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>
