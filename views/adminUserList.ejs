@@ -1,8 +1,5 @@
 <html>
 
-
-
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,50 +38,48 @@
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
 
-      <div>
 
-        <h1 style="color:#ffffff;margin-bottom:20px;">User List</h1>
-      </div>
       <%- include partials/breadcrumb.ejs%>
-        <div>
-          <div class="card-group">
-
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-8 col-xs-offset-2">
-                  <div class="input-group">
-                    <form action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
-                      <div class="input-group-btn search-panel">
-                        <select class="form-control form-group" name="choice">
-                          <option value="all">All Users</option>
-                          <option value="email">User Email</option>
-                          <option value="banned">Banned Users</option>
-                          <option value="contractSigned">Contract Signed</option>
-                          <option value="contractNotSigned">Contract Not Signed</option>
-                          <option value="admins">Admins</option>
-                          <option value="engineers">Engineers</option>
-                          <option value="finance">Finance</option>
-                          <option value="clients">Clients</option>
-              </select>
-                        <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
-                        <button type="submit" class="btn btn-success">Filter</button>
-                      </div>
-
-                    </form>
-
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div>
           <div class="card-group">
             <div class="card">
               <div class="card-header">
-                <h5 class="mb-0"></h5>
+                <div>
+
+                  <h1 style="margin-bottom:20px;">User List</h1>
+                </div>
+              </div>
+              <div>
+                <div class="card-group">
+
+                  <div class="container">
+                    <div class="row">
+                    <span style="position: absolute; left: 5px;">
+                        <div class="">
+                          <form action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
+
+                              <select class="" style="margin-right: 5px;"name="choice">
+                                <option value="all">All Users</option>
+                                <option value="email">User Email</option>
+                                <option value="banned">Banned Users</option>
+                                <option value="contractSigned">Contract Signed</option>
+                                <option value="contractNotSigned">Contract Not Signed</option>
+                                <option value="admins">Admins</option>
+                                <option value="engineers">Engineers</option>
+                                <option value="finance">Finance</option>
+                                <option value="clients">Clients</option>
+                    </select>
+                            <input class="" type="text" name="parameter" placeholder="Search parameter">
+                              <button type="submit" class="btn btn-success">Filter</button>
+
+
+                          </form>
+                      </div>
+                    </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="card-body">
@@ -148,35 +143,8 @@
         </div>
     </div>
   </div>
-  <div class="footer-clean">
-    <footer>
-      <div class="container" style="width:960px;">
-        <div class="row justify-content-center">
-          <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
-            <ul>
-              <li></li>
-            </ul>
-          </div>
-          <div class="col-sm-4 col-md-3 item">
-            <h3 class="text-center" style="padding:12px;">About Us</h3>
-          </div>
-          <div class="col-sm-4 col-md-3 item">
-            <h3 class="text-center" style="padding:12px;">Contact Us</h3>
-          </div>
-          <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
-        </div>
-      </div>
-      <div class="container">
-        <div>
-          <div class="row justify-content-center">
-            <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
-              <a href="#" style="margin:0px;">
-                <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+  <div>
+      <% include partials/footer.ejs %>
   </div>
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>

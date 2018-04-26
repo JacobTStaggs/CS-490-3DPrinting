@@ -1,4 +1,4 @@
- var express = require('express');
+var express = require('express');
  var csvwriter = require('csvwriter');
  var fs = require('fs');
  var passport = require('passport');
@@ -16,6 +16,12 @@
  var MaterialModel = require('../models/materials.js');
  var ProjectModel = require('../models/projects.js');
  var path = require('path');
+ var fs = require('fs');
+ var MyStream = require('json2csv-stream');
+ var parser = new MyStream();
+ var jsonexport = require('jsonexport');
+ var writeCSV = require('write-csv')
+
 
  MongoClient.connect(mongoDB, (err, client) => {
    if (err) return console.log(err);
@@ -45,7 +51,52 @@
    });
  });
 
+router.get('/addUser', function(req, res) {
 
+  res.render('addUser.ejs', {
+    message: req.flash('signupMessage'),
+    user: req.user
+  });
+});
+
+router.post('/addUser', isLoggedIn, function(req, res, err) {
+
+  if (err)
+    console.log(err)
+
+  User.findOne({
+    'local.email': req.body.email
+  }, function(err, user) {
+    if (err)
+      return done(err);
+    if (user) {
+      return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+    } else {
+
+
+      var newUser = new User();
+      newUser.local.email = req.body.email;
+      newUser.local.password = newUser.generateHash(req.body.password);
+      newUser.local.firstName = req.body.firstName;
+      newUser.local.lastName = req.body.lastName;
+      newUser.local.role = req.body.role;
+      newUser.local.street = req.body.street;
+      newUser.local.city = req.body.city;
+      newUser.local.state = req.body.state;
+      newUser.local.zip = req.body.zip;
+      newUser.local.phone = req.body.phone;
+      newUser.local.contract = false;
+      newUser.local.emailValidated = true;
+      newUser.local.banned = false;
+      newUser.save(function(err) {
+        if (err)
+          throw err;
+        res.redirect('/adminUserList');
+      });
+    }
+  });
+
+});
 
 
  router.get('/addMaterial', isLoggedIn, function(req, res) {
@@ -126,6 +177,18 @@
      });
    }
  });
+ router.get('/archived', isLoggedIn, function(req, res) {
+     db.collection('projects').find({
+       'archived': true
+     }).toArray(function(err, results) {
+       console.log(results);
+       res.render('archived.ejs', {
+         user: req.user,
+         projects: results
+       });
+     });
+   });
+
 
  // SHOW EDIT USER FORM
  router.get('/editPassword/(:id)', function(req, res, next) {
@@ -137,40 +200,32 @@
  });
 
  router.get('/reports', isLoggedIn, function(req, res, next) {
-   db.collection('users').find({
-     "local.role": "engineer"
-   }).toArray(function(err, results) {
-     console.log(results);
      res.render('reports.ejs', {
-
-       engineers: results,
-       user: req.user
+       user: req.user,
      });
-   });
-
  });
-
- router.post('/reports', isLoggedIn, function(req, res) {
-   let choice = req.body.parameters;
-   console.log(req.body.parameters);
-   var dt = dateTime.create();
-   var formatted = dt.format('Y-m-d H:M:S');
-   if (req.body.parameters == 'All Users') {
-     db.collection('users').find().toArray(function(err, results) {
+ router.post('/reports', isLoggedIn, function(req, res, next) {
+   let choice = req.body.choice;
+   if(choice == 'projects'){
+     db.collection('projects').find().toArray(function(err, results) {
+       writeCSV('./report/projects.csv', results);
        console.log(results);
-       csvwriter(results, function(err, csv) {
-         var stream = fs.createWriteStream("stest.csv");
-         stream.once('open', function(fd) {
-           stream.write(csv);
-           stream.end();
-         })
-         console.log(csv);
-       })
-     });
-   }
+   });
+   res.download('./report/projects.csv');
+ }else if(choice == 'users'){
+   db.collection('users').find().toArray(function(err, results) {
+     writeCSV('./report/users.csv', results);
+     console.log(results);
  });
-
-
+ res.download('./report/users.csv');
+}else if (choice == 'materials'){
+  db.collection('materials').find().toArray(function(err, results) {
+    writeCSV('./report/materials.csv', results);
+    console.log(results);
+});
+res.download('./report/materials.csv');
+}
+});
  router.post('/projects', isLoggedIn, function(req, res) {
    let choice = req.body.filter;
    let parameter = req.body.parameter;
@@ -419,8 +474,12 @@
 
    engineerInfo = JSON.parse(req.body.projEngineer);
 
+   console.log(req.body.projFinalFinalCost);
+
    var archived = false;
    var completed = false;
+   console.log("test");
+
 
    if (req.body.projArchived == 'true')
      archived = true;
@@ -448,6 +507,7 @@
              "engineerID": engineerInfo.id,
              "finalCost": req.body.projEstimateCost,
              "completed": completed,
+             "finalFinalCost": req.body.projFinalFinalCost,
              "Density": req.body.projDensity,
              "projectComments": req.body.projComments,
              "archived": archived
@@ -1123,7 +1183,9 @@
      let email = req.user.local.email;
      let clientID = req.user.id;
      let density = req.body.projectDensity;
-     var datePosted = new Date().toISOString();
+     var month = new Date().getMonth() + 1;
+     var datePosted = month +  "/" + new Date().getDate() +  "/" +  new Date().getFullYear();
+
      let projectComments = req.body.projectComments;
      //Calculate Estimate Price
 
@@ -1444,7 +1506,7 @@
  });
 
  router.post('/login', passport.authenticate('local-login', {
-   successRedirect: '/landing',
+   successRedirect: '/projects',
    failureRedirect: '/login',
    failureFlash: true,
  }));
@@ -1520,8 +1582,35 @@
    var mailOptions = {
      from: 'RCBI3DPRINTING@noresponse.COM',
      to: userEmail,
-     subject: 'Sending Email using Node.js',
+     subject: 'RCBI - Verify your email',
      html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
+   };
+
+   transporter.sendMail(mailOptions, function(error, info) {
+     if (error) {
+       console.log(error);
+     } else {
+       console.log('Email sent: ' + info.response);
+     }
+   });
+ }
+
+ function sendFinalEmail(custEmail) {
+   var transporter = nodemailer.createTransport({
+     service: 'gmail',
+     auth: {
+       user: 'rcbi3dprinting@gmail.com',
+       pass: 'RCBI2018'
+     },    tls: {
+        rejectUnauthorized: false
+    }
+   });
+
+   var mailOptions = {
+     from: 'RCBI3DPRINTING@noresponse.COM',
+     to: custEmail,
+     subject: 'RCBI - Confirm your final pricing',
+     html: '<p>Go <a href="http://localhost:3000/login">here</a> to login to accept or deny the final pricing</p>'
    };
 
    transporter.sendMail(mailOptions, function(error, info) {
@@ -1572,7 +1661,7 @@
    var mailOptions = {
      from: 'RCBI3DPRINTING@noresponse.COM',
      to: userEmail,
-     subject: 'Sending Email using Node.js',
+     subject: 'RCBI - Reset your password',
      html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
    };
 
@@ -1600,7 +1689,7 @@
    var mailOptions = {
      from: 'RCBI3DPRINTING@noresponse.COM',
      to: email,
-     subject: 'Sending Email using Node.js',
+     subject: 'RCBI - New project has been posted',
      html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to login and see it. </p>'
    };
 
@@ -1632,7 +1721,7 @@
  });
 
  router.post('/login', passport.authenticate('local-login', {
-   successRedirect: '/landing',
+   successRedirect: '/projects',
    failureRedirect: '/login',
    failureFlash: true,
  }));

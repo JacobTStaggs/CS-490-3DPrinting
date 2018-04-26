@@ -35,9 +35,11 @@
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
 
-      <div>
+      <div class="card">
+        <div class="card-body">
 
-        <h1 style="color:#ffffff;"> Project Details </h1>
+
+        <h1 style="color:#00000;"> Project Details </h1>
 
         <%- include partials/breadcrumb.ejs%>
         <div>
@@ -46,43 +48,44 @@
           <form action="/edit/<%= project._id %>" method="post">
             <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
               <div>
-                <p style="color:#ffffff;"> Project ID: </p>
+                <p style="color:#00000;"> Project ID: </p>
                 <input class="form-control" type="text" name=projId value='<%= project._id%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> Project Name: </p>
+                <p style="color:#00000;"> Project Name: </p>
                 <input class="form-control" type="text" name=projName value='<%= project.projectName%>' required></div>
               <div>
-                <p style="color:#ffffff;"> Customer Email:</p>
+                <p style="color:#00000;"> Customer Email:</p>
                 <input class="form-control" type="text" name=projCustEmail value='<%= project.email%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> Client Name: </p>
+                <p style="color:#00000;"> Client Name: </p>
                 <input class="form-control" type="text" name=projCustName value='<%= project.clientName%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> Date Posted: </p>
+                <p style="color:#00000;"> Date Posted: </p>
                 <input class="form-control" type="text" name=projDatePosted value='<%= project.datePosted%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> File Name: </p>
+                <p style="color:#00000;"> File Name: </p>
                 <input class="form-control" type="text" name=projFileName value='<%= project.fileNewName%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> Volume of File: </p>
+                <p style="color:#00000;"> Volume of File: </p>
                 <input class="form-control" type="Number" name=projVolume value='<%= project.fileVolumeCmCubed%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> Requested Model Density: </p>
+                <p style="color:#00000;"> Requested Model Density: </p>
                 <input class="form-control" type="text" name=projDensity value='<%= project.Density%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> Requested Material </p>
+                <p style="color:#00000;"> Requested Material </p>
                 <input class="form-control" type="text" name=projMaterialName value='<%= project.materialName%>' readonly></div>
               <div>
-                <p style="color:#ffffff;"> Price of Material per cubic centimeter: </p>
+                <p style="color:#00000;"> Price of Material per cubic centimeter: </p>
                 <input class="form-control" type="text" name=projMaterialCost value='<%= project.materialCost%>' readonly></div>
+
               <div>
-                <p style="color:#ffffff;"> Material ID: </p>
-                <input class="form-control" type="text" name=projMaterialID value='<%= project.materialID%>' readonly></div>
+                <p style="color:#00000;"> Project Estimated Cost: </p>
+                <input class="form-control" type="number" step=0.01 name=projEstimateCost value='<%= project.finalCost%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Project Final Cost: </p>
+                  <input class="form-control" type="number" step=0.01 name=projFinalFinalCost value='<%= project.finalFinalCost%>' ></div>
               <div>
-                <p style="color:#ffffff;"> Project Estimated Cost: </p>
-                <input class="form-control" type="number" step=0.01 name=projEstimateCost value='<%= project.finalCost%>' required></div>
-              <div>
-                <p style="color:#ffffff;"> Selected Engineer: </p>
+                <p style="color:#00000;"> Selected Engineer: </p>
                 <% if (user.local.role == 'admin') { %>
                   <select class="form-control" name="projEngineer">
                           <option value='{ "id" : "<%=project.engineerID %>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' ><%=project.engineerName%></option>
@@ -102,17 +105,17 @@
               </div>
 
                   <div>
-                    <p style="color:#ffffff;"> Project Completed: </p>
-                    <input  style="color:#ffffff;" type="radio" name="projCompleted" value="true" <%if (project.completed){%> checked <%}%> > Yes<br>
-                      <input style="color:#ffffff;" type="radio" name="projCompleted" value="false" <%if (!project.completed){%> checked<%}%> > No<br></div>
+                    <p style="color:#00000;"> Project Completed: </p>
+                    <input  style="color:#00000;" type="radio" name="projCompleted" value="true" <%if (project.completed){%> checked <%}%> > Yes<br>
+                      <input style="color:#00000;" type="radio" name="projCompleted" value="false" <%if (!project.completed){%> checked<%}%> > No<br></div>
                       <div>
-                        <p style="color:#ffffff;"> Archived: </p>
-                        <input  style="color:#ffffff;" type="radio" name="projArchived" value="true" <%if (project.archived){%> checked <%}%> > Yes<br>
-                          <input style="color:#ffffff;" type="radio" name="projArchived" value="false" <%if (!project.archived){%> checked<%}%> > No<br></div>
+                        <p style="color:#00000;"> Archived: </p>
+                        <input  style="color:#00000;" type="radio" name="projArchived" value="true" <%if (project.archived){%> checked <%}%> > Yes<br>
+                          <input style="color:#00000;" type="radio" name="projArchived" value="false" <%if (!project.archived){%> checked<%}%> > No<br></div>
 
 
                   <div>
-                      <p style="color:#ffffff;"> Comments: </p>
+                      <p style="color:#00000;"> Comments: </p>
                       <input class="form-control" type="text" name="projComments" value="<%= project.projectComments %>" readonly >
                   </div>
 
@@ -121,97 +124,72 @@
 
 
                 <div>
-                  <p style="color:#ffffff;"> Project ID: </p>
+                  <p style="color:#00000;"> Project ID: </p>
                   <input class="form-control" type="text" name=projId value='<%= project._id%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Project Name: </p>
+                  <p style="color:#00000;"> Project Name: </p>
                   <input class="form-control" type="text" name=projName value='<%= project.projectName%>' <%if (user.local.role == 'finance') {%> readonly <%}%>> </div>
                 <div>
-                  <p style="color:#ffffff;"> Customer Email:</p>
+                  <p style="color:#00000;"> Customer Email:</p>
                   <input class="form-control" type="text" name=projCustEmail value='<%= project.email%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Client Name: </p>
+                  <p style="color:#00000;"> Client Name: </p>
                   <input class="form-control" type="text" name=projCustName value='<%= project.clientName%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Date Posted: </p>
+                  <p style="color:#00000;"> Date Posted: </p>
                   <input class="form-control" type="text" name=projDatePosted value='<%= project.datePosted%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> File Name: </p>
+                  <p style="color:#00000;"> File Name: </p>
                   <input class="form-control" type="text" name=projFileName value='<%= project.fileNewName%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Volume of File: </p>
+                  <p style="color:#00000;"> Volume of File: </p>
                   <input class="form-control" type="text" name=projVolume value='<%= project.fileVolumeCmCubed%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Requested Model Density: </p>
+                  <p style="color:#00000;"> Requested Model Density: </p>
                   <input class="form-control" type="text" name=projDensity value='<%= project.Density%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Requested Material </p>
+                  <p style="color:#00000;"> Requested Material </p>
                   <input class="form-control" type="text" name=projMaterialName value='<%= project.materialName%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Price of Material per cubic centimeter: </p>
+                  <p style="color:#00000;"> Price of Material per cubic centimeter: </p>
                   <input class="form-control" type="text" name=projMaterialCost value='<%= project.materialCost%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Material ID: </p>
+                  <p style="color:#00000;"> Material ID: </p>
                   <input class="form-control" type="text" name=projMaterialID value='<%= project.materialID%>' readonly></div>
                 <div>
-                  <p style="color:#ffffff;"> Project Estimated Cost: </p>
+                  <p style="color:#00000;"> Project Estimated Cost: </p>
                   <input class="form-control" type="text" name=projEstimateCost value='<%= project.finalCost%>' readonly></div>
                 <div>
-                    <p style="color:#ffffff;"> Assigned Engineer: </p>
+                    <p style="color:#00000;"> Assigned Engineer: </p>
                     <input class="form-control" type="text" name=projEngineer value='{ "id" : "<%=project.engineerID%>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' hidden>
                     <input class="form-control" type="text" name=nothing value="<%=project.engineerName%>" readonly>
 
                 </div>
 
-                <%if (user.local.role != 'user'){%><p style="color:#ffffff;"> Project Completed: </p><%}%>
+                <%if (user.local.role != 'user'){%><p style="color:#00000;"> Project Completed: </p><%}%>
                  <input class="form-control" type="text" name=projCompleted value='<%= project.completed %>' readonly <%if (user.local.role == 'user') {%> hidden <%}%> >
                </div>
 
                <div>
-                   <p style="color:#ffffff;"> Comments </p>
+                   <p style="color:#00000;"> Comments </p>
                    <input class="form-control" type="text" name="projComments" value="<%= project.projectComments %>" <%if (user.local.role == 'finance') {%> readonly <%}%> >
                </div>
 
                <div>
-                 <p style="color:#ffffff;"> Archived: </p>
+                 <p style="color:#00000;"> Archived: </p>
                   <input class="form-control" type="text" name=projArchived value='<%= project.archived %>' readonly>
                 </div>
         <%}%>
-          <div> <input style="color:#ffffff;background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;" type="submit" value="Upload"  <%if (user.local.role == 'finance') {%> hidden <%}%>></div>
+          <div> <input style="color:#00000;background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;" type="submit" value="Upload"  <%if (user.local.role == 'finance') {%> hidden <%}%>></div>
       </div>
 
       </form>
     </div>
   </div>
-  <div class="footer-clean">
-    <footer>
-      <div class="container" style="width:960px;">
-        <div class="row justify-content-center">
-          <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
-            <ul>
-              <li></li>
-            </ul>
-          </div>
-          <div class="col-sm-4 col-md-3 item">
-            <h3 class="text-center" style="padding:12px;">About Us</h3>
-          </div>
-          <div class="col-sm-4 col-md-3 item">
-            <h3 class="text-center" style="padding:12px;">Contact Us</h3>
-          </div>
-          <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
-        </div>
-      </div>
-      <div class="container">
-        <div>
-          <div class="row justify-content-center">
-            <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
-              <a href="#" style="margin:0px;">
-                <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+
+  <div>
+      <% include partials/footer.ejs %>
+
   </div>
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>

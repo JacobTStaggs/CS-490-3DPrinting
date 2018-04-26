@@ -29,21 +29,14 @@
 <div class="alert-danger"><%= message %></div>
 <% } %>
   <body>
-      <div>
-          <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
-              <div class="container"><a class="navbar-brand" href="#">RCBI</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                  <div class="collapse navbar-collapse"
-                      id="navcol-1">
-                      <ul class="nav navbar-nav mr-auto">
-                          <li class="nav-item" role="presentation"><a class="nav-link active" href="#">About Us</a></li>
-                          <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact</a></li>
-                              <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
-                          </li>
-                      </ul><span class="navbar-text actions"> </span></div>
-              </div>
-          </nav>
-      </div>
-      <div class="register-photo">
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+            <div class="container"><a class="navbar-brand" href="#" style="font-family:'Source Sans Pro', sans-serif;font-size:30px;color:rgb(24,81,51);"><strong>RCBI </strong>3D<strong> </strong>Printing</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+              
+    </div>
+    </nav>
+    </div>
+      <div class="register-photo" style="background:linear-gradient(135deg, #04954a, #00150a)">
           <div class="form-container">
               <div class="image-holder"></div>
               <form method="post">
@@ -118,10 +111,15 @@
                   <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sign Up</button></div><a href="/login" class="already" hidden>You already have an account? Login here.</a>
                 </form>
           </div>
-      </div>
+    </div>
+
       <script src="assets/js/jquery.min.js"></script>
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>
       <script src="assets/js/bs-animation.js"></script>
+
+      <div>
+          <% include partials/footer.ejs %>
+      </div>
   </body>
   <script>
 
@@ -140,4 +138,7 @@
   confirm_password.onkeyup = validatePassword;
 
   </script>
+
+
+
 </html>
