@@ -51,7 +51,52 @@ var express = require('express');
    });
  });
 
+router.get('/addUser', function(req, res) {
 
+  res.render('addUser.ejs', {
+    message: req.flash('signupMessage'),
+    user: req.user
+  });
+});
+
+router.post('/addUser', isLoggedIn, function(req, res, err) {
+
+  if (err)
+    console.log(err)
+
+  User.findOne({
+    'local.email': req.body.email
+  }, function(err, user) {
+    if (err)
+      return done(err);
+    if (user) {
+      return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+    } else {
+
+
+      var newUser = new User();
+      newUser.local.email = req.body.email;
+      newUser.local.password = newUser.generateHash(req.body.password);
+      newUser.local.firstName = req.body.firstName;
+      newUser.local.lastName = req.body.lastName;
+      newUser.local.role = req.body.role;
+      newUser.local.street = req.body.street;
+      newUser.local.city = req.body.city;
+      newUser.local.state = req.body.state;
+      newUser.local.zip = req.body.zip;
+      newUser.local.phone = req.body.phone;
+      newUser.local.contract = false;
+      newUser.local.emailValidated = true;
+      newUser.local.banned = false;
+      newUser.save(function(err) {
+        if (err)
+          throw err;
+        res.redirect('/adminUserList');
+      });
+    }
+  });
+
+});
 
 
  router.get('/addMaterial', isLoggedIn, function(req, res) {
