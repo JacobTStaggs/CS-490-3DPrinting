@@ -109,14 +109,13 @@
             </div>
             <% if (user.local.role == 'admin' || user.local.role == 'engineer') {%>
             <div>
-              <h5 style="color:#00000;">Client Info: </h5>
-              <p style="color:#00000;"> Please Clients Email: </p>
-              <input type="email" name="custEmail" required>
+              <p style="color:#00000;margin-top:10px"> Please enter Client's email: </p>
+              <input style="width:25%" type="email" name="custEmail" required>
             </div>
             <%}%>
             <div>
-              <button type="submit" class="btn btn-success" id="btnPerformSave">Submit</button>
-              <p style="color:#00000;"> Larger files may take some time to upload. </p>
+              <button style="margin:10px;" type="submit" class="btn btn-success" id="btnPerformSave">Create Project</button>
+              <p style="color:#00000;"> Please note: larger files may take some time to upload. </p>
             </div>
           </form>
       </div>

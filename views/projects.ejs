@@ -46,28 +46,14 @@
                 </div>
                 <% if(user.local.role != 'user'){%>
                   <div>
-
-
                       <div class="card-group">
-
                         <div class="container">
                           <div class="row">
                               <span>
                               <div class="">
-
                                 <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
                                   <div class="">
-
-
-                          <div style="padding-top:10px" class="input-group">
-                            <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
-                              <div class="input-group-btn search-panel">
-                                <span style="position: absolute; left: 5px;">
-                                <select class="" style="margin-right: 5px;" name="filter">
-
-
                                     <select class="" name="filter">
-
                                     <option value="all">All</option>
                                     <option value="archived">Archived</option>
                                     <option value="notArchived">Not Archived</option>
@@ -77,25 +63,16 @@
                                     <%}%>
                                     <option value="email">Client Email</option>
                                     <option value="engineer">Engineer Email</option>
-
                                     <option value="completed" >Completed</option>
                                     <option value="notCompleted">Not Completed</option>
                                                               <% } %>
                                     </select>
-
-
-
                                     <input class="" type="text" name="parameter" placeholder="Search parameter">
                                     <button type="submit" class="btn btn-success">Filter</button>
-
                                   </div>
-
                                 </form>
-
-
                             </div>
                           </span>
-
                           </div>
                         </div>
                       </div>
@@ -109,14 +86,12 @@
                     <h5 class="mb-0"></h5>
               </div>
               <div class="card-body">
-
                 <div class="table-responsive">
 
                   <% if ( user.local.role == "admin" || user.local.role == "super") { %>
                       <table class="table sortable">
                         <thead>
                           <tr>
-
                                 <th>Project Name</th>
                                 <th>Status</th>
                                 <th>Comments</th>
@@ -126,15 +101,11 @@
                                 <th>Date Posted </th>
                                 <th>Archived</th>
                                 <th>Options</th>
-
-
                           </tr>
                         </thead>
                           <tbody>
-
                             <% for(var i=0; i<projects.length; i++) {%>
                                 <tr>
-
                                       <td>
                                         <%= projects[i].projectName %>
                                       </td>
@@ -159,17 +130,10 @@
                                       <td>
                                         <%= projects[i].archived %>
                                       </td>
-
                                       <%if (projects[i].status == "Created") {%> <td> <a title="Assign an Engineer to this project" href='/editUpdated/<%=projects[i]._id %>'> Assign Engineer  </a></td> <%}%>
-
                                         <td> <a title="View project details or set project to a new status" href='/edit/<%=projects[i]._id %>'> View/ChangeStatus </a></td>
-
                                           <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
-
-
-
                                 </tr>
-
                                   <%}%>
                           </tbody>
                       </table>
@@ -177,7 +141,6 @@
                     <table class="table sortable">
                       <thead>
                         <tr>
-
                               <th>Project Name</th>
                               <th>Status</th>
                               <th>Comments</th>
@@ -188,15 +151,11 @@
                               <th>Date Posted </th>
                               <th>Archived</th>
                               <th>Options</th>
-
-
                         </tr>
                       </thead>
                         <tbody>
-
                           <% for(var i=0; i<projects.length; i++) {%>
                               <tr>
-
                                     <td>
                                       <%= projects[i].projectName %>
                                     </td>
@@ -226,25 +185,19 @@
                                     <td>
                                       <%= projects[i].archived %>
                                     </td>
-
                                         <%if (projects[i].status == "Created") {%> <td> <a title="Assign an Engineer to this project" href='/quickUpdate/<%=projects[i]._id %>'> Take Project  </a></td> <%}%>
                                         <%if (projects[i].status == "Assigned" && projects[i].engineerEmail == user.local.email) {%><td> <a title="View project and change some project details" href='/edit/<%=projects[i]._id %>'> Edit </a></td>
                                                                                   <td> <a title="Finalize the projects invoiced price" href='/editUpdated/<%=projects[i]._id %>'> Finalize </a></td><%}%>
                                         <%if (projects[i].status == "Accepted" && projects[i].engineerEmail == user.local.email) {%> <td> <a title="Show the cutomer the project is printed and ready to go" href='/quickUpdate/<%=projects[i]._id %>'> Printed  </a></td> <%}%>
                                         <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
-
                               </tr>
-
                                 <%}%>
                         </tbody>
                     </table>
                   <%} else if (user.local.role == "user") {%>
-
-
                               <table class="table sortable">
                                 <thead>
                                   <tr>
-
                                         <th>Project Name</th>
                                         <th>Status</th>
                                         <th>Estimate</th>
@@ -252,16 +205,12 @@
                                         <th>Date Posted </th>
                                         <th>Archived</th>
                                         <th>Options</th>
-
-
                                   </tr>
                                 </thead>
                                   <tbody>
-
                                     <% for(var i=0; i<projects.length; i++) {%>
                                         <% if (user.local.role == "user" && user.local.email == projects[i].email) {%>
                                         <tr>
-
                                               <td>
                                                 <%= projects[i].projectName %>
                                               </td>
@@ -280,21 +229,14 @@
                                               <td>
                                                 <%= projects[i].archived %>
                                               </td>
-
-
                                                   <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
                                                   <%if (projects[i].status == "Created" || projects[i].status == "Assigned") {%> <td> <a title="Assign an Engineer to this project" href='/quickUpdate/<%=projects[i]._id %>'>Cancel Project</a></td> <%}%>
                                                   <%if (projects[i].status == "Finalized") {%> <td> <a style="color:red;" title="Accept or decline the finalized project specifications" href='/editUpdated/<%=projects[i]._id %>'> Accept/Decline  </a></td> <%}%>
-
                                         </tr>
                                             <%}%>
                                           <%}%>
                                   </tbody>
                               </table>
-
-
-
-
                     <% } else { %>
                       <p>Hey terra!</p>
                     <% } %>
