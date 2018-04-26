@@ -1,13 +1,35 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <nav aria-label="breadcrumb">
+  <style>
+  .btn2 {
+    background:linear-gradient(30deg, #04954a, #00150a);
+    display: inline-block;
+    background-color:rgb(4,148,74);
+    color: rgb(255,255,255);
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left: 0px;
+    opacity: 0.7;
+}
+  </style>
+
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/profile">Profile</a></li>
-    <li class="breadcrumb-item"><a href="/projects">Projects</a></li>
-    <li class="breadcrumb-item">
-      <a href='/materials'>Materials</a>
-    </li>
+    <li ><a href='/landing' class="btn2"><i class="fa fa-home"></i>Home</a></li>
+    <li ><a href="/profile" class="btn2">Profile</a></li>
+    <li ><a href="/projects" class="btn2">Projects</a></li>
+    <% if (user.local.role != 'user') { %>
+    <li  ><a href='/materials' class="btn2">Materials</a></li>
+    <li  ><a href='/reports' class="btn2">Reports</a></li>
+    <% } %>
     <% if (user.local.role == 'admin') { %>
-      <li class="breadcrumb-item"><a href="/adminUserList">Users</a></li>
+      <li ><a href="/adminUserList" class="btn2">Users</a></li>
     <% } %>
 
+    <% if (user.local.role == 'admin' || user.local.role == 'finance' ) { %>
+    <!-- <li ><a href="/reports" class="btn2">Reports</a></li> -->
+    <% } %>
   </ol>
 </nav>

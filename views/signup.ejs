@@ -29,33 +29,26 @@
 <div class="alert-danger"><%= message %></div>
 <% } %>
   <body>
-      <div>
-          <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
-              <div class="container"><a class="navbar-brand" href="#">Company Name</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                  <div class="collapse navbar-collapse"
-                      id="navcol-1">
-                      <ul class="nav navbar-nav mr-auto">
-                          <li class="nav-item" role="presentation"><a class="nav-link active" href="#">First Item</a></li>
-                          <li class="nav-item" role="presentation"><a class="nav-link" href="#">Second Item</a></li>
-                          <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown </a>
-                              <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
-                          </li>
-                      </ul><span class="navbar-text actions"> </span></div>
-              </div>
-          </nav>
-      </div>
-      <div class="register-photo">
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+            <div class="container"><a class="navbar-brand" href="#" style="font-family:'Source Sans Pro', sans-serif;font-size:30px;color:rgb(24,81,51);"><strong>RCBI </strong>3D<strong> </strong>Printing</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+              
+    </div>
+    </nav>
+    </div>
+      <div class="register-photo" style="background:linear-gradient(135deg, #04954a, #00150a)">
           <div class="form-container">
               <div class="image-holder"></div>
               <form method="post">
                   <h2 cl ass="text-center"><strong>Create</strong> an account.</h2>
-                  <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-                  <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-                  <div class="form-group"><input class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)"></div>
-                  <div class="form-group"><input class="form-control" type="text" name="firstName" placeholder="First Name"></div>
-                  <div class="form-group"><input class="form-control" type="text" name="lastName" placeholder="Last Name"></div>
-                  <div class="form-group"><input class="form-control" type="text" name="street" placeholder="Street Address i.e. '123 Joy Lane'"></div>
-                  <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City"></div>
+                  <div class="form-group"><p><b>Email</b></p><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+                  <div class="form-group"><p><b>Password</b></p><input id="password" class="form-control" type="password" name="password" placeholder="Password" minlength="8" required></div>
+                  <div class="form-group"><p><b>Re-Enter Password</b></p><input id="passwordConfirm" class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)" minlength="8" required></div>
+                  <div class="form-group"><p><b>First Name</b></p><input class="form-control" type="text" name="firstName" placeholder="First Name" required></div>
+                  <div class="form-group"><p><b>Last Name</b></p><input class="form-control" type="text" name="lastName" placeholder="Last Name" required></div>
+                  <div class="form-group"><p><b>Street Address</b></p><input class="form-control" type="text" name="street" placeholder="Street Address i.e. '123 Joy Lane'" required></div>
+                  <div class="form-group"><p><b>City</b></p><input class="form-control" type="text" name="city" placeholder="City" required></div>
+                  <p><b>State</b></p>
                   <select class="form-control form-group" name="state">
                   	<option value="AL">Alabama</option>
                   	<option value="AK">Alaska</option>
@@ -110,16 +103,42 @@
                   	<option value="WY">Wyoming</option>
                   </select>
 
-                  <div class="form-group"><input class="form-control" type="Number" name="zip" placeholder="Zip"></div>
-                  <div class="form-group"><input class="form-control" type="Number" name="phone" placeholder="Phone Number"></div>
+                  <div class="form-group"><p><b>Zip</b> in format: XXXXX or XXXXX-XXXX</p><input class="form-control" type="text" name="zip" placeholder="Zip" pattern="(\d{5}([\-]\d{4})?)" required></div>
+                  <div class="form-group"><p><b>Phone</b> in format: XXX-XXX-XXXX</p><input class="form-control" type="text" name="phone" placeholder="Phone Number" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required></div>
                   <div class="form-group">
-                      <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox">I agree to the license terms.</label></div>
+                      <div class="form-check"><label class="form-check-label" hidden><input class="form-check-input" type="checkbox">I agree to the license terms.</label ></div>
                   </div>
-                  <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sign Up</button></div><a href="#" class="already">You already have an account? Login here.</a></form>
+                  <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Sign Up</button></div><a href="/login" class="already" hidden>You already have an account? Login here.</a>
+                </form>
           </div>
-      </div>
+    </div>
+
       <script src="assets/js/jquery.min.js"></script>
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>
       <script src="assets/js/bs-animation.js"></script>
+
+      <div>
+          <% include partials/footer.ejs %>
+      </div>
   </body>
+  <script>
+
+  var password = document.getElementById("password")
+    , confirm_password = document.getElementById("passwordConfirm");
+
+  function validatePassword(){
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
+
+  </script>
+
+
+
 </html>

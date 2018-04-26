@@ -1,0 +1,92 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rcbi3d</title>
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+  <link rel="stylesheet" href="assets/css/Article-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+  <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+  <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
+  <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/Team-Boxed.css">
+  <link rel="stylesheet" href="assets/css/Team-Clean.css">
+  <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body>
+  <div>
+    <%- include partials/head.ejs %>
+  </div>
+  <div class="header-blue">
+    <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
+        <%- include partials/breadcrumb.ejs%>
+      <div>
+
+        <h1 style="color:#ffffff;"> Material Details </h1>
+
+        <div class="card" style="width: 50%; margin: 0 auto;">
+
+
+          <form action="/editMaterials/<%=id%>" method="post">
+
+          <div style="width: 50%; margin: 0 auto;">
+
+
+          <div>
+            <p style="color:#000000;"> Material ID: </p>
+            <input class="form-control" type="text" name="matID" value='<%= material._id%>' readonly></div>
+          <div>
+            <p style="color:#000000;"> Material Name: </p>
+            <input class="form-control" type="text" name="matName" value='<%= material.name%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required>  </div>
+
+            <%if( user.local.role != "user") {%>
+          <div>
+            <p style="color:#000000;"> Material Cost per Cubic Centimeter:</p>
+            <input class="form-control" type="number" step=0.01 name="matOurCost" value='<%= material.actualCost%>' <%if( user.local.role == "finance") {%> readonly <%}%> required></div>
+          <%} else {%>
+            <input class="form-control" type="number" step=0.01  name="matOurCost" value='<%= material.actualCost%>' readonly hidden>
+            <%}%>
+
+          <div>
+            <p style="color:#000000;"> Material Selling Price per Cubic Centimeter: </p>
+            <input class="form-control" type="number" step=0.01 name="matSellingPrice" value='<%= material.salePrice%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required></div>
+          <div>
+            <p style="color:#000000;"> Material Description: </p>
+            <input class="form-control" type="text" name=matDescription value='<%= material.description%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required></div>
+
+
+            <div> <input type="submit" value="Update" <%if( user.local.role == "user" || user.local.role == "finance") {%> hidden <%}%>></div>
+            <a href='/deleteMaterial/<%= material._id%>'>  <button type="button" class="btn btn-success"  <% if (user.local.role == 'user' || user.local.role == 'finance') { %> hidden<%}%>>Delete</button></a>
+
+      </div>
+
+
+      </form>
+        </div>
+    </div>
+  </div>
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/bs-animation.js"></script>
+<div>
+    <% include partials/footer.ejs %>
+</div>
+</body>
+
+</html>

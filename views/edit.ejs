@@ -1,106 +1,200 @@
-
 <html>
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rcbi3d</title>
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+  <link rel="stylesheet" href="assets/css/Article-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+  <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+  <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+  <link rel="stylesheet" href="assets/css/Header-Blue.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button-1.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+  <link rel="stylesheet" href="assets/css/Projects-Horizontal.css">
+  <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/Team-Boxed.css">
+  <link rel="stylesheet" href="assets/css/Team-Clean.css">
+  <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
 <body>
-    <div>
-<%- include partials/head.ejs %>
-    </div>
+  <div>
+    <%- include partials/head.ejs %>
+  </div>
+  <div class="header-blue">
+    <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
 
-    <div class="header-blue">
-        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
-            <div>
-                <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
-            </div>
-            <div><%- include partials/breadcrumb.ejs%>
-                <div class="card-group">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0"></h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                          <th>
-                                            Project ID
-                                          </th>
-                                            <th>Project Name</th>
-                                            <th>Email</th>
-                                            <th>Status</th>
-                                            <th>Engineer</th>
-                                            <th>Cost</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                      <form action="/edit/<%=id%>" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
-                                                    <tr>
-                                                      <% if (user.local.role == 'admin') { %>
-                                                        <td name="id"><%=id%>  </td>
-                                                        <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
-                                                        <td name="projEmail"><%=projEmail%></td>
-                                                        <td> <input type="text" class="form-control" name="projStat" value="<%=projStat %>"></td>
-                                                        <td> <input type="text" class="form-control" name="projEngineer" value="<%=projEngineer %>"></td>
-                                                        <td> <input type="text" class="form-control" name="projCost" value="<%=projCost %>"></td>
-                                                      <% } else if (user.local.role == 'user') { %>
-                                                        <td name="id"><%=id%>  </td>
-                                                        <td> <input type="text" class="form-control" name="projName" value="<%=projName %>"></td>
-                                                        <td name="projEmail"><%=projEmail%></td>
-                                                          <td name="projStat"><%=projStat %></td>
-                                                        <td name='projEngineer'><%=projEngineer %></td>
-                                                          <td name="projCost">
-                                                            <%=projCost%>
-                                                          </td>
-                                                      <% } else { %>
-                                                          <p>Hey terra!</p>
-                                                      <% } %>
+      <div class="card">
+        <div class="card-body">
 
-                                                    </tr>
-                                                    <button class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button>
-                                                  </form>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-clean">
-        <footer>
-            <div class="container" style="width:960px;">
-                <div class="row justify-content-center">
-                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
-                        <ul>
-                            <li></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">About Us</h3>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
-                    </div>
-                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
-                </div>
-            </div>
-            <div class="container">
+
+        <h1 style="color:#00000;"> Project Details </h1>
+
+        <%- include partials/breadcrumb.ejs%>
+        <div>
+
+
+          <form action="/edit/<%= project._id %>" method="post">
+            <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
+              <div>
+                <p style="color:#00000;"> Project ID: </p>
+                <input class="form-control" type="text" name=projId value='<%= project._id%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> Project Name: </p>
+                <input class="form-control" type="text" name=projName value='<%= project.projectName%>' required></div>
+              <div>
+                <p style="color:#00000;"> Customer Email:</p>
+                <input class="form-control" type="text" name=projCustEmail value='<%= project.email%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> Client Name: </p>
+                <input class="form-control" type="text" name=projCustName value='<%= project.clientName%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> Date Posted: </p>
+                <input class="form-control" type="text" name=projDatePosted value='<%= project.datePosted%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> File Name: </p>
+                <input class="form-control" type="text" name=projFileName value='<%= project.fileNewName%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> Volume of File: </p>
+                <input class="form-control" type="Number" name=projVolume value='<%= project.fileVolumeCmCubed%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> Requested Model Density: </p>
+                <input class="form-control" type="text" name=projDensity value='<%= project.Density%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> Requested Material </p>
+                <input class="form-control" type="text" name=projMaterialName value='<%= project.materialName%>' readonly></div>
+              <div>
+                <p style="color:#00000;"> Price of Material per cubic centimeter: </p>
+                <input class="form-control" type="text" name=projMaterialCost value='<%= project.materialCost%>' readonly></div>
+
+              <div>
+                <p style="color:#00000;"> Project Estimated Cost: </p>
+                <input class="form-control" type="number" step=0.01 name=projEstimateCost value='<%= project.finalCost%>' readonly></div>
                 <div>
-                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
-    <i class="icon ion-social-facebook"></i></a><a href="#">
-    <i class="icon ion-social-twitter"></i></a><a href="#">
-    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
-    <i class="icon ion-social-youtube-outline"></i></a>
-        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
-</div></div>
+                  <p style="color:#00000;"> Project Final Cost: </p>
+                  <input class="form-control" type="number" step=0.01 name=projFinalFinalCost value='<%= project.finalFinalCost%>' ></div>
+              <div>
+                <p style="color:#00000;"> Selected Engineer: </p>
+                <% if (user.local.role == 'admin') { %>
+                  <select class="form-control" name="projEngineer">
+                          <option value='{ "id" : "<%=project.engineerID %>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' ><%=project.engineerName%></option>
+                          <option value='{ "id" : "", "name" : "Unassigned", "email": "Unassigned" }' >Unassign</option>
+                           <% for(var i = 0; i < engineers.length; i++){%>
+                                <option value='{ "id" : "<%=engineers[i]._id%>", "name" : "<%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%>", "email": "<%=engineers[i].local.email%>" }' <%if (engineers[i].local.email == project.engineerEmail) {%> checked <%}%> ><%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%></option>
+                              <% }%>
+                            </select>
+                  <%} else if (user.local.role == 'engineer' && (project.engineerEmail == "Unassigned" || project.engineerEmail == user.local.email )) {%>
+                    <input type="radio" name="projEngineer" value='{ "id" : "<%=user.id%>", "name" : "<%=user.local.firstName%> <%=user.local.lastName%>", "email": "<%=user.local.email%>" }' <%if (project.engineerEmail == user.local.email){%> checked <%}%> > Take<br>
+                      <input type="radio" name="projEngineer" value='{ "id" : " ", "name" : "Unassigned", "email": "Unassigned" }' <%if (project.engineerEmail == "Unassigned" ){%> checked<%}%> > Drop<br>
+
+                    <%} else {%>
+                      <input class="form-control" type="text" name=projEngineer value='{ "id" : "<%=project.engineerID%>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' hidden>
+                      <input class="form-control" type="text" name=nothing value="<%=project.engineerName%>" readonly></div>
+                      <% }%>
+              </div>
+
+                  <div>
+                    <p style="color:#00000;"> Project Completed: </p>
+                    <input  style="color:#00000;" type="radio" name="projCompleted" value="true" <%if (project.completed){%> checked <%}%> > Yes<br>
+                      <input style="color:#00000;" type="radio" name="projCompleted" value="false" <%if (!project.completed){%> checked<%}%> > No<br></div>
+                      <div>
+                        <p style="color:#00000;"> Archived: </p>
+                        <input  style="color:#00000;" type="radio" name="projArchived" value="true" <%if (project.archived){%> checked <%}%> > Yes<br>
+                          <input style="color:#00000;" type="radio" name="projArchived" value="false" <%if (!project.archived){%> checked<%}%> > No<br></div>
+
+
+                  <div>
+                      <p style="color:#00000;"> Comments: </p>
+                      <input class="form-control" type="text" name="projComments" value="<%= project.projectComments %>" readonly >
+                  </div>
+
+
+              <% } else if(user.local.role == 'user' || user.local.role == 'finance' ) { %>
+
+
+                <div>
+                  <p style="color:#00000;"> Project ID: </p>
+                  <input class="form-control" type="text" name=projId value='<%= project._id%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Project Name: </p>
+                  <input class="form-control" type="text" name=projName value='<%= project.projectName%>' <%if (user.local.role == 'finance') {%> readonly <%}%>> </div>
+                <div>
+                  <p style="color:#00000;"> Customer Email:</p>
+                  <input class="form-control" type="text" name=projCustEmail value='<%= project.email%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Client Name: </p>
+                  <input class="form-control" type="text" name=projCustName value='<%= project.clientName%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Date Posted: </p>
+                  <input class="form-control" type="text" name=projDatePosted value='<%= project.datePosted%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> File Name: </p>
+                  <input class="form-control" type="text" name=projFileName value='<%= project.fileNewName%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Volume of File: </p>
+                  <input class="form-control" type="text" name=projVolume value='<%= project.fileVolumeCmCubed%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Requested Model Density: </p>
+                  <input class="form-control" type="text" name=projDensity value='<%= project.Density%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Requested Material </p>
+                  <input class="form-control" type="text" name=projMaterialName value='<%= project.materialName%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Price of Material per cubic centimeter: </p>
+                  <input class="form-control" type="text" name=projMaterialCost value='<%= project.materialCost%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Material ID: </p>
+                  <input class="form-control" type="text" name=projMaterialID value='<%= project.materialID%>' readonly></div>
+                <div>
+                  <p style="color:#00000;"> Project Estimated Cost: </p>
+                  <input class="form-control" type="text" name=projEstimateCost value='<%= project.finalCost%>' readonly></div>
+                <div>
+                    <p style="color:#00000;"> Assigned Engineer: </p>
+                    <input class="form-control" type="text" name=projEngineer value='{ "id" : "<%=project.engineerID%>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' hidden>
+                    <input class="form-control" type="text" name=nothing value="<%=project.engineerName%>" readonly>
+
                 </div>
-            </div>
-        </footer>
+
+                <%if (user.local.role != 'user'){%><p style="color:#00000;"> Project Completed: </p><%}%>
+                 <input class="form-control" type="text" name=projCompleted value='<%= project.completed %>' readonly <%if (user.local.role == 'user') {%> hidden <%}%> >
+               </div>
+
+               <div>
+                   <p style="color:#00000;"> Comments </p>
+                   <input class="form-control" type="text" name="projComments" value="<%= project.projectComments %>" <%if (user.local.role == 'finance') {%> readonly <%}%> >
+               </div>
+
+               <div>
+                 <p style="color:#00000;"> Archived: </p>
+                  <input class="form-control" type="text" name=projArchived value='<%= project.archived %>' readonly>
+                </div>
+        <%}%>
+          <div style="padding-top:10px"> <input style="color:#00000;background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;color:rgb(255,255,255)" type="submit" value="Update"  <%if (user.local.role == 'finance') {%> hidden <%}%>></div>
+      </div>
+
+      </form>
+
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-animation.js"></script>
+  </div>
+</div>
+</div>
+  <div>
+      <% include partials/footer.ejs %>
+  </div>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/bs-animation.js"></script>
 </body>
 
 </html>

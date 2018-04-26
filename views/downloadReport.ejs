@@ -43,23 +43,47 @@
                     </div>
                     <div class="card-body">
                             <h1>Greetings, <%=user.local.email%></h1>
-                            <p>Please click the button below to verify your email.</p>
-                            <form action="/verifyEmail/<%=user._id%>" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
-                              <button class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button>
-                          </form>
+                            <p>To download your report, please click <a href="<%=reportLink%>" download="<%=fileName%>">here</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  </div>
-  <script src="assets/js/jquery.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/js/bs-animation.js"></script>
-  <div>
-      <% include partials/footer.ejs %>
-  </div>
+    <div class="footer-clean">
+        <footer>
+            <div class="container" style="width:960px;">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">About Us</h3>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                    </div>
+                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                </div>
+            </div>
+            <div class="container">
+                <div>
+                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
+    <i class="icon ion-social-facebook"></i></a><a href="#">
+    <i class="icon ion-social-twitter"></i></a><a href="#">
+    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
+    <i class="icon ion-social-youtube-outline"></i></a>
+        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+</div></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
 </body>
 
 </html>

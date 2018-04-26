@@ -34,151 +34,40 @@
 <%- include partials/head.ejs %>
     </div>
     <div class="header-blue">
-        <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
+        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
             <div>
+              <%- include partials/breadcrumb.ejs%>
             </div>
             <div>
                 <div class="card">
-                    <div class="card-header">
+                  <div class="card-header">
+                    <div>
+                      <h1 style="color:#000000;margin-bottom:20px;">Hello, <%=user.local.firstName%>!</h1>
                     </div>
-                    <div class="card-body">
+                  </div>
+                            <% if (user.local.role == 'user'){%>
 
-                            <h3>Hello, <%=user.local.email%></h3>
-                        <!---USER------>
-                        <% if (user.local.role == 'user') { %>
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Account Information</div>
-                            <div class="card-body" style="text-align:center">Manage your account information</div>
-                            <a href="/profile" class="btn btn-success">Go to your profile</a>
-                          </div>
+                              <ul>
+                                <li>To see your current projects, please click <a href="/projects">here</a></li>
+                                <li>To see your account, please click <a href="/profile">here</a></li>
+                              </ul>
 
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Recent Project</div>
-                            <div class="card-body" style="text-align:center">View your most recent project</div>
-                            <a href="/projects" class="btn btn-success">Go to project</a>
-                          </div>
-
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Projects</div>
-                            <div class="card-body" style="text-align:center">View all of your projects</div>
-                            <a href="/projects" class="btn btn-success">View projects</a>
-                          </div>
-                        <!---END USER------>
-
-                        <!---ENGINEER------>
-                        <% } else if (user.local.role == 'engineer') { %>
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Account Information</div>
-                            <div class="card-body" style="text-align:center">Manage your account information</div>
-                            <a href="/profile" class="btn btn-success">Go to your profile</a>
-                          </div>
-
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Recent Project</div>
-                            <div class="card-body" style="text-align:center">View your most recent project</div>
-                            <a href="/projects" class="btn btn-success">Go to project</a>
-                          </div>
-
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Projects</div>
-                            <div class="card-body" style="text-align:center">View all of your projects</div>
-                            <a href="/projects" class="btn btn-success">View projects</a>
-                          </div>
-
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Materials</div>
-                            <div class="card-body" style="text-align:center">Manage materials</div>
-                            <a href="/addMaterial" class="btn btn-success">Go to materials list</a>
-                          </div>
-                        <!---END ENGINEER----->
-
-                        <!---ADMIN----->
-                        <% } else if (user.local.role == 'admin') { %>
-                        <div class="card" style="width:50%; margin-top:25px; float:left;">
-                          <div class="card-header" style="text-align: center;">Account Information</div>
-                          <div class="card-body" style="text-align:center">Manage your account information</div>
-                          <a href="/profile" class="btn btn-success">Go to your profile</a>
-                        </div>
-
-                        <div class="card" style="width:50%; margin-top:25px; float:left;">
-                          <div class="card-header" style="text-align: center;">Users</div>
-                          <div class="card-body" style="text-align:center">View all users</div>
-                          <a href="/adminUserList" class="btn btn-success">Go to users list</a>
-                        </div>
-
-                        <div class="card" style="width:50%; margin-top:25px; float:left;">
-                          <div class="card-header" style="text-align: center;">Reports</div>
-                          <div class="card-body" style="text-align:center">Display all reports</div>
-                          <a href="/reports" class="btn btn-success">View all reports</a>
-                        </div>
-
-                        <div class="card" style="width:50%; margin-top:25px; float:left;">
-                          <div class="card-header" style="text-align: center;">Materials</div>
-                          <div class="card-body" style="text-align:center">Manage materials</div>
-                          <a href="/addMaterial" class="btn btn-success">Go to materials list</a>
-                        </div>
-                        <!---END ADMIN----->
-
-                        <!---FINANCE----->
-                        <% } else if (user.local.role == 'finance') { %>
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Account Information</div>
-                            <div class="card-body" style="text-align:center">Manage your account information</div>
-                            <a href="/profile" class="btn btn-success">Go to your profile</a>
-                          </div>
-
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Users</div>
-                            <div class="card-body" style="text-align:center">View all users</div>
-                            <a href="/adminUserList" class="btn btn-success">Go to Users List</a>
-                          </div>
-
-                          <div class="card" style="width:50%; margin-top:25px; float:left;">
-                            <div class="card-header" style="text-align: center;">Reports</div>
-                            <div class="card-body" style="text-align:center">Display all reports</div>
-                            <a href="/reports" class="btn btn-success">View all reports</a>
-                          </div>
-                        <!---END FINANCE----->
-                        <% } else { %>
-                            <p>MSU bball > UK bball</p>
-                        <% } %>
-
-                        </div>
+                          <% }else {%>
+                            <ul>
+                              <li>To see your current projects, please click <a href="/projects">here</a></li>
+                              <li>To see your account, please click <a href="/profile">here</a></li>
+                              <li>To see the list of materials, please click <a href="/materials">here</a></li>
+                              <li>To generate a report, please click <a href="/reports">here</a></li>
+                            </ul>
+                          <% } %>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="footer-clean">
-        <footer>
-            <div class="container" style="width:960px;">
-                <div class="row justify-content-center">
-                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
-                        <ul>
-                            <li></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">About Us</h3>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
-                    </div>
-                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
-                </div>
-            </div>
-            <div class="container">
-                <div>
-                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
-    <i class="icon ion-social-facebook"></i></a><a href="#">
-    <i class="icon ion-social-twitter"></i></a><a href="#">
-    <i class="icon ion-social-linkedin-outline"></i></a> <a href="#">
-    <i class="icon ion-social-youtube-outline"></i></a>
-        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
-</div></div>
-                </div>
-            </div>
-        </footer>
+
+    <div>
+      <% include partials/footer.ejs %>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
