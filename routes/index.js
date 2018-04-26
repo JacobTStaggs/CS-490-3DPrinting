@@ -169,7 +169,7 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
      db.collection('projects').find({
        'archived': false
      }).toArray(function(err, results) {
-       console.log(results);
+       console.log(req.user);
        res.render('projects.ejs', {
          user: req.user,
          projects: results
@@ -295,7 +295,7 @@ res.download('./report/materials.csv');
      console.log(req.body.parameter);
      db.collection('projects').find({
        'archived': false,
-       'local.email': req.user.local.email
+       'local.engineerEmail': req.user.local.email
      }).toArray(function(err, results) {
        res.render('projects.ejs', {
          projects: results,
@@ -514,11 +514,280 @@ res.download('./report/materials.csv');
            }
          });
 
-         res.redirect("/edit/" + req.body.projId);
+         res.redirect('/projects');
        }
      }
    });
  });
+
+ router.get('/editUpdated/(:id)', isLoggedIn, function(req, res, next) {
+   var o_id = new ObjectId(req.params.id).toString();
+
+
+
+   db.collection('projects').find({
+     "_id": ObjectId(o_id).toString
+   }).toArray(function(err, result) {
+     if (err) return console.log(err);
+
+     // if porject not found
+     if (!result) {
+       req.flash('error', 'Project not found with id = ' + req.params.id);
+       res.redirect('/projects');
+     } else { // if porject not found
+       for (var i = 0; i < result.length; i++) {
+
+         if (result[i]._id == o_id) {
+           console.log(result[i]);
+           var project = result[i];
+
+           db.collection('users').find({
+             "local.role": "engineer"
+           }).toArray(function(err, engineers) {
+             console.log("get Engineers");
+             console.log(engineers);
+
+             res.render('editUpdated.ejs', {
+               user: req.user,
+               title: 'Edit Project',
+               project: project,
+               engineers: engineers
+
+
+             });
+           });
+
+
+         }
+       }
+
+     }
+   });
+ });
+
+ router.get("/quickUpdate/(:id)" , isLoggedIn, function(req, res, next) {
+
+   var o_id = new ObjectId(req.params.id).toString();
+
+   var project;
+
+   db.collection('projects').find({
+     "_id": ObjectId(o_id).toString
+   }).toArray(function(err, results) {
+
+     for (var i = 0; i < results.length; i++) {
+
+       if (results[i]._id == o_id) {
+
+         project = results[i];
+
+       }
+     }
+
+     if (req.user.local.role == "engineer") {
+
+       if (project.status == "Created") {
+
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": "Assigned",
+             "engineerName": req.user.local.firstName + req.user.local.lastName,
+             "engineerEmail": req.user.local.email,
+             "engineerID": req.user.local._id
+           }
+         });
+
+         res.redirect('/projects');
+
+
+       } else if (project.status == "Accepted") {
+              console.log("Made it to accepted")
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": "Printed",
+             "archived": true
+           }
+         });
+
+         res.redirect('/projects');
+
+       } else {
+         console.log("An unexpected status was encountered")
+         res.redirect("/landing")
+       }
+
+     } else if (req.user.local.role == "user") {
+
+       if (project.status == "Created" || project.status == "Assigned") {
+
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": "Canceled",
+             "archived":true
+           }
+         });
+
+         res.redirect('/projects');
+
+       } else {
+       console.log("Too far, user not found");
+       res.redirect("/landing");
+
+     }
+
+     }
+   });
+
+
+
+ });
+
+
+
+ router.post('/quickUpdate/(:id)', isLoggedIn, function(req, res, next) {
+   var o_id = new ObjectId(req.params.id).toString();
+
+   var project;
+
+   db.collection('projects').find({
+     "_id": ObjectId(o_id).toString
+   }).toArray(function(err, results) {
+
+     for (var i = 0; i < results.length; i++) {
+
+       if (results[i]._id == o_id) {
+
+         project = results[i];
+
+       }
+     }
+
+     if (req.user.local.role == "admin" || req.user.local.role == "super") {
+
+       engineerInfo = JSON.parse(req.body.projEngineer);
+
+       db.collection('projects').updateOne({
+         "_id": project._id
+       }, {
+         $set: {
+           "status": "Assigned",
+           "engineerName": engineerInfo.name,
+           "engineerEmail": engineerInfo.email,
+           "engineerID": engineerInfo.id
+         }
+       });
+
+       res.redirect('/projects');
+
+     } else if (req.user.local.role == "engineer") {
+
+       if (project.status == "Created") {
+
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": "Assigned",
+             "engineerName": req.user.local.firstName + req.user.local.lastName,
+             "engineerEmail": req.user.local.email,
+             "engineerID": req.user.local._id
+           }
+         });
+
+         res.redirect('/projects');
+
+
+       } else if (project.status == "Assigned") {
+
+         console.log("Made it to Assigned sub loop")
+         console.log(req.body.finalPrice)
+
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": "Finalized",
+             "finalFinalCost": req.body.finalPrice
+           }
+         });
+
+         res.redirect('/projects');
+
+       } else if (project.status == "Accepted") {
+              console.log("Made it to accepted")
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": "Printed",
+             "archived": true
+           }
+         });
+
+         res.redirect('/projects');
+
+       } else {
+         console.log("An unexpected status was encountered")
+         res.redirect("/landing")
+       }
+
+     } else if (req.user.local.role == "user") {
+
+       if (project.status == "Created" || project.status == "Assigned") {
+
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": "Canceled",
+             "archived":true
+           }
+         });
+
+         res.redirect('/projects');
+
+       } else if (project.status == "Finalized") {
+
+         var accept = "Canceled";
+         var archive = true;
+         if (req.body.accepted == "true"){
+           accept = "Accepted";
+           archive = false;
+}
+         db.collection('projects').updateOne({
+           "_id": project._id
+         }, {
+           $set: {
+             "status": accept,
+             "archived": archive
+           }
+         });
+
+         res.redirect('/projects');
+
+       }
+
+
+
+     } else {
+       console.log("Too far, user not found");
+       res.redirect("/landing");
+
+     }
+
+
+
+
+
+   });
+ });
+
 
  // SHOW EDIT USER FORM
  router.get('/editUser/(:id)', isLoggedIn, function(req, res, next) {
@@ -1007,13 +1276,13 @@ res.download('./report/materials.csv');
                    datePosted: datePosted,
                    Density: density,
                    projectComments: req.body.projectComments,
+                   status: "Created",
                    archived: false,
                    completed: false,
                    finalCost: finalCost
                  }, (err, result) => {
                    if (err) return console.log(err);
                    console.log('saved to database');
-                   console.log("brackets in place");
                    res.redirect('/projects');
 
                  });
@@ -1115,6 +1384,7 @@ res.download('./report/materials.csv');
              engineerEmail: 'Unassigned',
              datePosted: datePosted,
              Density: density,
+             status: "Created",
              projectComments: req.body.projectComments,
              archived: false,
              completed: false,
@@ -1176,6 +1446,58 @@ res.download('./report/materials.csv');
    failureRedirect: '/signup',
    failureFlash: true,
  }));
+
+
+ router.get('/addUser', function(req, res) {
+
+   res.render('addUser.ejs', {
+     message: req.flash('signupMessage'),
+     user: req.user
+   });
+ });
+
+ router.post('/addUser', isLoggedIn, function(req, res, err) {
+
+   if (err)
+     console.log(err)
+
+   User.findOne({
+     'local.email': req.body.email
+   }, function(err, user) {
+     if (err)
+       return done(err);
+     if (user) {
+       return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+     } else {
+
+
+       var newUser = new User();
+       newUser.local.email = req.body.email;
+       newUser.local.password = newUser.generateHash(req.body.password);
+       newUser.local.firstName = req.body.firstName;
+       newUser.local.lastName = req.body.lastName;
+       newUser.local.role = req.body.role;
+       newUser.local.street = req.body.street;
+       newUser.local.city = req.body.city;
+       newUser.local.state = req.body.state;
+       newUser.local.zip = req.body.zip;
+       newUser.local.phone = req.body.phone;
+       newUser.local.contract = false;
+       newUser.local.emailValidated = true;
+       newUser.local.banned = false;
+       newUser.save(function(err) {
+         if (err)
+           throw err;
+         res.redirect('/adminUserList');
+       });
+     }
+   });
+
+
+
+ });
+
+
  router.get('/verify', function(req, res) {
    res.render('verify.ejs', {
      user: req.user
@@ -1251,9 +1573,10 @@ res.download('./report/materials.csv');
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     },    tls: {
-        rejectUnauthorized: false
-    }
+     },
+     tls: {
+       rejectUnauthorized: false
+     }
    });
 
    var mailOptions = {
@@ -1329,9 +1652,10 @@ res.download('./report/materials.csv');
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     },    tls: {
-        rejectUnauthorized: false
-    }
+     },
+     tls: {
+       rejectUnauthorized: false
+     }
    });
 
    var mailOptions = {
@@ -1356,9 +1680,10 @@ res.download('./report/materials.csv');
      auth: {
        user: 'rcbi3dprinting@gmail.com',
        pass: 'RCBI2018'
-     },    tls: {
-        rejectUnauthorized: false
-    }
+     },
+     tls: {
+       rejectUnauthorized: false
+     }
    });
 
    var mailOptions = {

@@ -1,0 +1,157 @@
+<html>
+
+
+    <body>
+      <div>
+        <%- include partials/head.ejs %>
+      </div>
+
+      <div class="header-blue">
+        <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+          <%- include partials/breadcrumb.ejs%>
+            <div>
+              <div class="card-group">
+                <div class="card">
+
+                  <div class="card-body">
+                    <form action="/quickUpdate/<%=project._id %>" method="post">
+
+                      <%if(user.local.role == "admin" || user.local.role == "super"){ %>
+
+                            <%if(project.status == "Created"){ %>
+
+                              <h3>Assign Engineer</h3>
+                              <p>This project is currently awaiting assignment to an Engineer</p>
+
+                            <select class="form-control" name="projEngineer">
+                                 <% for(var i = 0; i < engineers.length; i++){%>
+                                <option value='{ "id" : "<%=engineers[i]._id%>", "name" : "<%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%>", "email": "<%=engineers[i].local.email%>" }' <%if (engineers[i].local.email == project.engineerEmail) {%> checked <%}%> ><%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%></option>
+                                <%}%>
+                            </select>
+
+                         <%} else{%>
+
+                          <h3>Unknown Status</h3>
+                          <p>An Unknown Projects Status has ben encountered</p>
+
+                        <%}%>
+
+
+                     <%}else if (user.local.role == "engineer" ) {%>
+
+                       <% if( project.status == "Assigned" ) {%>
+
+                       <h3>Waiting for  Finalizing</h3>
+                       <p>This project is currently awaiting your final pricing. Please input the final project price below: </p>
+
+                       <div><input class="form-control" type="number" step=0.01 name=finalPrice value='<%= project.finalCost%>' required></div>
+
+
+                     <%} else {%>
+
+                      <h3>Unknown Status</h3>
+                      <p>An Unknown Projects Status has ben encountered</p>
+
+                      <%}%>
+
+
+
+
+
+                    <%}else if(user.local.role == "user"){%>
+
+                      <% if( project.status == "Finalized" ) {%>
+
+                      <h3>Waiting your Approval</h3>
+                      <p>This project is currently awaiting your approval of final details.</p>
+
+                      <h3>Model Density</h3>
+                      <p><%= project.Density %></p>
+                      <h3>Filament Type</h3>
+                      <p><%= project.materialName %></p>
+                      <h3>Filament Price per Centimeter Cubed</h3>
+                      <p><%= project.materialCost %></p>
+                      <h3>Total Project Price</h3>
+                      <p><%= project.finalFinalCost %></p>
+
+                      <div><input class="form-control" type="radio" name=accepted value="true" required> Accept </div>
+                      <div><input class="form-control" type="radio" name=accepted value="false" checked required> Decline </div>
+
+                    <%} else {%>
+
+                     <h3>Unknown Status</h3>
+                     <p>An Unknown Projects Status has ben encountered</p>
+
+                     <%}%>
+
+
+
+
+                <%} else{%>
+                  <h3>Unknown Status</h3>
+                  <p>An Unknown User Type has been encountered</p>
+                <%}%>
+
+
+
+                <div class="form-group" style="margin-left: 25px;" ><button class="btn btn-primary " style="background-color:#28a745;" type="submit">Submit</button></div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="footer-clean">
+        <footer>
+          <div class="container" style="width:960px;">
+            <div class="row justify-content-center">
+              <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                <ul>
+                  <li></li>
+                </ul>
+              </div>
+              <div class="col-sm-4 col-md-3 item">
+                <h3 class="text-center" style="padding:12px;">About Us</h3>
+              </div>
+              <div class="col-sm-4 col-md-3 item">
+                <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+              </div>
+              <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+            </div>
+          </div>
+          <div class="container">
+            <div>
+              <div class="row justify-content-center">
+                <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
+                  <a href="#" style="margin:0px;">
+
+                    <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+      <script src="assets/js/jquery.min.js"></script>
+      <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+      <script src="assets/js/bs-animation.js"></script>
+    </body>
+
+    <script>
+      var password = document.getElementById("password"),
+        confirm_password = document.getElementById("passwordConfirm");
+
+      function validatePassword() {
+        if (password.value != confirm_password.value) {
+          confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+          confirm_password.setCustomValidity('');
+        }
+      }
+
+      password.onchange = validatePassword;
+      confirm_password.onkeyup = validatePassword;
+    </script>
+
+</html>

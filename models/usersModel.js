@@ -11,7 +11,7 @@ var userSchema = new Schema({
     password: String,
     role:{
       type: String,
-      enum: ['user', 'engineer', 'admin', 'finance']
+      enum: ['user', 'engineer', 'admin', 'finance', 'super']
     },
     street:String,
     city: String,
