@@ -17,6 +17,8 @@
     "express-fileupload": "^0.4.0",
     "express-session": "^1.12.1",
     "formidable": "^1.2.1",
+    "json2csv-stream": "^0.1.4",
+    "jsonexport": "^2.0.11",
     "mongo-to-csv": "^1.0.1",
     "mongoose": "^4.2.6",
     "morgan": "~1.6.1",
@@ -29,6 +31,7 @@
     "passport-google-oauth": "^0.2.0",
     "passport-local": "~1.0.0",
     "passport-twitter": "^1.0.3",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "write-csv": "^1.0.0"
   }
 }

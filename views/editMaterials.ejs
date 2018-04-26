@@ -39,41 +39,45 @@
 
         <h1 style="color:#ffffff;"> Material Details </h1>
 
-        <div>
+        <div class="card" style="width: 50%; margin: 0 auto;">
 
 
           <form action="/editMaterials/<%=id%>" method="post">
 
+          <div style="width: 50%; margin: 0 auto;">
+
 
           <div>
-            <p style="color:#ffffff;"> Material ID: </p>
+            <p style="color:#000000;"> Material ID: </p>
             <input class="form-control" type="text" name="matID" value='<%= material._id%>' readonly></div>
           <div>
-            <p style="color:#ffffff;"> Material Name: </p>
+            <p style="color:#000000;"> Material Name: </p>
             <input class="form-control" type="text" name="matName" value='<%= material.name%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required>  </div>
 
             <%if( user.local.role != "user") {%>
           <div>
-            <p style="color:#ffffff;"> Material Cost per Cubic Centimeter:</p>
+            <p style="color:#000000;"> Material Cost per Cubic Centimeter:</p>
             <input class="form-control" type="number" step=0.01 name="matOurCost" value='<%= material.actualCost%>' <%if( user.local.role == "finance") {%> readonly <%}%> required></div>
           <%} else {%>
             <input class="form-control" type="number" step=0.01  name="matOurCost" value='<%= material.actualCost%>' readonly hidden>
             <%}%>
 
           <div>
-            <p style="color:#ffffff;"> Material Selling Price per Cubic Centimeter: </p>
+            <p style="color:#000000;"> Material Selling Price per Cubic Centimeter: </p>
             <input class="form-control" type="number" step=0.01 name="matSellingPrice" value='<%= material.salePrice%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required></div>
           <div>
-            <p style="color:#ffffff;"> Material Description: </p>
+            <p style="color:#000000;"> Material Description: </p>
             <input class="form-control" type="text" name=matDescription value='<%= material.description%>' <%if( user.local.role == "user" || user.local.role == "finance") {%> readonly <%}%> required></div>
 
 
             <div> <input type="submit" value="Update" <%if( user.local.role == "user" || user.local.role == "finance") {%> hidden <%}%>></div>
+            <a href='/deleteMaterial/<%= material._id%>'>  <button type="button" class="btn btn-success"  <% if (user.local.role == 'user' || user.local.role == 'finance') { %> hidden<%}%>>Delete</button></a>
+
       </div>
 
-        <a href='/deleteMaterial/<%= material._id%>'>  <button type="button" class="btn btn-success"  <% if (user.local.role == 'user' || user.local.role == 'finance') { %> hidden<%}%>>Delete</button></a>
 
       </form>
+        </div>
     </div>
   </div>
   <div class="footer-clean">

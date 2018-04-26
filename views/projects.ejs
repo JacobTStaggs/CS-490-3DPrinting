@@ -36,63 +36,71 @@
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
       <%- include partials/breadcrumb.ejs%>
-        <div>
-          <h1 style="color:#ffffff;margin-bottom:20px;">Projects</h1>
-        </div>
-        <div>
 
-
-            <div class="card-group">
-
-              <div class="container">
-                <div class="row">
-                  <div class="col-xs-8 col-xs-offset-2">
-                    <div class="input-group">
-                      <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
-                        <div class="input-group-btn search-panel">
-
-                          <select class="form-control form-group" name="filter">
-
-                          <option value="all">All</option>
-                          <option value="archived">Archived</option>
-                          <option value="notArchived">Not Archived</option>
-          <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
-                          <% if (user.local.role == 'engineer') {%>
-                          <option value="yourProjects">Your Projects</option>
-                          <%}%>
-                          <option value="email">Client Email</option>
-                          <option value="engineer">Engineer Email</option>
-
-                          <option value="completed" >Completed</option>
-                          <option value="notCompleted">Not Completed</option>
-                                                    <% } %>
-                          </select>
-
-
-
-                          <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
-                          <button type="submit" class="btn btn-success">Filter</button>
-                        </div>
-
-                      </form>
-
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
 
           <div class="card-group">
             <div class="card">
               <div class="card-header">
+                <div>
+                  <h1 style="margin-bottom:20px;">Projects</h1>
+                </div>
                 <% if(user.local.role == "user") { %>
                   <h4 style="color:red;"> Please Note </h4>
                   <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
                   <%}%>
                     <h5 class="mb-0"></h5>
               </div>
+              <div>
+
+                <% if (user.local.role != "user"){%>
+
+
+                  <div class="card-group">
+
+                    <div class="container">
+                      <div class="row">
+
+                          <div class="input-group">
+                            <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
+                              <div class="input-group-btn search-panel">
+                                <span style="position: absolute; left: 5px;">
+                                <select class="" style="margin-right: 5px;" name="filter">
+
+                                <option value="all">All</option>
+                                <option value="archived">Archived</option>
+                                <option value="notArchived">Not Archived</option>
+                <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
+                                <% if (user.local.role == 'engineer') {%>
+                                <option value="yourProjects">Your Projects</option>
+                                <%}%>
+                                <option value="email">Client Email</option>
+                                <option value="engineer">Engineer Email</option>
+
+                                <option value="completed" >Completed</option>
+                                <option value="notCompleted">Not Completed</option>
+                                                          <% } %>
+                                </select><input class="" type="text" name="parameter" placeholder="Search parameter">
+
+
+
+
+                                  <button type="submit" class="btn btn-success">Filter</button></span>
+                              </div>
+                              <div>
+
+                              </div>
+                            </form>
+
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
+              </div>
+              <% if(user.local.role == "user") {%>
+                <a href="/archived" style="width: 175px; margin-left: 80%;" class="btn btn-success">Archived Projects</a>
+
+            <%  } %>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table sortable">
@@ -102,16 +110,25 @@
                           <th>Completed</th>
                           <% } %>
                             <th>Project Name</th>
-                            <th>Comments</th>
-                            <th>User Email</th>
+
+                            <%if(user.local.role != 'user'){%>
+                              <th>User Email</th>
+                            <%}%>
+
                             <th>Engineer</th>
                             <th>Estimate</th>
+                            <th>
+                              Final Price
+                            </th>
+                            <th>
+                              Volume
+                            </th>
                             <th>Date Posted </th>
-                            <th>Archived</th>
 
-                            <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
-                              <th>Options</th>
-                              <% } %>
+                            <th>Archived</th>
+                            <th>Comments</th>
+                            <th>Options</th>
+
 
                       </tr>
                     </thead>
@@ -129,24 +146,38 @@
                                   <td>
                                     <%= projects[i].projectName %>
                                   </td>
-                                  <td>
-                                    <%if(projects[i].projectComments){%> Yes <%} else {%> No <%}%>
-                                  </td>
-                                  <td>
-                                    <%= projects[i].email%>
-                                  </td>
+
+                                  <%if(user.local.role != 'user'){%>
+                                    <td>
+                                      <%= projects[i].email%>
+                                    </td>
+                                <%  } %>
+
                                   <td>
                                     <%= projects[i].engineerEmail %>
                                   </td>
                                   <td>
-                                    <%= projects[i].finalCost %>
+                                    $<%= projects[i].finalCost %>
                                   </td>
-
+                                  <td>
+                                    <%if(projects[i].finalFinalCost != null){%>
+                                      $<%=projects[i].finalFinalCost%>
+                                    <%}if (projects[i].finalFinalCost == null){ %>
+                                      N/A
+                                      <% } %>
+                                  </td>
+                                  <td>
+                                    <%= projects[i].fileVolumeCmCubed %>
+                                  </td>
                                   <td>
                                     <%= projects[i].datePosted %>
                                   </td>
+
                                   <td>
                                     <%= projects[i].archived %>
+                                  </td>
+                                  <td>
+                                    <%if(projects[i].projectComments){%> Yes <%} else {%> No <%}%>
                                   </td>
 
                                     <td> <a href='/edit/<%=projects[i]._id %>'><% if (user.local.role == 'user' || user.local.role == 'finance') { %> View <%} else {%> View/Edit <%}%></a></td>
@@ -160,9 +191,12 @@
                   </table>
 
                 </div>
-                <%if (user.local.role != 'finance') {%>
+                <%if (user.local.role == 'user') {%>
                   <a href="  /quote" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create Project </button></a>
                   <% } %>
+                  <%if (user.local.role != 'user') {%>
+                    <a href="  /reports" class="submit" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Download Report </button></a>
+                    <% } %>
               </div>
 
             </div>
