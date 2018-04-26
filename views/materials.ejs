@@ -1,5 +1,22 @@
 <html>
 
+<style>
+#appadd {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    text-overflow: ellipsis;
+}
+
+td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,7 +92,9 @@
                               <td> $
                                 <%= materials[i].salePrice %>
                               </td>
-                              <td>
+
+                              <td id="appadd">
+
                                 <%=materials[i].description%>
                               </td>
                               <td>
@@ -93,7 +112,9 @@
                     <a href="/addMaterial">  <button type="button" class="btn btn-success" >Add a material</button></a>
                     <% } %>
                       <% if (user.local.role == 'engineer') { %>
-                        <a href="/addMaterial" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Add a Material </button></a>
+
+                        <a href="/addMaterial">  <button type="button" class="btn btn-success" >Add a material</button></a>
+
                         <% } %>
 
                 </div>

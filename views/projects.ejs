@@ -1,5 +1,22 @@
 <html>
 
+<style>
+#appadd {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    text-overflow: ellipsis;
+}
+
+td {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,16 +53,40 @@
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
       <%- include partials/breadcrumb.ejs%>
+
           <div class="card-group">
             <div class="card">
               <div class="card-header">
                 <div>
                   <h1 style="color:#000000;margin-bottom:20px;">Projects</h1>
                 </div>
-              </div>
-                <% if(user.local.role != 'user'){%>
+
+                <% if(user.local.role == 'user'){%>
                   <div>
-                      <div class="card-body">
+                      <div class="card-group">
+                        <div class="container">
+                          <div class="row">
+                              <span>
+                              <div class="">
+                                <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
+                                  <div class="">
+
+                                    <button name="filter" type="submit" value="notArchived" class="btn btn-success">Not Archived</button>
+                                    <button name="filter" type="submit" value="archived" class="btn btn-success">Archived</button>
+                                    <button name="filter" type="submit" value="all" class="btn btn-success">All</button>
+                                  </div>
+                                </form>
+                            </div>
+                          </span>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                <%} else {%>
+                  <div>
+                      <div class="card-group">
+
                         <div class="container">
                           <div class="row">
                               <span>
@@ -66,22 +107,30 @@
                                     <option value="notCompleted">Not Completed</option>
                                                               <% } %>
                                     </select>
-                                    <input class="" type="text" style="margin-left:5px"name="parameter" placeholder="Search parameter">
-                                    <button style="background-color:rgb(4,148,74);margin-left:5px" type="submit" class="btn btn-success">Filter</button>
+
+                                    <input class="" type="text" name="parameter" placeholder="Search parameter">
+                                    <button type="submit" class="btn btn-success">Filter</button>
+
                                   </div>
                                 </form>
                             </div>
                           </span>
                           </div>
                         </div>
-                  </div>
-                <%}%>
-                <% if(user.local.role == "user") { %>
-                  <h4 style="color:red;margin:20px"><b>Please Note:</b><small style="color:black"> Estimates in price may vary depending on print time and material</small></h4> 
-                  <%}%>
 
+                      </div>
+                  </div>
+                  <%}%>
+                <% if(user.local.role == "user") { %>
+                  <h4 style="color:red;"> Please Note </h4>
+                  <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
+                  <%}%>
+                  <p> Hover over options to see what they do </p>
+                    <h5 class="mb-0"></h5>
+              </div>
               <div class="card-body">
                 <div class="table-responsive">
+
 
                   <% if ( user.local.role == "admin" || user.local.role == "super") { %>
                       <table class="table sortable">
@@ -196,6 +245,12 @@
                                         <th>Project Name</th>
                                         <th>Status</th>
                                         <th>Estimate</th>
+
+                                          <th>
+                                             Final Cost
+                                          </th>
+
+
                                         <th>Engineer</th>
                                         <th>Date Posted </th>
                                         <th>Archived</th>
@@ -213,11 +268,23 @@
                                                 <%= projects[i].status%>
                                               </td>
                                               <td>
-                                                <%= projects[i].finalCost %>
+
+                                                $<%= projects[i].finalCost %>
                                               </td>
                                               <td>
+                                              <%if(projects[i].finalFinalCost != null){%>
+
+                                                  $<%= projects[i].finalFinalCost %>
+
+                                              <%}else{%>
+                                                N/A
+                                                <%}%>
+                                                </td>
+                                                <td>
                                                 <%= projects[i].engineerEmail %>
                                               </td>
+
+
                                               <td>
                                                 <%= projects[i].datePosted %>
                                               </td>
@@ -241,16 +308,44 @@
                   <a href="  /quote" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create Project </button></a>
                   <% } %>
               </div>
-</div>
+
+
             </div>
           </div>
-        </div>
-      </div>
+          <div class="footer-clean">
+            <footer>
+              <div class="container" style="width:960px;">
+                <div class="row justify-content-center">
+                  <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                    <ul>
+                      <li></li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-4 col-md-3 item">
+                    <h3 class="text-center" style="padding:12px;">About Us</h3>
+                  </div>
+                  <div class="col-sm-4 col-md-3 item">
+                    <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                  </div>
+                  <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                </div>
+              </div>
+              <div class="container">
+                <div>
+                  <div class="row justify-content-center">
+                    <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
+                      <a href="#" style="margin:0px;">
+                        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </div>
           <script src="assets/js/jquery.min.js"></script>
           <script src="assets/bootstrap/js/bootstrap.min.js"></script>
           <script src="assets/js/bs-animation.js"></script>
-          <div>
-              <% include partials/footer.ejs %>
-          </div>
+
+
 </body>
 </html>

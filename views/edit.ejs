@@ -89,7 +89,7 @@
                 <% if (user.local.role == 'admin') { %>
                   <select class="form-control" name="projEngineer">
                           <option value='{ "id" : "<%=project.engineerID %>", "name" : "<%=project.engineerName%>", "email": "<%=project.engineerEmail%>" }' ><%=project.engineerName%></option>
-                          <option value='{ "id" : "", "name" : "Unassigned", "email": "Unassigned" }' >Unassign</option>
+
                            <% for(var i = 0; i < engineers.length; i++){%>
                                 <option value='{ "id" : "<%=engineers[i]._id%>", "name" : "<%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%>", "email": "<%=engineers[i].local.email%>" }' <%if (engineers[i].local.email == project.engineerEmail) {%> checked <%}%> ><%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%></option>
                               <% }%>
@@ -103,6 +103,25 @@
                       <input class="form-control" type="text" name=nothing value="<%=project.engineerName%>" readonly></div>
                       <% }%>
               </div>
+
+              <% if (user.local.role == 'admin') { %>
+              <p style="color:#00000;"> Change Project Status: </p>
+
+                <select class="form-control form-group" name="projStatus">
+                                  <option value="<%=project.status%>"><%=project.status%></option>
+                                  <option value="Created">Created</option>
+                                  <option value="Assigned">Assigned</option>
+                                  <option value="Finalized">Finalized</option>
+                                  <option value="Accepted">Accepted</option>
+                                  <option value="Canceled">Canceled</option>
+                                  <option value="Printed">Printed</option>
+
+              </select>
+                <% } %>
+                <% if (user.local.role == 'engineer') { %>
+                  <input type="text" name="projStatus" value="<%=project.status%>" hidden></input>
+                  <% } %>
+
 
                   <div>
                     <p style="color:#00000;"> Project Completed: </p>

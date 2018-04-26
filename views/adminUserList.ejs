@@ -34,8 +34,10 @@
   <div>
     <%- include partials/head.ejs %>
   </div>
+
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
+
 
 
       <%- include partials/breadcrumb.ejs%>
@@ -48,6 +50,7 @@
           </div>
               <div>
                 <div class="card-body">
+
 
                   <div class="container">
                     <div class="row">
@@ -99,6 +102,39 @@
                       <% for(var i=0; i<users.length; i++) { %>
                         <%if (users[i].local.role != "super"){ %>
                         <tr>
+
+
+                          <td>
+                            <%= users[i].local.firstName + " " +  users[i].local.lastName %>
+                          </td>
+                          <td>
+                            <%= users[i].local.email %>
+                          </td>
+                          <td>
+                            <%= users[i].local.role %>
+                          </td>
+                          <td>
+                            <%= users[i].local.street %>,
+                              <%= users[i].local.city %>,
+                                <%= users[i].local.state %>
+                                  <%= users[i].local.zip %>
+                          </td>
+                          <td>
+                            <%= users[i].local.phone %>
+                          </td>
+                          <td>
+                            <%= users[i].local.contract %>
+                          </td>
+                          <td>
+                            <%= users[i].local.banned %>
+                          </td>
+                          <td>
+                            <a href="/editUser/<%=users[i]._id%>">Edit</a>
+                          </td>
+                        </tr>
+                        <%}%>
+                        <%}%>
+
 
                           <td>
                             <%= users[i].local.firstName + " " +  users[i].local.lastName %>

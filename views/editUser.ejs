@@ -1,6 +1,8 @@
+
 <html>
 
 <body>
+
   <div>
     <%- include partials/head.ejs %>
   </div>
@@ -229,6 +231,25 @@
   <div>
       <% include partials/footer.ejs %>
   </div>
+
 </body>
+
+<script>
+
+var password = document.getElementById("password")
+  , confirm_password = document.getElementById("passwordConfirm");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+
+</script>
 
 </html>

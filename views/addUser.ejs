@@ -1,3 +1,4 @@
+
 <html>
 <% if (message != null) { %>
 <div class="alert-danger"><%= message %></div>
@@ -13,6 +14,7 @@
             <div>
                 <div class="card-group" >
                     <div class="card">
+
                       <div class="card-header">
                         <div>
                           <h1 style="margin-bottom:20px;">Add a User</h1>
@@ -29,15 +31,18 @@
                               <div style="width:50%;margin:10px auto";class="form-group">City:<input class="form-control" type="text" name="city" placeholder="City" required></div>
                               <div style="width:50%;margin:10px auto">
                                 Role:
+
                               <select class="form-control form-group" name="role" required>
                                 <option value="user">Client</option>
                                 <option value="engineer">Engineer</option>
                                 <option value="finance">Finance</option>
                                 <option value="admin">Admin</option>
+
                               </select></div>
 
                               <div style="width:50%;margin:10px auto">
                               State:
+
                               <select class="form-control form-group" name="state">
                               	<option value="AL">Alabama</option>
                               	<option value="AK">Alaska</option>
@@ -90,11 +95,13 @@
                               	<option value="WV">West Virginia</option>
                               	<option value="WI">Wisconsin</option>
                               	<option value="WY">Wyoming</option>
+
                               </select></div>
 
                               <div style="width:50%;margin:10px auto";class="form-group">Zip (format: XXXXX or XXXXX-XXXX):<input class="form-control" type="text" name="zip" placeholder="Zip" pattern="(\d{5}([\-]\d{4})?)" required></div>
                               <div style="width:50%;margin:10px auto";class="form-group">Phone Number (format: XXX-XXX-XXXX):<input class="form-control" type="text" name="phone" placeholder="Phone Number" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required></div>
                               <div style="width:50%;margin:10px auto";class="form-group" ><button class="btn btn-primary" style="width:50%;margin:10px auto;background-color:rgb(4,148,74)" type="submit">Add User</button></div>
+
                             </form>
                         </div>
                     </div>
@@ -103,6 +110,7 @@
         </div>
     </div>
 
+
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-animation.js"></script>
@@ -110,6 +118,7 @@
     <div>
         <% include partials/footer.ejs %>
     </div>
+
 </body>
 
 <script>
