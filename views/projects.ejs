@@ -91,80 +91,201 @@
                   <h4 style="color:red;"> Please Note </h4>
                   <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
                   <%}%>
+                  <p> Hover over options to see what they do </p>
                     <h5 class="mb-0"></h5>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table sortable">
-                    <thead>
-                      <tr>
-                        <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
-                          <th>Project ID</th>
-                          <th>Completed</th>
-                          <% } %>
-                            <th>Project Name</th>
-                            <th>Comments</th>
-                            <th>User Email</th>
-                            <th>Engineer</th>
-                            <th>Estimate</th>
-                            <th>Date Posted </th>
-                            <th>Archived</th>
 
-                            <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
+                  <% if ( user.local.role == "admin" || user.local.role == "super") { %>
+                      <table class="table sortable">
+                        <thead>
+                          <tr>
+
+                                <th>Project Name</th>
+                                <th>Status</th>
+                                <th>Comments</th>
+                                <th>User Email</th>
+                                <th>Engineer</th>
+                                <th>Estimate</th>
+                                <th>Date Posted </th>
+                                <th>Archived</th>
+                                <th>Options</th>
+
+
+                          </tr>
+                        </thead>
+                          <tbody>
+
+                            <% for(var i=0; i<projects.length; i++) {%>
+                                <tr>
+
+                                      <td>
+                                        <%= projects[i].projectName %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].status%>
+                                      </td>
+                                      <td>
+                                        <% if (projects[i].projectComments) {%> Yes <%} else {%> No <%}%>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].email%>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].engineerEmail %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].finalCost %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].datePosted %>
+                                      </td>
+                                      <td>
+                                        <%= projects[i].archived %>
+                                      </td>
+
+                                      <%if (projects[i].status == "Created") {%> <td> <a title="Assign an Engineer to this project" href='/editUpdated/<%=projects[i]._id %>'> Assign Engineer  </a></td> <%}%>
+
+                                        <td> <a title="View project details or set project to a new status" href='/edit/<%=projects[i]._id %>'> View/ChangeStatus </a></td>
+
+                                          <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
+
+
+
+                                </tr>
+
+                                  <%}%>
+                          </tbody>
+                      </table>
+                  <%} else if (user.local.role == "engineer") {%>
+                    <table class="table sortable">
+                      <thead>
+                        <tr>
+
+                              <th>Project Name</th>
+                              <th>Status</th>
+                              <th>Comments</th>
+                              <th>User Email</th>
+                              <th>Engineer</th>
+                              <th>Estimate</th>
+                              <th>Final Price</th>
+                              <th>Date Posted </th>
+                              <th>Archived</th>
                               <th>Options</th>
-                              <% } %>
 
-                      </tr>
-                    </thead>
-                      <tbody>
 
-                        <% for(var i=0; i<projects.length; i++) {%>
-                          <% if (user.local.role == "user" && user.id == projects[i].clientID || user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") {%>
-                            <tr>
-                              <% if(user.local.role == "admin" || user.local.role == "engineer" || user.local.role == "finance") { %>
-                                <td>
-                                  <%= projects[i]._id %>
-                                </td>
-                                <td>
-                                  <%= projects[i].completed %>
-                                </td>
+                        </tr>
+                      </thead>
+                        <tbody>
+
+                          <% for(var i=0; i<projects.length; i++) {%>
+                              <tr>
+
+                                    <td>
+                                      <%= projects[i].projectName %>
+                                    </td>
+                                    <td>
+                                      <%= projects[i].status%>
+                                    </td>
+                                    <td>
+                                      <%if (projects[i].projectComments) {%> Yes <%} else {%> No <%}%>
+                                    </td>
+                                    <td>
+                                      <%= projects[i].email%>
+                                    </td>
+                                    <td>
+                                      <%= projects[i].engineerEmail %>
+                                    </td>
+                                    <td>
+                                      <%= projects[i].finalCost %>
+                                    </td>
+                                    <td>
+                                      <% if (projects[i].finalFinalCost != null) {%>
+                                      <%= projects[i].finalFinalCost %>
+                                      <%}else{%> N/A <%}%>
+                                    </td>
+                                    <td>
+                                      <%= projects[i].datePosted %>
+                                    </td>
+                                    <td>
+                                      <%= projects[i].archived %>
+                                    </td>
+
+                                        <%if (projects[i].status == "Created") {%> <td> <a title="Assign an Engineer to this project" href='/quickUpdate/<%=projects[i]._id %>'> Take Project  </a></td> <%}%>
+                                        <%if (projects[i].status == "Assigned" && projects[i].engineerEmail == user.local.email) {%><td> <a title="View project and change some project details" href='/edit/<%=projects[i]._id %>'> Edit </a></td>
+                                                                                  <td> <a title="Finalize the projects invoiced price" href='/editUpdated/<%=projects[i]._id %>'> Finalize </a></td><%}%>
+                                        <%if (projects[i].status == "Accepted" && projects[i].engineerEmail == user.local.email) {%> <td> <a title="Show the cutomer the project is printed and ready to go" href='/quickUpdate/<%=projects[i]._id %>'> Printed  </a></td> <%}%>
+                                        <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
+
+                              </tr>
+
                                 <%}%>
+                        </tbody>
+                    </table>
+                  <%} else if (user.local.role == "user") {%>
 
-                                  <td>
-                                    <%= projects[i].projectName %>
-                                  </td>
-                                  <td>
-                                    <%if(projects[i].projectComments){%> Yes <%} else {%> No <%}%>
-                                  </td>
-                                  <td>
-                                    <%= projects[i].email%>
-                                  </td>
-                                  <td>
-                                    <%= projects[i].engineerEmail %>
-                                  </td>
-                                  <td>
-                                    <%= projects[i].finalCost %>
-                                  </td>
 
-                                  <td>
-                                    <%= projects[i].datePosted %>
-                                  </td>
-                                  <td>
-                                    <%= projects[i].archived %>
-                                  </td>
+                              <table class="table sortable">
+                                <thead>
+                                  <tr>
 
-                                    <td> <a href='/edit/<%=projects[i]._id %>'><% if (user.local.role == 'user' || user.local.role == 'finance') { %> View <%} else {%> View/Edit <%}%></a></td>
+                                        <th>Project Name</th>
+                                        <th>Status</th>
+                                        <th>Estimate</th>
+                                        <th>Engineer</th>
+                                        <th>Date Posted </th>
+                                        <th>Archived</th>
+                                        <th>Options</th>
 
-                                      <td> <a href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
 
-                            </tr>
-                            <% } %>
-                              <%}%>
-                      </tbody>
-                  </table>
+                                  </tr>
+                                </thead>
+                                  <tbody>
+
+                                    <% for(var i=0; i<projects.length; i++) {%>
+                                        <% if (user.local.role == "user" && user.local.email == projects[i].email) {%>
+                                        <tr>
+
+                                              <td>
+                                                <%= projects[i].projectName %>
+                                              </td>
+                                              <td>
+                                                <%= projects[i].status%>
+                                              </td>
+                                              <td>
+                                                <%= projects[i].finalCost %>
+                                              </td>
+                                              <td>
+                                                <%= projects[i].engineerEmail %>
+                                              </td>
+                                              <td>
+                                                <%= projects[i].datePosted %>
+                                              </td>
+                                              <td>
+                                                <%= projects[i].archived %>
+                                              </td>
+
+
+                                                  <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
+                                                  <%if (projects[i].status == "Created" || projects[i].status == "Assigned") {%> <td> <a title="Assign an Engineer to this project" href='/quickUpdate/<%=projects[i]._id %>'>Cancel Project</a></td> <%}%>
+                                                  <%if (projects[i].status == "Finalized") {%> <td> <a style="color:red;" title="Accept or decline the finalized project specifications" href='/editUpdated/<%=projects[i]._id %>'> Accept/Decline  </a></td> <%}%>
+
+                                        </tr>
+                                            <%}%>
+                                          <%}%>
+                                  </tbody>
+                              </table>
+
+
+
+
+                    <% } else { %>
+                      <p>Hey terra!</p>
+                    <% } %>
 
                 </div>
-                <%if (user.local.role != 'finance') {%>
+                <%if (user.local.role != 'finance' && user.local.role != 'admin' ) {%>
                   <a href="  /quote" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create Project </button></a>
                   <% } %>
               </div>

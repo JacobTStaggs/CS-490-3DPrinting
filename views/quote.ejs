@@ -40,7 +40,7 @@
 
         <%- include partials/breadcrumb.ejs%>
         <div>
-          <h1 style="color:#ffffff;"> Lets get Started </h1>
+          <h1 style="color:#ffffff;"> Create Project </h1>
         </div>
 
 
@@ -51,7 +51,7 @@
               <% if (user.local.role == "user") {%>
               <p style="color:#ffffff;">The file must be in .stl format. Please keep files less than 20Mb in size</p>
               <% } else {%>
-                <p style="color:#ffffff;">The file must be in .stl format. Admins and Engineers can upload files without limit to size. Please upload cautiously...</p>
+                <p style="color:#ffffff;">The file must be in .stl format. Engineers can upload files without limit to size. Please upload cautiously...</p>
                  <%}%>
               <p style="color:yellow;"><%=error%></p>
               <input style="color:#ffffff;" type="file" accept=".stl" name="myFile" required>
@@ -74,11 +74,11 @@
             </div>
 
             <div>
-              <h5 style="color:#ffffff;">Filament Type</h5>
-              <p style="color:#ffffff;"> Select what material you want you project to be printed with: </p>
+              <h5 style="color:#ffffff;">Material Type</h5>
+              <p style="color:#ffffff;"> Select what material you want you project to be printed with (hover over material for details): </p>
               <select class="form-control form-group" name="material">
                                 <% for (var i = 0; i<materials.length; i++) { %>
-                                <option type="text" value='{ "id" : "<%=materials[i]._id%>", "name" : "<%=materials[i].name%>", "price": <%=materials[i].salePrice%> }'><%= materials[i].name%>: $<%=materials[i].salePrice%> per cubic centimeter</option>
+                                <option title="<%=materials[i].description%>" type="text" value='{ "id" : "<%=materials[i]._id%>", "name" : "<%=materials[i].name%>", "price": <%=materials[i].salePrice%> }'><%= materials[i].name%>: $<%=materials[i].salePrice%> per cubic centimeter</option>
 
                                 <%}%>
            </select>
