@@ -14,7 +14,7 @@
 
                         <div class="card-body" style="background-color:white;">
                           <h1 bold>User Information</h1>
-                          <form action="/editUser/<%=id%>" method="post" class="" style="width:50%;height:125%;padding:20px;margin:20px;background-color:rgb(255,255,255);">
+                          <form action="/editUser/<%=id%>" method="post" class="" style="width:50%;height:145%;padding:20px;margin:20px;background-color:rgb(255,255,255);">
                           <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
 
 
@@ -205,19 +205,17 @@
                                           <% } else { %>
                                             <p>Hey terra!</p>
                                             <% } %>
-                                            <div style="margin-top:20">
-                                              <button class="btn btn-primary " type="submit" style="background-color:rgb(4,148,74);">Submit</button>
 
-                                            </div>
-
+                                            <button class="btn btn-primary " type="submit" style="background-color:rgb(4,148,74);">Submit</button>
 
                           </form>
+
+
                           <% if(user.id == id) {%>
                           <a href="/editPassword/<%=id%>"><button class="btn btn-primary" style="background-color:rgb(4,148,74);"> Edit Password </button></a>
                           <%}%>
-
-
                         </div>
+
 
                     </div>
 

@@ -35,30 +35,32 @@
     </div>
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:60px;padding-bottom:200px;">
+                  <%- include partials/breadcrumb.ejs%>
             <div>
             </div>
             <div>
                 <div class="card" style="width: 50%; margin: 0 auto;">
                     <div class="card-header">
+                      <h1>Reports</h1>
                     </div>
                     <div class="card-body" style="margin: 0 auto;">
                       <div style="margin: 0 auto;">
 
                       <p style="text-align:center;">
-                        Please select an option below:
+                        Please select an option below (Hover over options for details):
                       </p>
                       <div style="margin-left:25%;">
 
-                
+
                       <form method="post">
                         <select name="choice" style="margin: 0 auto;">
-                          <option value="users">
+                          <option title="donwload and excel sheet of all current Users" value="users">
                             Users
                           </option>
-                          <option value="projects">
+                          <option title="donwload and excel sheet of all current Projects" value="projects">
                             Projects
                           </option>
-                          <option value="materials">
+                          <option title="donwload and excel sheet of all current Materials" value="materials">
                             Materials
                           </option>
                         </select>
