@@ -38,50 +38,48 @@
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
 
-      <div>
 
-        <h1 style="color:#ffffff;margin-bottom:20px;">User List</h1>
-      </div>
       <%- include partials/breadcrumb.ejs%>
-        <div>
-          <div class="card-group">
-
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-8 col-xs-offset-2">
-                  <div class="input-group">
-                    <form action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
-                      <div class="input-group-btn search-panel">
-                        <select class="form-control form-group" name="choice">
-                          <option value="all">All Users</option>
-                          <option value="email">User Email</option>
-                          <option value="banned">Banned Users</option>
-                          <option value="contractSigned">Contract Signed</option>
-                          <option value="contractNotSigned">Contract Not Signed</option>
-                          <option value="admins">Admins</option>
-                          <option value="engineers">Engineers</option>
-                          <option value="finance">Finance</option>
-                          <option value="clients">Clients</option>
-              </select>
-                        <div class="form-group"><input class="form-control" type="text" name="parameter" placeholder="Search parameter"></div>
-                        <button type="submit" class="btn btn-success">Filter</button>
-                      </div>
-
-                    </form>
-
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div>
           <div class="card-group">
             <div class="card">
               <div class="card-header">
-                <h5 class="mb-0"></h5>
+                <div>
+
+                  <h1 style="margin-bottom:20px;">User List</h1>
+                </div>
+              </div>
+              <div>
+                <div class="card-group">
+
+                  <div class="container">
+                    <div class="row">
+                    <span style="position: absolute; left: 5px;">
+                        <div class="">
+                          <form action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
+
+                              <select class="" style="margin-right: 5px;"name="choice">
+                                <option value="all">All Users</option>
+                                <option value="email">User Email</option>
+                                <option value="banned">Banned Users</option>
+                                <option value="contractSigned">Contract Signed</option>
+                                <option value="contractNotSigned">Contract Not Signed</option>
+                                <option value="admins">Admins</option>
+                                <option value="engineers">Engineers</option>
+                                <option value="finance">Finance</option>
+                                <option value="clients">Clients</option>
+                    </select>
+                            <input class="" type="text" name="parameter" placeholder="Search parameter">
+                              <button type="submit" class="btn btn-success">Filter</button>
+
+
+                          </form>
+                      </div>
+                    </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="card-body">

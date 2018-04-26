@@ -39,43 +39,48 @@
       <div>
 
         <%- include partials/breadcrumb.ejs%>
-        <div>
-          <h1 style="color:#ffffff;"> Lets get Started </h1>
+        <div class="card">
+
+      <div class="card-body">
+
+
+        <div class="card-header" style="margin-bottom: 10px;">
+          <h1 style="color:#000000;"> Create a Project </h1>
         </div>
 
 
 
           <form action="/quote" enctype="multipart/form-data" method="post">
             <div>
-              <h5 style="color:#ffffff;">Upload a file to start your project</h5>
-              <% if (user.local.role == "user") {%>
-              <p style="color:#ffffff;">The file must be in .stl format. Please keep files less than 20Mb in size</p>
-              <% } else {%>
-                <p style="color:#ffffff;">The file must be in .stl format. Admins and Engineers can upload files without limit to size. Please upload cautiously...</p>
-                 <%}%>
+              <h5 style="color:#00000;">Upload a file to start your project</h5>
+
+              <p style="color:#00000;">To begin, click the "Choose File" button below and select your file you want to upload.
+                After you have your file chosen, fill out the fields below.
+              </p>
+
               <p style="color:yellow;"><%=error%></p>
-              <input style="color:#ffffff;" type="file" accept=".stl" name="myFile" required>
+              <input style="color:#00000;" type="file" accept=".stl" name="myFile" required>
 
             </div>
             <div>
-              <h5 style="color:#ffffff;">Project Name</h5>
-              <p style="color:#ffffff;"> Give your Project a name: </p>
+              <h5 style="color:#00000;">Project Name</h5>
+              <p style="color:#00000;"> Give your Project a name: </p>
               <input type="text" name="projectName" required>
             </div>
 
             <div>
-              <h5 style="color:#ffffff;">Density</h5>
-              <p style="color:#ffffff;"> Select how dense you want you project to be printed: </p>
+              <h5 style="color:#00000;">Density</h5>
+              <p style="color:#00000;"> Select how dense you want you project to be printed: </p>
               <select class="form-control form-group" name="projectDensity">
-                                <option value="Solid">Solid</option>
-                                <option value="Sparse">Sparse</option>
-                                <option value="Sparse Double Dense">Sparse Double-Dense</option>
+                                <option value="Solid" title="Highest density but a little higher cost">Solid</option>
+                                <option value="Sparse" title="In between in density, but a little lower cost">Sparse</option>
+                                <option value="Sparse Double Dense" title="Lowest density, but the lowest cost">Sparse Double-Dense</option>
             </select>
             </div>
 
             <div>
-              <h5 style="color:#ffffff;">Filament Type</h5>
-              <p style="color:#ffffff;"> Select what material you want you project to be printed with: </p>
+              <h5 style="color:#00000;">Filament Type</h5>
+              <p style="color:#00000;"> Select what material you want you project to be printed with: </p>
               <select class="form-control form-group" name="material">
                                 <% for (var i = 0; i<materials.length; i++) { %>
                                 <option type="text" value='{ "id" : "<%=materials[i]._id%>", "name" : "<%=materials[i].name%>", "price": <%=materials[i].salePrice%> }'><%= materials[i].name%>: $<%=materials[i].salePrice%> per cubic centimeter</option>
@@ -89,7 +94,7 @@
             <div>
 
               <% for (var i = 0; i<materials.length; i++) { %>
-                <!-- <p style="color:#ffffff;">
+                <!-- <p style="color:#00000;">
                   <%= materials[i].name%>:
                     <%= materials[i].description%>
                 </p> -->
@@ -98,23 +103,56 @@
 
             </div>
             <div>
-              <h5 style="color:#ffffff;">Comments</h5>
-              <p style="color:#ffffff;"> Please input any additional comments of concerns you have with this project: </p>
+              <h5 style="color:#00000;">Comments</h5>
+              <p style="color:#00000;"> Please input any additional comments of concerns you have with this project: </p>
               <textarea name="projectComments" value=" " cols="40" rows="5"></textarea>
             </div>
             <% if (user.local.role == 'admin' || user.local.role == 'engineer') {%>
             <div>
-              <h5 style="color:#ffffff;">Client Info: </h5>
-              <p style="color:#ffffff;"> Please Clients Email: </p>
+              <h5 style="color:#00000;">Client Info: </h5>
+              <p style="color:#00000;"> Please Clients Email: </p>
               <input type="email" name="custEmail" required>
             </div>
             <%}%>
             <div>
-              <input style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;" type="submit" value="Upload">
-              <p style="color:#ffffff;"> Larger files may take some time to upload. Please allow up to a minute for server responce. </p>
+              <button type="submit" class="btn btn-success">Submit</button>
+              <p style="color:#00000;"> Larger files may take some time to upload. Please allow up to a minute for server responce. </p>
             </div>
           </form>
       </div>
+        </div>
+    </div>
+
+  </div>
+    <div class="footer-clean">
+      <footer>
+        <div class="container" style="width:960px;">
+          <div class="row justify-content-center">
+            <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+              <ul>
+                <li></li>
+              </ul>
+            </div>
+            <div class="col-sm-4 col-md-3 item">
+              <h3 class="text-center" style="padding:12px;">About Us</h3>
+            </div>
+            <div class="col-sm-4 col-md-3 item">
+              <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+            </div>
+            <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+          </div>
+        </div>
+        <div class="container">
+          <div>
+            <div class="row justify-content-center">
+              <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
+                <a href="#" style="margin:0px;">
+                  <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

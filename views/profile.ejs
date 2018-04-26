@@ -35,16 +35,15 @@
   </div>
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
-      <%- include partials/breadcrumb.ejs%>
-      <div>
-        <h1 style="color:#ffffff;margin-bottom:20px;">Account Information</h1>
-      </div>
-      <div>
 
+      <div>
+        <%- include partials/breadcrumb.ejs%>
           <div class="card-group">
             <div class="card">
               <div class="card-header">
-                <h5 class="mb-0"></h5>
+                <div>
+                  <h1 style="margin-bottom:20px;">Account Information</h1>
+                </div>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -90,8 +89,7 @@
                     </tbody>
                   </table>
 
-                  <a href="/editUser/<%=user.id%>"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;"> Edit Your Info </button></a>
-
+                  <button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;"><a href="/editUser/<%=user.id%>"> Edit Your Info </a></button>
                 </div>
               </div>
             </div>
