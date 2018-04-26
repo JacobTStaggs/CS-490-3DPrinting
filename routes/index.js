@@ -18,6 +18,7 @@ var express = require('express');
  var path = require('path');
  var fs = require('fs');
  var writeCSV = require('write-csv')
+ const Json2csvParser = require('json2csv').Parser;
 
 
 
@@ -209,23 +210,68 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
       var datePosted = month +  "-" + new Date().getDate() +  "-" +  new Date().getFullYear();
    if(choice == 'projects'){
      db.collection('projects').find().toArray(function(err, results) {
+       const fields = ['_id', 'email', 'finalFinalCost', 'materialName', 'fileNewName', 'fileVolumeCmCubed', 'engineerEmail', 'datePosted', 'Density','status'];
+       // writeCSV( './report/projects'+datePosted+'.csv',results);
+       const json2csvParser = new Json2csvParser({ fields });
+       const csv = json2csvParser.parse(results);
+       var fileContent = csv;
 
-       writeCSV( './report/projects'+datePosted+'.csv',results);
+
+      fs.writeFile('./report/'+datePosted+'projects.csv', fileContent, (err) => {
+          if (err) {
+              console.error(err);
+              return;
+          };
+    console.log("File has been created");
+    res.download('./report/'+datePosted+'projects.csv');
+});
+       console.log(csv);
        console.log(results);
    });
-   res.download('./report/projects.csv');
+
  }else if(choice == 'users'){
    db.collection('users').find().toArray(function(err, results) {
-     writeCSV('./report/users'+datePosted+'.csv', results);
-     console.log(results);
- });
- res.download('./report/users.csv');
-}else if (choice == 'materials'){
-  db.collection('materials').find().toArray(function(err, results) {
-    writeCSV('./report/materials'+datePosted+'.csv', results);
-    console.log(results);
+     const fields = ['_id', 'local.firstName', 'local.lastName', 'local.email', 'local.role', 'local.street', 'local.city', 'local.zip', 'local.phone','local.contract', 'local.emailValidated', 'local.banned'];
+     const json2csvParser = new Json2csvParser({ fields });
+     const csv = json2csvParser.parse(results);
+     var fileContent = csv;
+
+
+    fs.writeFile('./report/'+datePosted+'users.csv', fileContent, (err) => {
+        if (err) {
+            console.error(err);
+            return;
+        };
+
+  console.log("File has been created");
+res.download('./report/'+datePosted+'users.csv');
 });
-res.download('./report/materials.csv');
+     console.log(csv);
+     console.log(results);
+
+});
+
+}else{
+  db.collection('materials').find().toArray(function(err, results) {
+    const fields = ['_id', 'name', 'actualCost', 'salePrice', 'description' ];
+    const json2csvParser = new Json2csvParser({ fields });
+    const csv = json2csvParser.parse(results);
+    var fileContent = csv;
+
+
+   fs.writeFile('./report/'+datePosted+'materials.csv', fileContent, (err) => {
+       if (err) {
+           console.error(err);
+           return;
+       };
+
+ console.log("File has been created");
+res.download('./report/'+datePosted+'materials.csv');
+});
+    console.log(csv);
+    console.log(results);
+
+});
 }
 });
  router.post('/projects', isLoggedIn, function(req, res) {
