@@ -1,3 +1,4 @@
+
 <html>
 <% if (message != null) { %>
 <div class="alert-danger"><%= message %></div>
@@ -16,25 +17,22 @@
 
                         <div class="card-body">
                           <form action="/addUser" method="post">
-                              <h2 class="text-center"><strong>Create a User </strong></h2>
-                              <div style="width:50%;margin:10px auto"; class="form-group">Email:<input class="form-control" type="email" name="email" placeholder="Email" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group">Password:<input id="password" class="form-control" type="password" name="password" placeholder="Password" minlength="8" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group">Re-Enter Password:<input id="passwordConfirm" class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)" minlength="8" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group">First Name:<input class="form-control" type="text" name="firstName" placeholder="First Name" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group">Last Name:<input class="form-control" type="text" name="lastName" placeholder="Last Name" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group">Street Address:<input class="form-control" type="text" name="street" placeholder="Street Address (e.g. 123 Joy Lane)" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group">City:<input class="form-control" type="text" name="city" placeholder="City" required></div>
-                              <div style="width:50%;margin:10px auto">
-                                Role:
+                              <h2 cl ass="text-center"><strong>Create a User </strong></h2>
+                              <div class="form-group"><p><b>Email</b></p><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+                              <div class="form-group"><p><b>Password</b></p><input id="password" class="form-control" type="password" name="password" placeholder="Password" minlength="8" required></div>
+                              <div class="form-group"><p><b>Re-Enter Password</b></p><input id="passwordConfirm" class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)" minlength="8" required></div>
+                              <div class="form-group"><p><b>First Name</b></p><input class="form-control" type="text" name="firstName" placeholder="First Name" required></div>
+                              <div class="form-group"><p><b>Last Name</b></p><input class="form-control" type="text" name="lastName" placeholder="Last Name" required></div>
+                              <div class="form-group"><p><b>Street Address</b></p><input class="form-control" type="text" name="street" placeholder="Street Address i.e. '123 Joy Lane'" required></div>
+                              <div class="form-group"><p><b>City</b></p><input class="form-control" type="text" name="city" placeholder="City" required></div>
+                              <p><b>Role</b></p>
                               <select class="form-control form-group" name="role" required>
                                 <option value="user">Client</option>
                                 <option value="engineer">Engineer</option>
                                 <option value="finance">Finance</option>
                                 <option value="admin">Admin</option>
-                              </select></div>
-
-                              <div style="width:50%;margin:10px auto">
-                              State:
+                              </select>
+                              <p><b>State</b></p>
                               <select class="form-control form-group" name="state">
                               	<option value="AL">Alabama</option>
                               	<option value="AK">Alaska</option>
@@ -87,11 +85,11 @@
                               	<option value="WV">West Virginia</option>
                               	<option value="WI">Wisconsin</option>
                               	<option value="WY">Wyoming</option>
-                              </select></div>
+                              </select>
 
-                              <div style="width:50%;margin:10px auto";class="form-group">Zip (format: XXXXX or XXXXX-XXXX):<input class="form-control" type="text" name="zip" placeholder="Zip" pattern="(\d{5}([\-]\d{4})?)" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group">Phone Number (format: XXX-XXX-XXXX):<input class="form-control" type="text" name="phone" placeholder="Phone Number" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required></div>
-                              <div style="width:50%;margin:10px auto";class="form-group" ><button class="btn btn-primary " style="background-color:#28a745;" type="submit">Create</button></div>
+                              <div class="form-group"><p><b>Zip</b> in format: XXXXX or XXXXX-XXXX</p><input class="form-control" type="text" name="zip" placeholder="Zip" pattern="(\d{5}([\-]\d{4})?)" required></div>
+                              <div class="form-group"><p><b>Phone</b> in format: XXX-XXX-XXXX</p><input class="form-control" type="text" name="phone" placeholder="Phone Number" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required></div>
+                              <div class="form-group" ><button class="btn btn-primary " style="background-color:#28a745;" type="submit">Create</button></div>
                             </form>
                         </div>
                     </div>
@@ -99,14 +97,37 @@
             </div>
         </div>
     </div>
+    <div class="footer-clean">
+        <footer>
+            <div class="container" style="width:960px;">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">About Us</h3>
+                    </div>
+                    <div class="col-sm-4 col-md-3 item">
+                        <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                    </div>
+                    <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                </div>
+            </div>
+            <div class="container">
+                <div>
+                    <div class="row justify-content-center"><div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social"><a href="#" style="margin:0px;">
 
+        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+</div></div>
+                </div>
+            </div>
+        </footer>
+    </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-animation.js"></script>
-
-    <div>
-        <% include partials/footer.ejs %>
-    </div>
 </body>
 
 <script>

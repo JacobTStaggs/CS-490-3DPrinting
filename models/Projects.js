@@ -9,7 +9,7 @@ var projectSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'users'
   },
-  clientsID: {
+  clientID: {
     type: Schema.ObjectId,
     ref: 'users'
   },
@@ -32,6 +32,10 @@ var projectSchema = new Schema({
     type: String,
     enum: ['Solid', 'Sparse', 'Sparse Double Dense']
   },
+  status: {
+    type: String,
+    enum: ['Created', 'Assigned', 'Finalized', 'Canceled', 'Accepted', 'Printed']
+  },
   clientName: String,
   engineerName: String,
   engineerEmail: String,
@@ -39,6 +43,7 @@ var projectSchema = new Schema({
   materialCost: Number,
   email: String,
   finalCost: Number,
+  finalFinalCost: Number,
   Density: String,
   datePosted: Date,
 

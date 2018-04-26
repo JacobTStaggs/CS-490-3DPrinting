@@ -16,8 +16,10 @@
     <li ><a href='/landing' class="btn2">Home</a></li>
     <li ><a href="/profile" class="btn2">Profile</a></li>
     <li ><a href="/projects" class="btn2">Projects</a></li>
+    <% if (user.local.role != 'user') { %>
     <li  ><a href='/materials' class="btn2">Materials</a></li>
-
+    <li  ><a href='/reports' class="btn2">Reports</a></li>
+    <% } %>
     <% if (user.local.role == 'admin') { %>
       <li ><a href="/adminUserList" class="btn2">Users</a></li>
     <% } %>

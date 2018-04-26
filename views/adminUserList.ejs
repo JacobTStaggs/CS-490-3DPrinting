@@ -44,20 +44,22 @@
         <div>
           <div class="card-group">
             <div class="card">
-              <div class="card-header">
+
                 <div>
 
-                  <h1 style="margin-bottom:20px;">User List</h1>
+                  <h1 style="margin-bottom:20px; margin-left: 30px;">User List</h1>
                 </div>
-              </div>
+
               <div>
                 <div class="card-group">
 
                   <div class="container">
                     <div class="row">
                     <span style="position: absolute; left: 5px;">
-                        <div class="">
-                          <form style="padding-top:10px" action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
+
+                        <div class="" style="margin-left: 30px;">
+                          <form action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
+
 
                               <select class="" style="margin-right: 5px;"name="choice">
                                 <option value="all">All Users</option>
@@ -81,7 +83,9 @@
                 </div>
               </div>
 
+
               <div style="padding-top:60px" class="card-body">
+
                 <div class="table-responsive">
                   <table class="table sortable" id="users">
                     <thead>
@@ -97,6 +101,7 @@
                     </thead>
                     <tbody>
                       <% for(var i=0; i<users.length; i++) { %>
+                        <%if (users[i].local.role != "super"){ %>
                         <tr>
 
                           <td>
@@ -128,10 +133,12 @@
                           </td>
                         </tr>
                         <%}%>
+                        <%}%>
 
 
                     </tbody>
                   </table>
+                  <a href="/addUser" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create User </button></a>
                 </div>
               </div>
             </div>

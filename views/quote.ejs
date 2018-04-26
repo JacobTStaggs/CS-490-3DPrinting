@@ -79,11 +79,11 @@
             </div>
 
             <div>
-              <h5 style="color:#00000;">Filament Type</h5>
-              <p style="color:#00000;"> Select what material you want you project to be printed with: </p>
+              <h5 style="color:#00000;">Material Type</h5>
+              <p style="color:#00000;"> Select what material you want you project to be printed with (hover over material for details): </p>
               <select class="form-control form-group" name="material">
                                 <% for (var i = 0; i<materials.length; i++) { %>
-                                <option type="text" value='{ "id" : "<%=materials[i]._id%>", "name" : "<%=materials[i].name%>", "price": <%=materials[i].salePrice%> }'><%= materials[i].name%>: $<%=materials[i].salePrice%> per cubic centimeter</option>
+                                <option title="<%=materials[i].description%>" type="text" value='{ "id" : "<%=materials[i]._id%>", "name" : "<%=materials[i].name%>", "price": <%=materials[i].salePrice%> }'><%= materials[i].name%>: $<%=materials[i].salePrice%> per cubic centimeter</option>
 
                                 <%}%>
            </select>
