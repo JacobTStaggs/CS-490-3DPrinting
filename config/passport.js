@@ -43,6 +43,7 @@ module.exports = function(passport) {
           newUser.local.phone = req.body.phone;
           newUser.local.contract = false;
           newUser.local.emailValidated = false;
+          newUser.local.banned = false;
           newUser.save(function(err) {
             if (err)
               throw err;
