@@ -35,76 +35,65 @@
   </div>
   <div class="header-blue">
     <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
-
       <%- include partials/breadcrumb.ejs%>
-
 
 
           <div class="card-group">
             <div class="card">
               <div class="card-header">
                 <div>
-                  <h1 style="margin-bottom:20px;">Projects</h1>
+                  <h1 style="color:#000000;margin-bottom:20px;">Projects</h1>
                 </div>
-                <% if(user.local.role == "user") { %>
-                  <h4 style="color:red;"> Please Note </h4>
-                  <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
-                  <%}%>
-                    <h5 class="mb-0"></h5>
-              </div>
-              <div>
-
-                <% if (user.local.role != "user"){%>
+                <% if(user.local.role != 'user'){%>
+                  <div>
 
 
-                  <div class="card-group">
+                      <div class="card-group">
 
-                    <div class="container">
-                      <div class="row">
+                        <div class="container">
+                          <div class="row">
+                              <span>
+                              <div class="">
 
-                          <div class="input-group">
-                            <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
-                              <div class="input-group-btn search-panel">
-                                <span style="position: absolute; left: 5px;">
-                                <select class="" style="margin-right: 5px;" name="filter">
+                                <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
+                                  <div class="">
 
-                                <option value="all">All</option>
-                                <option value="archived">Archived</option>
-                                <option value="notArchived">Not Archived</option>
-                <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
-                                <% if (user.local.role == 'engineer') {%>
-                                <option value="yourProjects">Your Projects</option>
-                                <%}%>
-                                <option value="email">Client Email</option>
-                                <option value="engineer">Engineer Email</option>
 
-                                <option value="completed" >Completed</option>
-                                <option value="notCompleted">Not Completed</option>
-                                                          <% } %>
-                                </select><input class="" type="text" name="parameter" placeholder="Search parameter">
+                                    <select class="" name="filter">
+
+                                    <option value="all">All</option>
+                                    <option value="archived">Archived</option>
+                                    <option value="notArchived">Not Archived</option>
+                    <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
+                                    <% if (user.local.role == 'engineer') {%>
+                                    <option value="yourProjects">Your Projects</option>
+                                    <%}%>
+                                    <option value="email">Client Email</option>
+                                    <option value="engineer">Engineer Email</option>
+
+                                    <option value="completed" >Completed</option>
+                                    <option value="notCompleted">Not Completed</option>
+                                                              <% } %>
+                                    </select>
 
 
 
+                                    <input class="" type="text" name="parameter" placeholder="Search parameter">
+                                    <button type="submit" class="btn btn-success">Filter</button>
 
-                                  <button type="submit" class="btn btn-success">Filter</button></span>
-                              </div>
-                              <div>
+                                  </div>
 
-                              </div>
-                            </form>
+                                </form>
 
-                    </div>
+
+                            </div>
+                          </span>
+
+                          </div>
+                        </div>
                       </div>
-                    </div>
                   </div>
-                  <% } %>
-              </div>
-              <% if(user.local.role == "user") {%>
-                <a href="/archived" style="width: 175px; margin-left: 80%;" class="btn btn-success">Archived Projects</a>
-
-          <div class="card-group">
-            <div class="card">
-              <div class="card-header">
+                <%}%>
                 <% if(user.local.role == "user") { %>
                   <h4 style="color:red;"> Please Note </h4>
                   <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
@@ -306,24 +295,43 @@
                 <%if (user.local.role != 'finance' && user.local.role != 'admin' ) {%>
                   <a href="  /quote" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Create Project </button></a>
                   <% } %>
-                  <%if (user.local.role != 'user') {%>
-                    <a href="  /reports" class="submit" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><button class="btn btn-primary" type="button" style="background-color:rgb(4,148,74);font-family:'Source Sans Pro', sans-serif;font-size:16px;">Download Report </button></a>
-                    <% } %>
               </div>
 
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+          <div class="footer-clean">
+            <footer>
+              <div class="container" style="width:960px;">
+                <div class="row justify-content-center">
+                  <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
+                    <ul>
+                      <li></li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-4 col-md-3 item">
+                    <h3 class="text-center" style="padding:12px;">About Us</h3>
+                  </div>
+                  <div class="col-sm-4 col-md-3 item">
+                    <h3 class="text-center" style="padding:12px;">Contact Us</h3>
+                  </div>
+                  <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
+                </div>
+              </div>
+              <div class="container">
+                <div>
+                  <div class="row justify-content-center">
+                    <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
+                      <a href="#" style="margin:0px;">
+                        <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </div>
+          <script src="assets/js/jquery.min.js"></script>
+          <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+          <script src="assets/js/bs-animation.js"></script>
 
-
-    <div>
-        <% include partials/footer.ejs %>
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-animation.js"></script>
 </body>
-
 </html>

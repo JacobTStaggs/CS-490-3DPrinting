@@ -44,19 +44,19 @@
         <div>
           <div class="card-group">
             <div class="card">
-              <div class="card-header">
+
                 <div>
 
-                  <h1 style="margin-bottom:20px;">User List</h1>
+                  <h1 style="margin-bottom:20px; margin-left: 30px;">User List</h1>
                 </div>
-              </div>
+
               <div>
                 <div class="card-group">
 
                   <div class="container">
                     <div class="row">
                     <span style="position: absolute; left: 5px;">
-                        <div class="">
+                        <div class="" style="margin-left: 30px;">
                           <form action="/adminUserList" method="post" class="d-flex align-self-center mx-auto">
 
                               <select class="" style="margin-right: 5px;"name="choice">
@@ -82,7 +82,7 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" style="margin-top:25px;">
                 <div class="table-responsive">
                   <table class="table sortable" id="users">
                     <thead>
@@ -98,7 +98,7 @@
                     </thead>
                     <tbody>
                       <% for(var i=0; i<users.length; i++) { %>
-                        <%if users[i].local.role != "super" %>
+                        <%if (users[i].local.role != "super"){ %>
                         <tr>
 
                           <td>

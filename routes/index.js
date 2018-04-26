@@ -17,10 +17,8 @@ var express = require('express');
  var ProjectModel = require('../models/projects.js');
  var path = require('path');
  var fs = require('fs');
- var MyStream = require('json2csv-stream');
- var parser = new MyStream();
- var jsonexport = require('jsonexport');
  var writeCSV = require('write-csv')
+
 
 
  MongoClient.connect(mongoDB, (err, client) => {
@@ -206,21 +204,25 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
  });
  router.post('/reports', isLoggedIn, function(req, res, next) {
    let choice = req.body.choice;
+   console.log(choice);
+      var month = new Date().getMonth() + 1;
+      var datePosted = month +  "-" + new Date().getDate() +  "-" +  new Date().getFullYear();
    if(choice == 'projects'){
      db.collection('projects').find().toArray(function(err, results) {
-       writeCSV('./report/projects.csv', results);
+
+       writeCSV( './report/projects'+datePosted+'.csv',results);
        console.log(results);
    });
    res.download('./report/projects.csv');
  }else if(choice == 'users'){
    db.collection('users').find().toArray(function(err, results) {
-     writeCSV('./report/users.csv', results);
+     writeCSV('./report/users'+datePosted+'.csv', results);
      console.log(results);
  });
  res.download('./report/users.csv');
 }else if (choice == 'materials'){
   db.collection('materials').find().toArray(function(err, results) {
-    writeCSV('./report/materials.csv', results);
+    writeCSV('./report/materials'+datePosted+'.csv', results);
     console.log(results);
 });
 res.download('./report/materials.csv');
@@ -716,7 +718,7 @@ res.download('./report/materials.csv');
              "finalFinalCost": req.body.finalPrice
            }
          });
-
+         sendFinalEmail(project.custEmail);
          res.redirect('/projects');
 
        } else if (project.status == "Accepted") {
