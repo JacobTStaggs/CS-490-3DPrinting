@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 1000;
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
