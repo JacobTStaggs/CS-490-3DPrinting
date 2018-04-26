@@ -558,6 +558,7 @@ res.download('./report/'+datePosted+'materials.csv');
              "finalFinalCost": req.body.projFinalFinalCost,
              "Density": req.body.projDensity,
              "projectComments": req.body.projComments,
+             "status": req.body.projStatus,
              "archived": archived
            }
          });

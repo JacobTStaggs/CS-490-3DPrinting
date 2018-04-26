@@ -240,6 +240,10 @@ td {
                                         <th>Project Name</th>
                                         <th>Status</th>
                                         <th>Estimate</th>
+                                          <th>
+                                             Final Cost
+                                          </th>
+
                                         <th>Engineer</th>
                                         <th>Date Posted </th>
                                         <th>Archived</th>
@@ -257,11 +261,21 @@ td {
                                                 <%= projects[i].status%>
                                               </td>
                                               <td>
-                                                <%= projects[i].finalCost %>
+                                                $<%= projects[i].finalCost %>
                                               </td>
                                               <td>
+                                              <%if(projects[i].finalFinalCost != null){%>
+
+                                                  $<%= projects[i].finalFinalCost %>
+
+                                              <%}else{%>
+                                                N/A
+                                                <%}%>
+                                                </td>
+                                                <td>
                                                 <%= projects[i].engineerEmail %>
                                               </td>
+
                                               <td>
                                                 <%= projects[i].datePosted %>
                                               </td>
