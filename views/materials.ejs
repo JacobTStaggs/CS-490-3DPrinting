@@ -1,5 +1,20 @@
 <html>
+<style>
+#appadd {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    text-overflow: ellipsis;
+}
 
+td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,7 +90,7 @@
                               <td> $
                                 <%= materials[i].salePrice %>
                               </td>
-                              <td>
+                              <td id="appadd">
                                 <%=materials[i].description%>
                               </td>
                               <td>

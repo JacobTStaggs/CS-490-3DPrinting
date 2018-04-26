@@ -1,5 +1,22 @@
 <html>
 
+<style>
+#appadd {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    text-overflow: ellipsis;
+}
+
+td {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +61,29 @@
                 <div>
                   <h1 style="color:#000000;margin-bottom:20px;">Projects</h1>
                 </div>
-                <% if(user.local.role != 'user'){%>
+                <% if(user.local.role == 'user'){%>
+                  <div>
+                      <div class="card-group">
+                        <div class="container">
+                          <div class="row">
+                              <span>
+                              <div class="">
+                                <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
+                                  <div class="">
+
+                                    <button name="filter" type="submit" value="notArchived" class="btn btn-success">Not Archived</button>
+                                    <button name="filter" type="submit" value="archived" class="btn btn-success">Archived</button>
+                                    <button name="filter" type="submit" value="all" class="btn btn-success">All</button>
+                                  </div>
+                                </form>
+                            </div>
+                          </span>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                <%} else {%>
                   <div>
                       <div class="card-group">
                         <div class="container">
@@ -77,7 +116,7 @@
                         </div>
                       </div>
                   </div>
-                <%}%>
+                  <%}%>
                 <% if(user.local.role == "user") { %>
                   <h4 style="color:red;"> Please Note </h4>
                   <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
