@@ -153,6 +153,7 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
 
 
  router.get('/projects', isLoggedIn, function(req, res) {
+
    if (req.user.local.role == 'engineer') {
      db.collection('projects').find({
        'engineerEmail': req.user.local.email,
@@ -165,13 +166,19 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
        });
      });
    } else {
+     var engineer;
+      db.collection('users').find({'local.role': 'engineer'}).toArray(function(err, results){
+        console.log(results);
+        engineer = results;
+      })
      db.collection('projects').find({
        'archived': false
      }).toArray(function(err, results) {
        console.log(req.user);
        res.render('projects.ejs', {
          user: req.user,
-         projects: results
+         projects: results,
+         engineers: engineer,
        });
      });
    }

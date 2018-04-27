@@ -142,6 +142,9 @@ td {
                                 <th>User Email</th>
                                 <th>Engineer</th>
                                 <th>Estimate</th>
+                                <th>
+                                  Final Cost
+                                </th>
                                 <th>Date Posted </th>
                                 <th>Archived</th>
                                 <th>Options</th>
@@ -166,7 +169,12 @@ td {
                                         <%= projects[i].engineerEmail %>
                                       </td>
                                       <td>
-                                        <%= projects[i].finalCost %>
+                                        $<%= projects[i].finalCost %>
+                                      </td>
+                                      <td>
+                                        <% if (projects[i].finalFinalCost != null) {%>
+                                        $<%= projects[i].finalFinalCost %>
+                                        <%}else{%> N/A <%}%>
                                       </td>
                                       <td>
                                         <%= projects[i].datePosted %>
@@ -174,7 +182,18 @@ td {
                                       <td>
                                         <%= projects[i].archived %>
                                       </td>
-                                      <%if (projects[i].status == "Created") {%> <td> <a title="Assign an Engineer to this project" href='/editUpdated/<%=projects[i]._id %>'> Assign Engineer  </a></td> <%}%>
+                                      <%if (projects[i].status == "Created") {%> <td><form method="post">
+                                        <select name="projEngineer">
+                                          <% for(var k = 0; k < engineers.length; k++){%>
+
+                                              <option value="<%=engineers[k].local.email%>"><%=engineers[k].local.email%></option>
+
+                                          <%}%>
+                                          </select>
+                                          <a class="btn btn-warning">Update Engineer</a>
+                                      </form>
+
+                                      </td> <%}%>
                                         <td> <a title="View project details or set project to a new status" href='/edit/<%=projects[i]._id %>'> View/ChangeStatus </a></td>
                                           <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'>Download STL</a></td>
                                 </tr>
@@ -216,11 +235,11 @@ td {
                                       <%= projects[i].engineerEmail %>
                                     </td>
                                     <td>
-                                      <%= projects[i].finalCost %>
+                                      $<%= projects[i].finalCost %>
                                     </td>
                                     <td>
                                       <% if (projects[i].finalFinalCost != null) {%>
-                                      <%= projects[i].finalFinalCost %>
+                                      $<%= projects[i].finalFinalCost %>
                                       <%}else{%> N/A <%}%>
                                     </td>
                                     <td>
