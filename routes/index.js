@@ -591,6 +591,18 @@ res.download('./report/'+datePosted+'materials.csv');
      }
    });
  });
+router.post('/editUpdated/(:id)', function(req, res, next) {
+  var o_id = new ObjectId(req.params.id).toString();
+
+  db.collection('projects').updateOne({
+    "_id": project._id
+  }, {
+    $set: {
+      "dateFinished": req.body.dateFinished
+    }
+  });
+  res.redirect('/projects');
+});
 
  router.get('/editUpdated/(:id)', isLoggedIn, function(req, res, next) {
    var o_id = new ObjectId(req.params.id).toString();
@@ -1765,7 +1777,7 @@ res.download('./report/'+datePosted+'materials.csv');
      from: 'RCBI3DPRINTING@noresponse.COM',
      to: email,
      subject: 'RCBI - New project has been posted',
-     html: '<p>There has been a new project submitted. Please login <a href="localhost:1000/login">here</a> to login and see it. </p>'
+     html: '<p>There has been a new project submitted. Please login <a href="http://localhost:1000/login">here</a> to login and see it. </p>'
    };
 
    transporter.sendMail(mailOptions, function(error, info) {

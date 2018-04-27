@@ -52,9 +52,7 @@
         <div class="card-group">
 
         <div class="card">
-          <div class="card-header" style="margin-bottom: 10px;">
-            <h1 style="color:#000000;margin-bottom:20px"> Create a Project </h1>
-          </div>
+
       <div class="card-body">
 
 
@@ -68,14 +66,14 @@
 
             </div>
             <div>
-              <h5 style="color:#00000;">Project Name</h5>
-              <p  style="color:#00000;"> Give your Project a name: </p>
+              <h5 style="color:#00000;"> 1.) Project Name</h5>
+              <p  style="color:#00000;">Give your Project a name: </p>
                 <input class="indent" type="text" name="projectName" required>
             </div>
 
             <div>
-              <h5 style="color:#00000;">Density</h5>
-              <p style="color:#00000;"> Select how dense you want you project to be printed: </p>
+              <h5 style="color:#00000;"> 2.) Density</h5>
+              <p style="color:#00000;">Select how dense you want you project to be printed: </p>
 
                 <select class="indent"    name="projectDensity">
                                 <option value="Solid" title="Highest density but a little higher cost" >Solid</option>
@@ -85,8 +83,8 @@
             </div>
 
             <div>
-              <h5  style="color:#00000; ">Material Type</h5>
-              <p style="color:#00000;"> Select what material you want you project to be printed with (hover over material for details): </p>
+              <h5  style="color:#00000; ">3.) Material Type</h5>
+              <p style="color:#00000;">Select what material you want you project to be printed with (hover over material for details): </p>
 
                                 <% for (var i = 0; i<materials.length; i++) { %>
                                 <div>
@@ -101,7 +99,7 @@
             </div>
 
             <div>
-              <h5 style="color:#00000;">Requested Completion Date</h5>
+              <h5 style="color:#00000;">4.) Requested Completion Date</h5>
 
               <p style="color:#00000;">Please enter your requested date of completion for this project </p>
 
@@ -110,7 +108,7 @@
             </div>
 
             <div>
-            <h5 style="color:#00000;">Upload a File</h5>
+            <h5 style="color:#00000;">5.) Upload a File</h5>
 
             <p style="color:#00000;">Click the "Choose File" button below and select your file you want to upload.
               After you have your file chosen, fill out the fields below.
@@ -121,8 +119,8 @@
           </div>
 
             <div>
-              <h5 style="color:#00000;">Comments</h5>
-              <p style="color:#00000;"> Please input any additional comments of concerns you have with this project: </p>
+              <h5 style="color:#00000;">6.) Comments</h5>
+              <p style="color:#00000;"> Please enter any additional comments regarding this project:</p>
                 <textarea class="indent" style="width:50%" name="projectComments" value=" " cols="40" rows="5"></textarea>
             </div>
 
