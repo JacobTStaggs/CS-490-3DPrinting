@@ -71,9 +71,9 @@ td {
                                 <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
                                   <div class="">
 
-                                    <button name="filter" type="submit" value="notArchived" class="btn btn-success">Not Archived</button>
-                                    <button name="filter" type="submit" value="archived" class="btn btn-success">Archived</button>
-                                    <button name="filter" type="submit" value="all" class="btn btn-success">All</button>
+                                    <button name="filter" type="submit" value="notArchived" class="btn btn-success">Active Projects</button>
+                                    <button name="filter" type="submit" value="archived" class="btn btn-success">Archived Projects</button>
+
                                   </div>
                                 </form>
                             </div>
@@ -93,23 +93,28 @@ td {
                               <div class="">
                                 <form action="/projects" method="post" class="d-flex align-self-center mx-auto">
                                   <div class="">
+                                    <% if (user.local.role == 'engineer') {%>
+                                    <button name="filter" type="submit" value="yourProjects" class="btn btn-success">Your Projects</button>
+                                    <button name="filter" type="submit" value="notArchived" class="btn btn-success">Active Projects</button>
+                                    <button name="filter" type="submit" value="all" class="btn btn-success">All Projects</button>
+                                    <button name="filter" type="submit" value="archived" class="btn btn-success">Archived Projects</button>
+                                    <%}%>
+                                    <% if (user.local.role == 'admin') {%>
                                     <select class="" name="filter">
                                     <option value="all">All</option>
                                     <option value="archived">Archived</option>
                                     <option value="notArchived">Not Archived</option>
-                    <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'finance') { %>
-                                    <% if (user.local.role == 'engineer') {%>
+
                                     <option value="yourProjects">Your Projects</option>
-                                    <%}%>
+
                                     <option value="email">Client Email</option>
                                     <option value="engineer">Engineer Email</option>
                                     <option value="completed" >Completed</option>
                                     <option value="notCompleted">Not Completed</option>
-                                                              <% } %>
                                     </select>
-
                                     <input class="" type="text" name="parameter" placeholder="Search parameter">
                                     <button type="submit" class="btn btn-success">Filter</button>
+                                    <%}%>
 
                                   </div>
                                 </form>
@@ -125,8 +130,7 @@ td {
                   <h4 style="color:red;"> Please Note </h4>
                   <p> Cost estimates are just that; Estimates. Please understand that prices on actual project invoices may vary from estimate prices </p>
                   <%}%>
-                  <p> Hover over options to see what they do </p>
-                    <h5 class="mb-0"></h5>
+                  <p> Hover over <b>Actions</b> to see what they do.</p><p><%= typeof filterMessage !='undefined' ? filterMessage : '' %></p>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -144,7 +148,7 @@ td {
                                 <th>Estimate</th>
                                 <th>Date Posted </th>
                                 <th>Archived</th>
-                                <th>Options</th>
+                                <th>Actions</th>
                           </tr>
                         </thead>
                           <tbody>
@@ -154,7 +158,7 @@ td {
                                         <%= projects[i].projectName %>
                                       </td>
                                       <td>
-                                        <%= projects[i].status%>
+                                        Project <%= projects[i].status%>
                                       </td>
                                       <td>
                                         <% if (projects[i].projectComments) {%> Yes <%} else {%> No <%}%>
@@ -194,7 +198,7 @@ td {
                               <th>Final Price</th>
                               <th>Date Posted </th>
                               <th>Archived</th>
-                              <th>Options</th>
+                              <th>Actionss</th>
                         </tr>
                       </thead>
                         <tbody>
@@ -204,7 +208,7 @@ td {
                                       <%= projects[i].projectName %>
                                     </td>
                                     <td>
-                                      <%= projects[i].status%>
+                                      Project <%= projects[i].status%>
                                     </td>
                                     <td>
                                       <%if (projects[i].projectComments) {%> Yes <%} else {%> No <%}%>
@@ -254,7 +258,7 @@ td {
                                         <th>Engineer</th>
                                         <th>Date Posted </th>
                                         <th>Archived</th>
-                                        <th>Options</th>
+                                        <th>Actions</th>
                                   </tr>
                                 </thead>
                                   <tbody>
@@ -265,7 +269,7 @@ td {
                                                 <%= projects[i].projectName %>
                                               </td>
                                               <td>
-                                                <%= projects[i].status%>
+                                                Project <%= projects[i].status%>
                                               </td>
                                               <td>
 

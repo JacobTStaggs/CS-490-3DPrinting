@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
+  <style>
+
+  .indent{margin-left:40px; margin-bottom:20px}
+  .indentLeft{margin-left:40px; }
+
+  </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>rcbi3d</title>
@@ -27,6 +34,9 @@
   <link rel="stylesheet" href="assets/css/Team-Boxed.css">
   <link rel="stylesheet" href="assets/css/Team-Clean.css">
   <link rel="stylesheet" href="assets/css/untitled.css">
+
+
+
 </head>
 
 <body>
@@ -46,75 +56,82 @@
 
 
         <div class="card-header" style="margin-bottom: 10px;">
-          <h1 style="color:#000000;"> Create a Project </h1>
+          <h1 style="color:#000000;"> New Project </h1>
         </div>
 
           <form action="/quote" enctype="multipart/form-data" method="post">
             <div>
-              <h5 style="color:#00000;">Upload a file to start your project</h5>
 
-              <p style="color:#00000;">To begin, click the "Choose File" button below and select your file you want to upload.
-                After you have your file chosen, fill out the fields below.
-              </p>
-
-              <p style="color:yellow;"><%=error%></p>
-              <input style="color:#00000;" type="file" accept=".stl" name="myFile" required>
 
             </div>
             <div>
               <h5 style="color:#00000;">Project Name</h5>
-              <p style="color:#00000;"> Give your Project a name: </p>
-              <input type="text" name="projectName" required>
+              <p  style="color:#00000;"> Give your Project a name: </p>
+                <input class="indent" type="text" name="projectName" required>
             </div>
 
             <div>
               <h5 style="color:#00000;">Density</h5>
               <p style="color:#00000;"> Select how dense you want you project to be printed: </p>
-              <select class="form-control form-group" name="projectDensity">
-                                <option value="Solid" title="Highest density but a little higher cost">Solid</option>
+
+                <select class="indent"    name="projectDensity">
+                                <option value="Solid" title="Highest density but a little higher cost" >Solid</option>
                                 <option value="Sparse" title="In between in density, but a little lower cost">Sparse</option>
                                 <option value="Sparse Double Dense" title="Lowest density, but the lowest cost">Sparse Double-Dense</option>
             </select>
             </div>
 
             <div>
-              <h5 style="color:#00000;">Material Type</h5>
+              <h5  style="color:#00000; ">Material Type</h5>
               <p style="color:#00000;"> Select what material you want you project to be printed with (hover over material for details): </p>
-              <select class="form-control form-group" name="material">
+
                                 <% for (var i = 0; i<materials.length; i++) { %>
-                                <option title="<%=materials[i].description%>" type="text" value='{ "id" : "<%=materials[i]._id%>", "name" : "<%=materials[i].name%>", "price": <%=materials[i].salePrice%> }'><%= materials[i].name%>: $<%=materials[i].salePrice%> per cubic centimeter</option>
+                                <div>
+
+                                  <input class="indentLeft" title="<%=materials[i].description%>" type="radio" name=material value='{ "id" : "<%=materials[i]._id%>", "name" : "<%=materials[i].name%>", "price": <%=materials[i].salePrice%> }' required><label length=20 ><%= materials[i].name%></label>
+                                  <label> $<%=materials[i].salePrice%>/cm<sup>3</sup> </label>
+
+                                </div>
 
                                 <%}%>
-           </select>
+
             </div>
-
-
 
             <div>
+              <h5 style="color:#00000;">Requested Completion Date</h5>
 
-              <% for (var i = 0; i<materials.length; i++) { %>
-                <!-- <p style="color:#00000;">
-                  <%= materials[i].name%>:
-                    <%= materials[i].description%>
-                </p> -->
+              <p style="color:#00000;">Please enter your requested date of completion for this project </p>
 
-                <%}%>
+              <input  class="indent" type="date" name="requestedCompletionDate" required>
 
             </div>
+
+            <div>
+            <h5 style="color:#00000;">Upload a File</h5>
+
+            <p style="color:#00000;">Click the "Choose File" button below and select your file you want to upload.
+              After you have your file chosen, fill out the fields below.
+            </p>
+
+            <p style="color:red;"><%=error%></p>
+              <input class="indent" style="color:#00000;" type="file" accept=".stl" name="myFile" required>
+          </div>
+
             <div>
               <h5 style="color:#00000;">Comments</h5>
               <p style="color:#00000;"> Please input any additional comments of concerns you have with this project: </p>
-              <textarea name="projectComments" value=" " cols="40" rows="5"></textarea>
+                <textarea class="indent" style="width:50%" name="projectComments" value=" " cols="40" rows="5"></textarea>
             </div>
-            <% if (user.local.role == 'admin' || user.local.role == 'engineer') {%>
+
+            <% if (user.local.role == 'admin' || user.local.role == 'engineer' || user.local.role == 'super') {%>
             <div>
               <p style="color:#00000;margin-top:10px"> Please enter Client's email: </p>
-              <input style="width:25%" type="email" name="custEmail" required>
+                <input class="indent" style="width:25%" type="email" name="custEmail" required>
             </div>
             <%}%>
             <div>
 
-              <button style="margin:10px;" type="submit" class="btn btn-success" id="btnPerformSave">Create Project</button>
+              <button style="margin:10px;" type="submit" class="btn btn-success" id="btnPerformSave">New Project</button>
               <p style="color:#00000;"> Please note: larger files may take some time to upload. </p>
             </div>
           </form>

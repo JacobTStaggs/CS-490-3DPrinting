@@ -164,6 +164,18 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
          projects: results
        });
      });
+   } else if(req.user.local.role == 'admin' || req.user.local.role == 'super'){
+     db.collection('projects').find({
+       'status': "Created",
+       'archived': false
+     }).toArray(function(err, results) {
+       console.log(results);
+       res.render('projects.ejs', {
+         user: req.user,
+         projects: results
+       });
+     });
+
    } else {
      db.collection('projects').find({
        'archived': false
@@ -176,6 +188,8 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
      });
    }
  });
+
+
  router.get('/archived', isLoggedIn, function(req, res) {
      db.collection('projects').find({
        'archived': true
@@ -343,7 +357,7 @@ res.download('./report/'+datePosted+'materials.csv');
      console.log(req.body.parameter);
      db.collection('projects').find({
        'archived': false,
-       'local.engineerEmail': req.user.local.email
+       'engineerEmail': req.user.local.email
      }).toArray(function(err, results) {
        res.render('projects.ejs', {
          projects: results,
@@ -764,7 +778,8 @@ res.download('./report/'+datePosted+'materials.csv');
          }, {
            $set: {
              "status": "Finalized",
-             "finalFinalCost": req.body.finalPrice
+             "finalFinalCost": req.body.finalPrice,
+             "finalCompletionDate": req.body.finalCompletionDate
            }
          });
          sendFinalEmail(project.custEmail);
@@ -1330,7 +1345,8 @@ res.download('./report/'+datePosted+'materials.csv');
                    status: "Created",
                    archived: false,
                    completed: false,
-                   finalCost: finalCost
+                   finalCost: finalCost,
+                   requestedCompletionDate: req.body.requestedCompletionDate
                  }, (err, result) => {
                    if (err) return console.log(err);
                    console.log('saved to database');
@@ -1439,7 +1455,8 @@ res.download('./report/'+datePosted+'materials.csv');
              projectComments: req.body.projectComments,
              archived: false,
              completed: false,
-             finalCost: finalCost
+             finalCost: finalCost,
+             requestedCompletionDate: req.body.requestedCompletionDate
            }, (err, result) => {
              if (err) return console.log(err);
 

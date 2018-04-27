@@ -43,7 +43,9 @@ var projectSchema = new Schema({
   materialCost: Number,
   email: String,
   finalCost: Number,
+  requestedCompletionDate: Date,
   finalFinalCost: Number,
+  finalCompletionDate: Date,
   Density: String,
   datePosted: Date,
 

@@ -1,6 +1,23 @@
 
 <html>
+<head>
+  <style>
+    .indent {
+      margin-left: 40px;
+      margin-bottom: 20px
+    }
 
+    .indentLeft {
+      margin-left: 40px;
+    }
+
+    .formBorder {
+      border-left: 6px solid darkgreen;
+      background-color: lightgrey;
+      padding-left: 20px
+    }
+  </style>
+</head>
 <body>
     <div>
 <%- include partials/head.ejs %>
@@ -9,10 +26,7 @@
     <div class="header-blue">
         <div class="container" style="padding:15px 15px;padding-top:30px;padding-bottom:200px;">
           <%- include partials/breadcrumb.ejs%>
-            <div>
 
-                <h1 style="color:#ffffff;margin-bottom:20px;">My Projects</h1>
-            </div>
             <div>
 
                 <div class="card-group">
@@ -23,34 +37,44 @@
                           </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Material Name</th>
-                                            <th>Our Cost per Cubic Centimeter</th>
-                                            <th>Selling Price per Cubic Centimeter</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                      <form action="/addMaterial" method="post" class="d-flex align-self-center mx-auto" style="width:500px;height:500px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
-                                                    <tr>
-                                                        <td> <input type="text" class="form-control" name="matName" placeholder="Material Name" required></td>
-                                                        <td> <input type="number" step=0.01 class="form-control" name="matOurCost" placeholder="Our Cost" required></td>
-                                                        <td> <input type="number" step=0.01 class="form-control" name="matSellingPrice" placeholder="Selling Price" required></td>
-                                                        <td> <input type="text" class="form-control" name="matDescription" placeholder="Description of Material" required></td>
 
-                                                    </tr>
+                                <form action="/addMaterial" method="post"  style="width:500px;height:600px;padding:0px;margin:0px;background-color:rgb(255,255,255);">
+                                            <div>
+                                              <h5 style="color:#00000;">Material Name</h5>
 
-                                    </tbody>
-                                </table>
+                                              <p style="color:#00000;">Please enter your requested date of completion for this project </p>
 
+                                              <input type="text" class="form-control indent" name="matName" placeholder="Material Name" required>
+
+                                            </div>
+                                            <div>
+                                              <h5 style="color:#00000;">Our Cost per Cubic Centimeter</h5>
+
+                                              <p style="color:#00000;">Enter the cost to buy this materials per cubis centemeter </p>
+
+                                              <input type="number" step=0.01 class="form-control indent" name="matOurCost" placeholder="Our Cost" required>
+
+                                            </div>
+                                            <div>
+                                              <h5 style="color:#00000;">Selling Price</h5>
+
+                                              <p style="color:#00000;">Enter the selling price of this material per Cubic Centimeter</p>
+
+                                              <input type="number" step=0.01 class="form-control indent" name="matSellingPrice" placeholder="Selling Price" required>
+
+                                            </div>
+                                            <div>
+                                              <h5 style="color:#00000;">Description</h5>
+
+                                              <p style="color:#00000;">Enter a description on this material to help customers understand its strengths and weaknesses</p>
+
+                                              <input type="text" class="form-control indent" name="matDescription" placeholder="Description of Material" required>
+
+                                            </div>
                                 <button class="btn btn-success" type="submit" style="background-color:rgb(4,148,74); width: 15%; margin: 0 auto;">Submit</button>
-
-  </form>
+                              </form>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

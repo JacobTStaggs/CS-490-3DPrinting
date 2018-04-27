@@ -1,5 +1,12 @@
 <html>
+<head>
+  <style>
 
+  .indent{margin-left:40px; margin-bottom:20px}
+  .indentLeft{margin-left:40px; }
+
+  </style>
+</head>
 
     <body>
       <div>
@@ -42,9 +49,16 @@
                        <% if( project.status == "Assigned" ) {%>
 
                        <h3>Waiting for  Finalizing</h3>
-                       <p>This project is currently awaiting your final pricing. Please input the final project price below: </p>
+                       <p>This project is currently awaiting your final pricing and completion date.</p>
+                       <p>The cutomers requested completion date is <b><%=project.requestedCompletionDate%></b></p>
+                       <p>The estimated project price is <b>$<%=project.finalCost%></b></p>
+                       <p> Please enter final price and completion date below: </p>
 
-                       <div><input class="form-control" type="number" step=0.01 name=finalPrice value='<%= project.finalCost%>' required></div>
+                       <div><h5>Final Project Price in USD(ex: $20.65)</h5>
+                       <div><input class="indent" type="number" step=0.01 name=finalPrice value='<%= project.finalCost%>' required></div>
+                       <h5>Project Completion Date</h5>
+                       <div><input  class="indent" type="date" value='<%= project.requestedCompletionDate%>' name="finalCompletionDate" required></div>
+                     </div>
 
 
                      <%} else {%>
@@ -62,7 +76,7 @@
 
                       <% if( project.status == "Finalized" ) {%>
 
-                      <h3>Waiting your Approval</h3>
+                      <h3>Waiting on your Approval</h3>
                       <p>This project is currently awaiting your approval of final details.</p>
 
                       <h3>Model Density</h3>
