@@ -30,7 +30,7 @@
                               <h3>Assign Engineer</h3>
                               <p>This project is currently awaiting assignment to an Engineer</p>
 
-                            <select class="form-control" name="projEngineer">
+                            <select class="form-control" name="projEngineer" style="width: 50%; margin-bottom:10px;">
                                  <% for(var i = 0; i < engineers.length; i++){%>
                                 <option value='{ "id" : "<%=engineers[i]._id%>", "name" : "<%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%>", "email": "<%=engineers[i].local.email%>" }' <%if (engineers[i].local.email == project.engineerEmail) {%> checked <%}%> ><%=engineers[i].local.firstName%> <%=engineers[i].local.lastName%></option>
                                 <%}%>

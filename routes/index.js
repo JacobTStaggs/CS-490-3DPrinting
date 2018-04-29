@@ -162,7 +162,7 @@ router.post('/addUser', isLoggedIn, function(req, res, err) {
        console.log(results);
        res.render('projects.ejs', {
          user: req.user,
-         projects: results
+         projects: results.sort().sort()
        });
      });
    } else if(req.user.local.role == 'admin' || req.user.local.role == 'super'){
