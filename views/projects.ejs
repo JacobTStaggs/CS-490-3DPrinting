@@ -151,7 +151,7 @@ td {
                                         <%= projects[i].engineerEmail %>
                                       </td>
                                       <td>
-                                        <%= projects[i].finalCost %>
+                                        $<%= projects[i].finalCost %>
                                       </td>
                                       <td>
                                         <%= projects[i].datePosted %>
@@ -203,11 +203,11 @@ td {
                                       <%= projects[i].engineerEmail %>
                                     </td>
                                     <td>
-                                      <%= projects[i].finalCost %>
+                                      $<%= projects[i].finalCost %>
                                     </td>
                                     <td>
                                       <% if (projects[i].finalFinalCost != null) {%>
-                                      <%= projects[i].finalFinalCost %>
+                                      $<%= projects[i].finalFinalCost %>
                                       <%}else{%> N/A <%}%>
                                     </td>
                                     <td>
@@ -221,7 +221,7 @@ td {
                                     </td>
                                       <td> <a title="Download linked project stl file" href='/download/<%=projects[i].fileNewName%>'class="btn btn-success">Download STL</a></td>
                                         <%if (projects[i].status == "Created") {%> <td> <a title="Assign an Engineer to this project"  class="btn btn-success" href='/quickUpdate/<%=projects[i]._id %>'> Take Project  </a></td> <%}%>
-                                        <%if (projects[i].status == "Assigned" && projects[i].engineerEmail == user.local.email) {%><td> <a title="View project and change some project details" class="btn btn-success" href='/edit/<%=projects[i]._id %>'> Modify </a></td>
+                                        <%if (projects[i].status == "Assigned" && projects[i].engineerEmail == user.local.email) {%>
                                                                                   <td> <a title="Finalize the projects invoiced price" href='/editUpdated/<%=projects[i]._id %>' class="btn btn-success"> Finalize </a></td><%}%>
                                         <%if (projects[i].status == "Accepted" && projects[i].engineerEmail == user.local.email) {%> <td> <a title="Show the cutomer the project is printed and ready to go" class="btn btn-success" href='/quickUpdate/<%=projects[i]._id %>'> Printed  </a></td> <%}%>
 
@@ -253,7 +253,7 @@ td {
                                                 <%= projects[i].status%>
                                               </td>
                                               <td>
-                                                <%= projects[i].finalCost %>
+                                                $<%= projects[i].finalCost %>
                                               </td>
                                               <td>
                                                 <%= projects[i].engineerEmail %>
