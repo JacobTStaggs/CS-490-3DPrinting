@@ -34,7 +34,7 @@ var projectSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['Created', 'Assigned', 'Finalized', 'Canceled', 'Accepted', 'Printed']
+    enum: ['Created', 'Assigned', 'Finalized', 'Canceled', 'Accepted', 'Printed', "Paid"]
   },
   clientName: String,
   engineerName: String,
