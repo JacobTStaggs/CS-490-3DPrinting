@@ -52,7 +52,7 @@
     <form action="/editUser/<%=id%>" method="post" class="" style="width:50%;height:145%;padding:20px;margin:20px;background-color:rgb(255,255,255);">
       <div class="form-row">
           <div class="col">
-    <% if (user.local.role == 'admin' || user.local.role == 'engineer') { %>
+    <% if (user.local.role == 'admin' || user.local.role == 'super') { %>
         <div style="margin:20px; margin-left:0px;"><p>First Name</p></div>
         <div> <input type="text" class="form-control" name="userFName" value="<%=userFName %>" required></div>
         <div style="margin:20px; margin-left:0px;"><p>Last name</p></div>
@@ -130,7 +130,7 @@
   </div>
       <div class="form-row">
         <div class="col">
-        <div style="margin:20px; margin-left:0px;"><p>Contract</p></div>
+        <div style="margin:20px; margin-left:0px;"><p>Contract Signed</p></div>
         <div> <input type="radio" name="userContract" value="true" <%if (userContract){%> checked
           <%}%> > Yes<br>
             <input type="radio" name="userContract" value="false" <%if (!userContract){%> checked
@@ -139,9 +139,12 @@
     </div>
     <div class="col">
         <div style="margin:20px; margin-left:0px;"><p>Role</p></div>
-        <% if (user.id == id) { %>
+        <% if (user.id == id || (user.local.role=="admin" && (userRole=="super" || userRole=="admin") ) ) { %>
           <div> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </div>
-          <% } else { %>
+
+
+
+          <% } else{ %>
             <div> <select class="form-control form-group" name="userRole" value="<%userRole%>">
             <option value=<%= userRole%>> <% if (userRole == "user") { %> client <%} else{%> <%=userRole%>  <%}%> </option>
             <option value="user">Client</option>
@@ -154,15 +157,19 @@
     <div class="form-row">
       <div class="col">
         <div style="margin:20px; margin-left:0px;"><p>Banned</p></div>
-            <% if ((userRole != 'admin' && userRole != 'super') || user.local.role == "engineer") {%>
+            <% if ((userRole != 'admin' || userRole != 'super') || user.local.role == "engineer") {%>
               <div> <input type="radio" name="userBan" value="true" <%if (userBan){%> checked
                 <%}%> > Yes<br>
                   <input type="radio" name="userBan" value="false" <%if (!userBan){%> checked
                   <%}%> > No<br></div>
               <%}%>
                 <% } %>
+
+
                 <button style="width:25%;margin:10px;background-color:rgb(4,148,74)" type="submit" class="btn btn-success" id="btnPerformSave">Update</button>
-                  <% } else if (user.local.role == 'user') { %>
+
+
+                  <% } else if (user.local.role == 'engineer' || user.local.role == 'user') { %>
                     <p name="id" hidden>
                       <%=id%>
                     </p>
@@ -240,7 +247,7 @@
                     </div>
         <div style="margin:20px; margin-left:0px;"><p>Zip</p></div>
                     <div> <input type="text" class="form-control" name="userZip" value="<%=userZip %>" pattern="(\d{5}([\-]\d{4})?)" required></div>
-        <div style="margin:20px; margin-left:0px;"><p>Contract</p></div>
+        <div style="margin:20px; margin-left:0px;"><p>Contract Signed</p></div>
                     <div> <input type="text" class="form-control" name="userContract" value="<%= userContract %>" readonly></div>
         <div style="margin:20px; margin-left:0px;"><p>Role</p></div>
                     <div> <input type="text" class="form-control" name="userRole" value="<%= userRole %>" readonly> </div>
@@ -253,20 +260,18 @@
                       </form>
 
 
-            <!-- <button style="width:30%; margin:auto;background-color:rgb(4,148,74)" class="btn btn-primary btn-block" type="submit" style="background-color:rgb(4,148,74);">Submit</button> -->
-
+</div>
+</div>
+<div align="left">
             <% if(user.id == id) {%>
-              <a href="/editPassword/<%=id%>"><button class="btn btn-primary" style="background-color:rgb(4,148,74);">Change Password</button></a>
+              <a class="btn btn-success" href="/editPassword/<%=id%>">Change Password</a>
               <%}%>
+            </div>
+</div>
 
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 
 
 
@@ -280,9 +285,9 @@
 </body>
 
 <script>
-var password = document.getElementById("password")
-, confirm_password = document.getElementById("passwordConfirm");
+var password = document.getElementById("password"), confirm_password = document.getElementById("passwordConfirm");
 function validatePassword(){
+
 if(password.value != confirm_password.value) {
   confirm_password.setCustomValidity("Passwords Don't Match");
 } else {

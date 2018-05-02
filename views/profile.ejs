@@ -56,7 +56,9 @@
                         <th>Email</th>
                         <th>Address</th>
                         <th>Phone</th>
+                        <%if (user.local.role == "user"){%>
                         <th>Contract Signed</th>
+                        <%}%>
                       </tr>
                     </thead>
                     <tbody>
@@ -79,14 +81,16 @@
                           <td>
                             <%= user.local.phone %>
                           </td>
+                          <%if (user.local.role == "user"){%>
                           <td>
-                            <% if( user.local.contract ){ %>
+                              <% if( user.local.contract ){ %>
                               Yes
-                              <% } else{ %>
+                              <% } else{%>
                                 No
-                                <% } %>
-                          </td>
+                                <%}%>
 
+                          </td>
+                          <%}%>
                         </tr>
                     </tbody>
                   </table>

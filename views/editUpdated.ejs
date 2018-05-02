@@ -4,6 +4,11 @@
 
   .indent{margin-left:40px; margin-bottom:20px}
   .indentLeft{margin-left:40px; }
+  .formBorder {
+    border-left: 6px solid darkgreen;
+    background-color: lightgrey;
+    padding-left: 20px
+  }
 
   </style>
 </head>
@@ -58,6 +63,8 @@
                        <div><input class="indent" type="number" step=0.01 name=finalPrice value='<%= project.finalCost%>' required></div>
                        <h5>Project Completion Date</h5>
                        <div><input  class="indent" type="date" value='<%= project.requestedCompletionDate%>' name="finalCompletionDate" required></div>
+                       <h5>Engineers Comments on Final Price and Completion Date</h5>
+                       <div><textarea  class="indent" type="date" value=' ' placeholder="Please enter any comments you have on final priceing and completion date for the projects that you wish for the customer to see." name="finalizedComments" required> </textarea></div>
                      </div>
 
 
@@ -76,20 +83,26 @@
 
                       <% if( project.status == "Finalized" ) {%>
 
-                      <h3>Waiting on your Approval</h3>
-                      <p>This project is currently awaiting your approval of final details.</p>
+                      <h3 style="font-weight:bold">Waiting on your Approval</h3>
+                      <p class="indent">This project is currently awaiting your approval of final details.</p>
 
-                      <h3>Model Density</h3>
-                      <p><%= project.Density %></p>
-                      <h3>Filament Type</h3>
-                      <p><%= project.materialName %></p>
-                      <h3>Filament Price per Centimeter Cubed</h3>
-                      <p><%= project.materialCost %></p>
-                      <h3>Total Project Price</h3>
-                      <p><%= project.finalFinalCost %></p>
-
-                      <div><input class="form-control" type="radio" name=accepted value="true" required> Accept </div>
-                      <div><input class="form-control" type="radio" name=accepted value="false" checked required> Decline </div>
+                      <h4>Model Density</h4>
+                      <p class="indent"><b><%= project.Density %></b></p>
+                      <h4>Filament Type</h4>
+                      <p class="indent"><b><%= project.materialName %></b></p>
+                      <h4>Filament Price per Centimeter Cubed</h4>
+                      <p class="indent"><b>$<%= project.materialCost %></b></p>
+                      <h4>Total Project Price</h4>
+                      <p class="indent"><b>$<%= project.finalFinalCost %></b></p>
+                      <h4>Final Print Date</h4>
+                      <p class="indent"><b><%= project.finalCompletionDate %></b></p>
+                      <h4>Engineers Comments</h4>
+                      <p class="indent"><b><%= project.finalizedComments %></b></p>
+                      <div class="formBorder">
+                        <h3 style="font-weight:bold">Do you accept? Once an order is accepted it cannot be canceled</h3>
+                      <div class="indent" style="" ><input  type="radio"  name=accepted value="true" required><label style="color:green; margin-top:20px; font-size:30px"> Accept </label></div>
+                      <div class="indent" ><input  type="radio" name=accepted value="false" checked required> <label style="color:red; font-size:30px"> Decline</label> </div>
+                    </div>
 
                     <%} else {%>
 
@@ -116,36 +129,8 @@
             </div>
         </div>
       </div>
-      <div class="footer-clean">
-        <footer>
-          <div class="container" style="width:960px;">
-            <div class="row justify-content-center">
-              <div class="col-sm-4 col-md-3 item"><img src="assets/img/Marshell-University-logo.png" align="left" />
-                <ul>
-                  <li></li>
-                </ul>
-              </div>
-              <div class="col-sm-4 col-md-3 item">
-                <h3 class="text-center" style="padding:12px;">About Us</h3>
-              </div>
-              <div class="col-sm-4 col-md-3 item">
-                <h3 class="text-center" style="padding:12px;">Contact Us</h3>
-              </div>
-              <div class="col"><img src="assets/img/RCBILogo.png" align="right" /></div>
-            </div>
-          </div>
-          <div class="container">
-            <div>
-              <div class="row justify-content-center">
-                <div class="col-lg-3 justify-content-center align-items-center align-content-center align-self-center order-1 item social">
-                  <a href="#" style="margin:0px;">
-
-                    <p class="text-center copyright" style="font-family:&#39;Source Sans Pro&#39;, sans-serif;">© 2007-2018 RCBI</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
+      <div>
+          <% include partials/footer.ejs %>
       </div>
       <script src="assets/js/jquery.min.js"></script>
       <script src="assets/bootstrap/js/bootstrap.min.js"></script>

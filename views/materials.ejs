@@ -75,6 +75,9 @@ td {
                             <th>
                               Description
                             </th>
+                            <th>
+                              Actions
+                            </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -98,7 +101,7 @@ td {
                                 <%=materials[i].description%>
                               </td>
                               <td>
-                                <a href='/editMaterials/<%= materials[i]._id %>'>
+                                <a class="btn btn-success" href='/editMaterials/<%= materials[i]._id %>'>
                                   <% if (user.local.role == 'user' || user.local.role == 'finance') { %> View
                                     <%} else {%> Edit
                                       <%}%>

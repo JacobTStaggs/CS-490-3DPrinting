@@ -93,6 +93,7 @@
                         <th>Phone</th>
                         <th>Contract Signed</th>
                         <th> Banned </th>
+                        <th> Actions </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -125,7 +126,7 @@
                             <%= users[i].local.banned %>
                           </td>
                           <td>
-                            <a href="/editUser/<%=users[i]._id%>">Edit</a>
+                            <a class="btn btn-success" href="/editUser/<%=users[i]._id%>">Edit</a>
                           </td>
                         </tr>
                         <%}%>
