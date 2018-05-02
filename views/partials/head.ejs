@@ -45,7 +45,7 @@
 
 <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
   <div class="container">
-    <a class="navbar-brand" href="/index" style="font-family:'Source Sans Pro', sans-serif;font-size:32px;color:rgb(24,81,51);">
+    <a class="navbar-brand" href="/" style="font-family:'Source Sans Pro', sans-serif;font-size:32px;color:rgb(24,81,51);">
       <strong>
         RCBI
       </strong>
@@ -71,14 +71,20 @@
 
 
       </span>
+      <% if (user == null){%>
+        <div>
 
+
+            class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav mr-auto"></ul><span class="navbar-text actions"> <a href="/login"><button class="btn btn-success" type="button" style="color:rgb(5,84,43);background-color:rgb(255,255,255);">Log In</button></a></span></div>
+      <%} else {%>
       <ul class="nav navbar-nav mr-auto"></ul>
       <span class="navbar-text actions">
          <i class="fa fa-user-o"></i>
          <a href="/profile" class="login" style="font-family:'Source Sans Pro', sans-serif;font-size:16px;"><%=user.local.email%></a>
 
         <a class="btn btn-outline-primary btn-sm" role="button" href="/logout" style="background-color:rgb(4,148,74); color: rgb(256,256,256) ; font-family:'Source Sans Pro', sans-serif;font-size:16px;">Logout</a>
-
+        <%}%>
     </div>
   </div>
 </nav>

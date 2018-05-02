@@ -22,6 +22,8 @@ const Json2csvParser = require('json2csv').Parser;
 
 
 
+
+
 MongoClient.connect(mongoDB, (err, client) => {
   if (err) return console.log(err);
   db = client.db('rcbi'); // whatever your database name is
@@ -61,16 +63,21 @@ router.get('/addUser', function(req, res) {
 router.post('/addUser', isLoggedIn, function(req, res, err) {
 
   if (err)
-    console.log(err)
+   console.log(err)
 
-  User.findOne({
-    'local.email': req.body.email
-  }, function(err, user) {
-    if (err)
-      return done(err);
-    if (user) {
-      return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-    } else {
+ User.findOne({
+   'local.email': req.body.email
+ }, function(err, user) {
+   if (err)
+     console.log(err);
+   if (user) {
+     console.log(user);
+     req.flash('signupMessage', 'That email is already taken.');
+     res.render('addUser.ejs', {
+       message: req.flash('signupMessage'),
+       user: req.user
+     });
+   } else {
 
 
       var newUser = new User();
@@ -148,6 +155,27 @@ router.get('/deleteMaterial/(:id)', isLoggedIn, function(req, res) {
   });
 });
 
+function createSuper(){
+
+            var newUser = new User();
+            newUser.local.email = 'admin@admin.com';
+            newUser.local.password = newUser.generateHash('admin');
+            newUser.local.firstName = 'ad';
+            newUser.local.lastName = 'min';
+            newUser.local.role = 'super';
+            newUser.local.street = '127.0.0.1';
+            newUser.local.city = 'LocalHost';
+            newUser.local.state = 'WV';
+            newUser.local.zip = '25701';
+            newUser.local.phone = '2342341234';
+            newUser.local.contract = false;
+            newUser.local.emailValidated = true;
+            newUser.local.banned = false;
+            newUser.save(function(err) {
+              if (err)
+                throw err;
+            });
+          }
 
 
 
@@ -945,8 +973,11 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
                 "finalCompletionDate": req.body.finalCompletionDate,
                 "finalizedComments":req.body.finalizedComments
               }
+            }, function(err){
+              console.log(project.email);
+              sendFinalEmail(project.email);
             });
-            sendFinalEmail(project.custEmail);
+
             res.redirect('/projects');
 
           } else if (project.status == "Accepted") {
@@ -1800,6 +1831,20 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
       });
     }
 
+    function checkDB(){
+      db.collection('users').find({
+        'local.email': 'admin@admin.com'
+      }).toArray(function(err, results) {
+        if(result == null){
+          createSuper();
+        }else {
+          console.log('Super already created.');
+        }
+      })
+    }
+
+
+
     function isEngineer(req, res, next) {
       if (req.isAuthenticated() && req.user.local.role == 'admin' || req.user.local.role == 'engineer')
         return next();
@@ -1822,7 +1867,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
         from: 'RCBI3DPRINTING@noresponse.COM',
         to: userEmail,
         subject: 'RCBI - Verify your email',
-        html: '<p>Click <a href="http://localhost:3000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
+        html: '<p>Click <a href="http://45.77.93.14:1000/verifyEmail/' + userID + '">here</a> to verify your account</p>'
       };
 
       transporter.sendMail(mailOptions, function(error, info) {
@@ -1850,7 +1895,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
         from: 'RCBI3DPRINTING@noresponse.COM',
         to: custEmail,
         subject: 'RCBI - Confirm your final pricing',
-        html: '<p>Go <a href="http://localhost:3000/login">here</a> to login to accept or deny the final pricing</p>'
+        html: '<p>Please log in <a href="http://45.77.93.14:1000/login">here</a> to approve the price quote on your item and begin printing</p>'
       };
 
       transporter.sendMail(mailOptions, function(error, info) {
@@ -1902,7 +1947,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
         from: 'RCBI3DPRINTING@noresponse.COM',
         to: userEmail,
         subject: 'RCBI - Reset your password',
-        html: '<p>Click <a href="http://localhost:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
+        html: '<p>Click <a href="http://45.77.93.14:1000/editPassword/' + userID + '">here</a> to reset your password</p>'
       };
 
       transporter.sendMail(mailOptions, function(error, info) {
@@ -1930,7 +1975,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
         from: 'RCBI3DPRINTING@noresponse.COM',
         to: email,
         subject: 'RCBI - New project has been posted',
-        html: '<p>There has been a new project submitted. Please login <a href="http://localhost:1000/login">here</a> to login and see it. </p>'
+        html: '<p>There has been a new project submitted. Please log in <a href="http://45.77.93.14:1000/login">here</a> to login and see it. </p>'
       };
 
       transporter.sendMail(mailOptions, function(error, info) {

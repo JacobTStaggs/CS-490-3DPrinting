@@ -149,7 +149,6 @@
             <option value=<%= userRole%>> <% if (userRole == "user") { %> client <%} else{%> <%=userRole%>  <%}%> </option>
             <option value="user">Client</option>
             <option value="engineer">Engineer</option>
-            <option value="finance">Finance</option>
             <option value="admin">Admin</option>
           </select></div>
 </div>
@@ -166,7 +165,7 @@
                 <% } %>
 
 
-                <button style="width:25%;margin:10px;background-color:rgb(4,148,74)" type="submit" class="btn btn-success" id="btnPerformSave">Update</button>
+              <div style="padding-top:20px"><button style="width:25%;margin:10px;" type="submit" class="btn btn-success" id="btnPerformSave">Update</button></div>
 
 
                   <% } else if (user.local.role == 'engineer' || user.local.role == 'user') { %>
@@ -267,14 +266,17 @@
                       </select></div>
                   </div>
                   </div>
-                  <div class="form-row">
-                  <div class="col">
-                    
+                  <div>
+                  <div>
+
                             <% } %>
 
-
-                            <button style="width:25%;margin:10px;background-color:rgb(4,148,74)" type="submit" class="btn btn-success" id="btnPerformSave">Update</button>
-
+                            <div>
+                                        <% if(user.id == id) {%>
+                                          <a class="btn btn-success" href="/editPassword/<%=id%>">Change Password</a>
+                                          <%}%>
+                            <button style="width:25%;margin:10px;" type="submit" class="btn btn-success" id="btnPerformSave">Update</button>
+                            </div>
 
                     <% } else { %>
                       <p>Hey terra!</p>
@@ -285,13 +287,12 @@
 
 </div>
 </div>
-<div align="left">
-            <% if(user.id == id) {%>
-              <a class="btn btn-success" href="/editPassword/<%=id%>">Change Password</a>
-              <%}%>
-            </div>
+
 </div>
 
+</div>
+</div>
+</div>
 </div>
 </div>
 
