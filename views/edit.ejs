@@ -309,7 +309,7 @@
 
             <div>
               <h5  style="color:#00000; ">3.) Material Type</h5>
-              <p style="color:#00000;">Select what material you want you project to be printed with (hover over material for details): </p>
+              <p style="color:#00000;">Select what material you want you project to be printed with (<b>hover</b> over material for details): </p>
 
                 <input class="indentLeft" title="Your currently chosen project material" type="radio" name=material value='{ "id" : "<%=project.materialID%>", "name" : "<%=project.materialName%>", "price": <%=project.materialCost%> }' checked required><label length=20 ><%=project.materialName%></label>
                 <label> $<%=project.materialCost%>/cm<sup>3</sup> </label>
@@ -340,7 +340,7 @@
             <h5 style="color:#00000;">5.) Upload a File</h5>
             <p style="color:#00000;">If you wish to keep your existing project file, please <b style="color:red;">DO NOT</b> select a file to upload.
             </p>
-            <p style="color:#00000;">Click the "Choose File" button below and select your file you want to upload.
+            <p style="color:#00000;">Otherwise, click the "Choose File" button below and select your file you want to upload.
             </p>
             <p style="color:red;"><%=error%></p>
               <input class="indent" style="color:#00000;" type="file" accept=".stl" name="myFile">

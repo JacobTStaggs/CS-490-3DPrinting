@@ -655,7 +655,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
               var originalName = theFile.name;
               var stripped = theFile.name.split(".");
 
-              if (theFile.data.length > 20000000) { // If file larger than x number of bytes, stop it from uploading
+              if (theFile.data.length > 100000000) { // If file larger than x number of bytes, stop it from uploading
 
                 db.collection('materials').find().toArray(function(err, results) {
                   if (err) console.log(err);
@@ -847,6 +847,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
 
 
           } else if (project.status == "Accepted") {
+            sendNotice(project.email);
             console.log("Made it to accepted")
             db.collection('projects').updateOne({
               "_id": project._id
@@ -1444,7 +1445,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
         let clientID = req.user.id;
         let density = req.body.projectDensity;
         var month = new Date().getMonth() + 1;
-        var datePosted = month + "/" + new Date().getDate() + "/" + new Date().getFullYear();
+        var datePosted = new Date().getFullYear() + "-" + month + "-" + new Date().getDate();
 
         let projectComments = req.body.projectComments;
         //Calculate Estimate Price
@@ -1453,7 +1454,7 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
         var originalName = theFile.name;
         var stripped = theFile.name.split(".");
 
-        if ((theFile.data.length > 20000000) && (req.user.local.role != "admin" && req.user.local.role != "engineer")) { // If file larger than x number of bytes, stop it from uploading
+        if ((theFile.data.length > 100000000) && (req.user.local.role != "admin" && req.user.local.role != "engineer")) { // If file larger than x number of bytes, stop it from uploading
           console.log("too big");
           db.collection('materials').find().toArray(function(err, results) {
             if (err) console.log(err);
@@ -1976,6 +1977,34 @@ router.post('/edit/(:id)', isLoggedIn, function(req, res, next) {
         to: email,
         subject: 'RCBI - New project has been posted',
         html: '<p>There has been a new project submitted. Please log in <a href="http://45.77.93.14:1000/login">here</a> to login and see it. </p>'
+      };
+
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+    }
+
+    function sendNotice(email) {
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'rcbi3dprinting@gmail.com',
+          pass: 'RCBI2018'
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      });
+
+      var mailOptions = {
+        from: 'RCBI3DPRINTING@noresponse.COM',
+        to: email,
+        subject: 'RCBI - Your project has printed',
+        html: '<p>Your project has been printed. Please contact your engineer for pickup instructions.</p>'
       };
 
       transporter.sendMail(mailOptions, function(error, info) {
